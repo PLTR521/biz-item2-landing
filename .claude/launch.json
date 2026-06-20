@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "decision-ai-dev",
+      "runtimeExecutable": "C:\\devtools\\start-next.cmd",
+      "runtimeArgs": [],
+      "port": 3000
+    }
+  ]
+}
