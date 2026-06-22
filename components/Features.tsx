@@ -1,4 +1,4 @@
-import { Table2, Lightbulb, FileDown, BookOpen } from "lucide-react";
+import { Table2, Lightbulb, FileDown } from "lucide-react";
 
 const features = [
   {
@@ -19,12 +19,6 @@ const features = [
     description:
       "결정 내용을 체크리스트와 PDF로 정리합니다. 나중에 \"왜 샀지?\"가 생기면 꺼내보세요.",
   },
-  {
-    icon: BookOpen,
-    title: "Decision Memory",
-    description:
-      "내가 왜 이 제품을 골랐는지 자동으로 기록합니다. 같은 카테고리를 다시 살 때 지난 결정을 참고할 수 있어요.",
-  },
 ];
 
 export default function Features() {
@@ -35,9 +29,9 @@ export default function Features() {
           기능
         </p>
         <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-center mb-16">
-          결정을 완결하는 4가지
+          결정을 완결하는 3가지
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {features.map(({ icon: Icon, title, description }) => (
             <div
               key={title}

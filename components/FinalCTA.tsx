@@ -1,22 +1,56 @@
 "use client";
-import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { ArrowRight, Users } from "lucide-react";
+
+const SEED_COUNT = 23;
 
 export default function FinalCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [count, setCount] = useState(SEED_COUNT);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const stored = localStorage.getItem("waitlist_count");
+    if (stored) setCount(Number(stored));
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // NOTE: 실제 백엔드 연동 전이므로 제출을 시뮬레이션합니다.
-    // 실제 배포 시 Resend, Formspree, Supabase 등으로 교체하세요.
-    console.log("waitlist signup:", email);
-    setSubmitted(true);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await fetch("https://formspree.io/f/mzdqnklk", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        const newCount = count + 1;
+        setCount(newCount);
+        localStorage.setItem("waitlist_count", String(newCount));
+        setSubmitted(true);
+      } else {
+        const data = await res.json();
+        setError(data?.errors?.[0]?.message || "오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    } catch {
+      setError("네트워크 오류가 발생했습니다. 다시 시도해주세요.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <section id="waitlist" className="py-20 md:py-32 px-6 bg-[var(--bg-secondary)]">
       <div className="max-w-2xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 text-sm text-[var(--text-secondary)] bg-[var(--bg-card)] border border-[var(--border)] px-4 py-2 rounded-full mb-8">
+          <Users className="w-4 h-4 text-[var(--accent)]" />
+          <span>현재 <span className="text-[var(--text-primary)] font-semibold">{count}명</span> 신청 완료</span>
+        </div>
         <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-4">
           결정이 어렵다면
           <br />
@@ -41,16 +75,21 @@ export default function FinalCTA() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="이메일 주소 입력"
-              className="flex-1 bg-[var(--bg-card)] border border-[var(--border)] rounded-full px-5 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent)] transition-colors duration-200"
+              disabled={loading}
+              className="flex-1 bg-[var(--bg-card)] border border-[var(--border)] rounded-full px-5 py-3 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:outline-none focus:border-[var(--accent)] transition-colors duration-200 disabled:opacity-50"
             />
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-6 py-3 rounded-full font-medium transition-all duration-200 hover:scale-[1.02] whitespace-nowrap"
+              disabled={loading}
+              className="inline-flex items-center justify-center gap-2 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white px-6 py-3 rounded-full font-medium transition-all duration-200 hover:scale-[1.02] whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              얼리 액세스 신청
-              <ArrowRight className="w-4 h-4" />
+              {loading ? "신청 중..." : "얼리 액세스 신청"}
+              {!loading && <ArrowRight className="w-4 h-4" />}
             </button>
           </form>
+        )}
+        {error && (
+          <p className="text-red-400 text-sm mt-4">{error}</p>
         )}
 
         <p className="text-[var(--text-tertiary)] text-xs mt-6">

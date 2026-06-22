@@ -15,7 +15,7 @@ const steps = [
     number: "03",
     title: "결정하고 저장하기",
     description:
-      "결론을 선택하면 체크리스트와 PDF로 저장됩니다. Decision Memory에도 자동 기록돼요.",
+      "결론을 선택하면 체크리스트와 PDF로 저장됩니다.",
   },
 ];
 
