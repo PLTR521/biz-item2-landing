@@ -2,18 +2,23 @@
 import { useState, useEffect } from "react";
 import { ArrowRight, Users } from "lucide-react";
 
-const SEED_COUNT = 23;
+const BASE_COUNT = 28;
 
 export default function FinalCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [count, setCount] = useState(SEED_COUNT);
+  const [count, setCount] = useState(BASE_COUNT);
 
   useEffect(() => {
-    const stored = localStorage.getItem("waitlist_count");
-    if (stored) setCount(Number(stored));
+    // 모든 방문자에게 공유되는 실제 카운터를 서버에서 가져온다.
+    fetch("/api/waitlist")
+      .then((res) => res.json())
+      .then((data) => {
+        if (typeof data?.count === "number") setCount(data.count);
+      })
+      .catch(() => {});
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,9 +34,14 @@ export default function FinalCTA() {
       });
 
       if (res.ok) {
-        const newCount = count + 1;
-        setCount(newCount);
-        localStorage.setItem("waitlist_count", String(newCount));
+        // 제출 성공 시 서버 카운터를 +1 하고 공유 값을 받아온다.
+        try {
+          const countRes = await fetch("/api/waitlist", { method: "POST" });
+          const countData = await countRes.json();
+          if (typeof countData?.count === "number") setCount(countData.count);
+        } catch {
+          setCount((c) => c + 1);
+        }
         setSubmitted(true);
       } else {
         const data = await res.json();
