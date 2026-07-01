@@ -5,13 +5,13 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Decision AI — 구매 결정을 완결합니다",
+  title: "SendGuard AI — Deliverability infrastructure for AI agents",
   description:
-    "유튜브, 블로그, 다나와를 다 돌아다녀도 결론이 없다면? 예산·용도 입력 → AI 비교표 + 추천 이유 + PDF까지. 결정을 끝내드립니다.",
+    "Your AI agent's emails are landing in spam. Deliverability infrastructure built for autonomous senders — not humans with a send button.",
   openGraph: {
-    title: "Decision AI — 구매 결정을 완결합니다",
+    title: "SendGuard AI — Deliverability infrastructure for AI agents",
     description:
-      "유튜브, 블로그, 다나와를 다 돌아다녀도 결론이 없다면? 예산·용도 입력 → AI 비교표 + 추천 이유 + PDF까지.",
+      "Deliverability infrastructure built for autonomous senders — not humans with a send button.",
     type: "website",
   },
 };
@@ -22,7 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" className="dark">
+    <html lang="en" className="dark">
       <body
         className={`${inter.variable} font-sans bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased`}
       >

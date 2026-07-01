@@ -1,11 +1,12 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
+import StatCallout from "@/components/StatCallout";
 import Problem from "@/components/Problem";
-import Solution from "@/components/Solution";
-import Features from "@/components/Features";
-import HowItWorks from "@/components/HowItWorks";
-import Benefits from "@/components/Benefits";
-import FAQ from "@/components/FAQ";
+import WhyNow from "@/components/WhyNow";
+import KnownFacts from "@/components/KnownFacts";
+import Hypothesis from "@/components/Hypothesis";
+import BuiltFor from "@/components/BuiltFor";
+import Preview from "@/components/Preview";
 import FinalCTA from "@/components/FinalCTA";
 
 export default function Home() {
@@ -13,12 +14,13 @@ export default function Home() {
     <main>
       <Nav />
       <Hero />
+      <StatCallout />
       <Problem />
-      <Solution />
-      <Features />
-      <HowItWorks />
-      <Benefits />
-      <FAQ />
+      <WhyNow />
+      <KnownFacts />
+      <Hypothesis />
+      <BuiltFor />
+      <Preview />
       <FinalCTA />
     </main>
   );
