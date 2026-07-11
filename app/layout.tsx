@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
 
 export const metadata: Metadata = {
-  title: "SendGuard AI — Deliverability infrastructure for AI agents",
+  title: "SendGuard AI — Deliverability API for AI agents",
   description:
-    "Your AI agent's emails are landing in spam. Deliverability infrastructure built for autonomous senders — not humans with a send button.",
+    "Check any domain's reputation and safe send volume with one API call — built for bursty, event-driven agent traffic.",
   openGraph: {
-    title: "SendGuard AI — Deliverability infrastructure for AI agents",
+    title: "SendGuard AI — Deliverability API for AI agents",
     description:
-      "Deliverability infrastructure built for autonomous senders — not humans with a send button.",
+      "Check any domain's reputation and safe send volume with one API call — built for bursty, event-driven agent traffic.",
     type: "website",
   },
 };
@@ -22,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${inter.variable} font-sans bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans antialiased`}
       >
         {children}
       </body>

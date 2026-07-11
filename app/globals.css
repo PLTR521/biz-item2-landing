@@ -3,24 +3,52 @@
 @tailwind utilities;
 
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #111113;
-  --bg-card: #161618;
-  --border: #232326;
-  --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-tertiary: #6b6b70;
-  --accent: #6366f1;
-  --accent-hover: #818cf8;
-  --accent-soft: rgba(99, 102, 241, 0.1);
-  --success: #22c55e;
+  /* Surfaces */
+  --bg: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #f4f5f7;
+
+  /* Borders */
+  --border: #e5e7eb;
+  --border-strong: #d6d9de;
+
+  /* Text */
+  --text-primary: #17181c;
+  --text-secondary: #565a63;
+  --text-tertiary: #8a8f99;
+
+  /* Brand */
+  --accent: #2563eb;
+  --accent-hover: #1d4ed8;
+  --accent-soft: #eff4ff;
+  --success: #16a34a;
+
+  /* Dark code surfaces (used on both light body + dark CTA) */
+  --code-bg: #0f172a;
+  --code-bg-2: #0b1220;
+  --code-border: #1e293b;
+  --code-text: #e2e8f0;
+  --code-key: #7dd3fc;
+  --code-string: #86efac;
+  --code-number: #fca5a5;
+  --code-comment: #64748b;
+  --code-cmd: #cbd5e1;
+  --code-flag: #c4b5fd;
+
+  /* Full-bleed dark CTA */
+  --cta-bg: #0f172a;
 }
 
 html {
   scroll-behavior: smooth;
 }
 
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+}
+
 ::selection {
-  background: rgba(99, 102, 241, 0.3);
+  background: rgba(37, 99, 235, 0.18);
   color: var(--text-primary);
 }

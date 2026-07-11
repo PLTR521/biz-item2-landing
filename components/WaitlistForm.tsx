@@ -7,9 +7,11 @@ import { ArrowRight, Check } from "lucide-react";
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/mzdqnklk";
 
 export default function WaitlistForm({
-  buttonLabel = "Get early access",
+  buttonLabel = "Get an API key",
+  variant = "light",
 }: {
   buttonLabel?: string;
+  variant?: "light" | "dark";
 }) {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -46,11 +48,22 @@ export default function WaitlistForm({
     }
   };
 
+  const isDark = variant === "dark";
+
   if (submitted) {
     return (
-      <div className="flex items-center justify-center gap-2 rounded-full border border-[rgba(34,197,94,0.25)] bg-[rgba(34,197,94,0.08)] px-5 py-3.5 font-medium text-[var(--success)]">
+      <div
+        className={`flex items-center justify-center gap-2 rounded-lg px-5 py-3.5 font-medium ${
+          isDark
+            ? "border border-[rgba(134,239,172,0.3)] bg-[rgba(34,197,94,0.12)] text-[#86efac]"
+            : "border border-[rgba(22,163,74,0.25)] bg-[rgba(22,163,74,0.08)] text-[var(--success)]"
+        }`}
+      >
         <Check className="h-4 w-4 shrink-0" />
-        <span>You&apos;re on the list. We&apos;ll reach out to beta testers first.</span>
+        <span>
+          You&apos;re on the list. We&apos;ll email you as we open up the
+          private beta.
+        </span>
       </div>
     );
   }
@@ -65,18 +78,28 @@ export default function WaitlistForm({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
           disabled={loading}
-          className="flex-1 rounded-full border border-[var(--border)] bg-[var(--bg-card)] px-5 py-3.5 text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] transition-colors duration-200 focus:border-[var(--accent)] focus:outline-none disabled:opacity-50"
+          className={`flex-1 rounded-lg px-5 py-3.5 transition-colors duration-200 focus:outline-none disabled:opacity-50 ${
+            isDark
+              ? "border border-[var(--code-border)] bg-[rgba(255,255,255,0.06)] text-white placeholder:text-[#64748b] focus:border-[var(--accent-hover)]"
+              : "border border-[var(--border-strong)] bg-white text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)]"
+          }`}
         />
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-[var(--accent)] px-6 py-3.5 font-medium text-white transition-all duration-200 hover:bg-[var(--accent-hover)] hover:shadow-[0_0_24px_rgba(99,102,241,0.35)] disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[var(--accent)] px-6 py-3.5 font-medium text-white transition-colors duration-200 hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-60"
         >
           {loading ? "Submitting..." : buttonLabel}
           {!loading && <ArrowRight className="h-4 w-4" />}
         </button>
       </form>
-      {error && <p className="mt-3 text-sm text-red-400">{error}</p>}
+      {error && (
+        <p
+          className={`mt-3 text-sm ${isDark ? "text-red-300" : "text-red-500"}`}
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }
