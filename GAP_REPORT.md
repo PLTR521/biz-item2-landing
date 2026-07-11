@@ -1,6 +1,6 @@
 # GAP_REPORT.md — 계획(BUILD.md/리디자인 계획서) vs 실제 구현
 
-> 작성일: 2026-07-12 | 기준 커밋: aeca598
+> 작성일: 2026-07-12 | 기준 커밋: aeca598 | 갱신: e34c3dc 리팩토링 반영 (§5)
 > 결론: **계획서 체크리스트 13항목 전부 구현됨.** 아래는 의도적 편차(승인됨)와 사소한 수치 차이만 정리.
 
 ---
@@ -37,10 +37,10 @@
 
 **없음.** 13개 체크리스트 항목 전부 반영.
 
-## 5. 미해결 갭 (다음 세션 대상 — PROJECT_STATUS.md §5·§6와 동일)
+## 5. 미해결 갭 (PROJECT_STATUS.md §5·§6와 동일)
 
-1. 프로덕션 픽셀 육안 확인 미완 (로컬은 accessibility tree + computed CSS로만 검증)
-2. 분석/이벤트 추적 전무 → fake-door 전환율 측정 불가
-3. favicon / OG 이미지 없음
-4. `package.json` name(`decision-ai-landing`), `launch.json` 서버명(`decision-ai-dev`) 잔재
-5. 미사용 `app/api/waitlist/route.ts` 존치 여부 미결정
+1. 프로덕션 픽셀 육안 확인 미완 (로컬은 테스트 9개 + accessibility tree + computed CSS로 검증)
+2. 분석/이벤트 추적 전무 → fake-door 전환율 측정 불가 — ⏸️ **외부 서비스 계정 이슈로 보류** (T14 이후)
+3. favicon / OG 이미지 없음 (계정 불필요, 진행 가능)
+4. ~~네이밍 잔재~~ → ✅ e34c3dc에서 해결 (`sendguard-landing` / `sendguard-dev`)
+5. ~~미사용 `app/api/waitlist/route.ts`~~ → ✅ e34c3dc에서 삭제 (@upstash/redis 의존성도 제거)

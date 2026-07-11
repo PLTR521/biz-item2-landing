@@ -1,14 +1,15 @@
 # BUILD.md — SendGuard AI 랜딩 빌드 플랜 & 진행 로그
 
 > 이 파일이 계획의 SSOT. 구현과의 차이는 GAP_REPORT.md 참고.
-> 최종 업데이트: 2026-07-12
+> 최종 업데이트: 2026-07-12 (리팩토링·테스트 세션)
+> ⚠️ 외부 서비스 계정 생성 불가 → **T14 이후(외부 계정 필요 작업) 보류**
 
 ---
 
 ## Phase 0 — Decision AI 랜딩 (피벗 전, 종료)
 
 - [x] Decision AI 랜딩 제작 + Formspree waitlist (커밋 e2a0088)
-- [x] Upstash Redis 공유 대기자 카운터 (커밋 e760bf5) — *SendGuard에서 화면 제거됨*
+- [x] Upstash Redis 공유 대기자 카운터 (커밋 e760bf5) — *이후 e34c3dc에서 완전 삭제*
 - [x] ~~Decision AI 수요검증~~ → **피벗 결정, 종료**
 
 ## Phase 1 — SendGuard AI 피벗 (완료)
@@ -40,16 +41,26 @@
 - [x] 모바일 반응형 (375px: 페이지 가로 오버플로 0, 코드블록 내부 스크롤)
 - [x] 프로덕션 빌드 통과 + 커밋 + push
 
-## Phase 2 — 측정 인프라 (미착수) ← **다음**
+## Phase 1.6 — 리팩토링 + 테스트 (완료, 커밋 e34c3dc)
 
-- [ ] 프로덕션 배포 육안 확인 (데스크톱/모바일)
-- [ ] Vercel Analytics 추가
-- [ ] CTA 클릭 + 폼 제출 이벤트 추적 (fake-door 전환율: 방문 → 클릭 → 제출)
-- [ ] favicon + OG 이미지
+- [x] 미사용 `app/api/waitlist/route.ts`(시드 카운터) 삭제 + `@upstash/redis` 의존성 제거
+- [x] 잔재 네이밍 정리: package `decision-ai-landing`→`sendguard-landing`, launch `decision-ai-dev`→`sendguard-dev`
+- [x] 테스트 인프라: vitest 4 + @testing-library/react + jsdom (`npm test`)
+- [x] 페이지 스모크 테스트 5개 (헤드라인/섹션/CTA 앵커/폼/프레임워크 목록)
+- [x] WaitlistForm 테스트 4개 (성공 POST/서버 에러/네트워크 에러/buttonLabel)
+- [x] 전체 통과: 테스트 9/9 + 프로덕션 빌드 + dev 서버 콘솔 에러 0
+- [x] README.md 신규 + 문서 4종 최신화
 
-## Phase 3 — 수요검증 운영 (미착수)
+## Phase 2 — 측정 인프라 (⏸️ **보류** — 외부 서비스 계정 생성 불가)
 
-- [ ] Reddit / X / Discord 유입 시작 (전용 스킬 활용)
+- [ ] 프로덕션 배포 육안 확인 (데스크톱/모바일) — *계정 불필요, 진행 가능*
+- [ ] favicon + OG 이미지 — *계정 불필요, 진행 가능*
+- [ ] ⏸️ Vercel Analytics 추가 — *외부 계정 필요, 보류*
+- [ ] ⏸️ CTA 클릭 + 폼 제출 이벤트 추적 (fake-door 전환율) — *보류*
+
+## Phase 3 — 수요검증 운영 (미착수, Phase 2 완료가 선행 조건)
+
+- [ ] Reddit / X / Discord 유입 시작 (전용 스킬 활용) — **측정 인프라 없이 시작 금지**
 - [ ] ICP 인터뷰 20명 모집
 - [ ] 전환율 + 인터뷰 결과 → **Go/No-Go 결정**
 
@@ -64,4 +75,6 @@
 | (초기) | Upstash 공유 대기자 카운터 | e760bf5 |
 | 2026-07-01 | SendGuard AI로 피벗, 콘텐츠 교체 | f0bf748 |
 | 2026-07-11 | 라이트 테마 devtool 스타일 전면 리디자인 | aeca598 |
-| 2026-07-12 | 종료 문서 작성 (PROJECT_STATUS / NEXT_TASK / BUILD / GAP_REPORT) | (이 커밋) |
+| 2026-07-12 | 종료 문서 작성 (STATUS / NEXT_TASK / BUILD / GAP_REPORT) | 61423cf |
+| 2026-07-12 | 리팩토링(카운터 API 삭제, 네이밍) + 테스트 9개 추가 | e34c3dc |
+| 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | (이 커밋) |
