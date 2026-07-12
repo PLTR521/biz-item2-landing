@@ -1,10 +1,13 @@
 # NEXT_TASK.md
 
-> 다음 세션 시작용. 작성일: 2026-07-12 (T14 부분 진행 세션 종료 시점)
+> 다음 세션 시작용. 작성일: 2026-07-12 (sendguard-ai T15 Vercel 배포 완료 시점)
 > ✅ **T14 현황(2026-07-12):** 이메일 레그 실발송 검증 완료 — `npx tsx scripts/send-test-email.ts` 성공(exit 0).
 > success_url 페이지(`/checkout/success`)도 완료. **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
 > ⚠️ Resend 테스트 모드: 도메인 인증 전엔 계정 소유자 이메일로만 발송 가능(타 수신자 403 실측).
 > 실제 고객 키 발송 전 resend.com/domains 도메인 인증 + `EMAIL_FROM` 교체 필수.
+> ✅ **T15 현황(2026-07-12):** sendguard-ai API가 https://send-guard-ai.vercel.app 에 배포됨.
+> 프로덕션에서 `/api/check` 401/401, `/api/stripe/webhook` 503, 미존재 라우트 404 — 로컬과 동일 실측.
+> ⚠️ 남은 것: Vercel에 Supabase/Stripe/Resend 환경변수 등록(사용자가 직접, 대시보드에서) → 그래야 200 경로 + Spamhaus 실측(`127.0.0.2`) 가능.
 
 ---
 

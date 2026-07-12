@@ -1,8 +1,9 @@
 # BUILD.md — SendGuard AI 랜딩 빌드 플랜 & 진행 로그
 
 > 이 파일이 계획의 SSOT. 구현과의 차이는 GAP_REPORT.md 참고.
-> 최종 업데이트: 2026-07-12 (T14 이메일 레그 검증 완료)
+> 최종 업데이트: 2026-07-12 (sendguard-ai T15 Vercel 배포 완료)
 > ✅ T14 이메일 발송: Resend 키 입력 후 **실발송 성공 실측** (sendguard-ai `scripts/send-test-email.ts`, exit 0).
+> ✅ T15 배포: sendguard-ai가 https://send-guard-ai.vercel.app 로 배포됨 (GitHub `PLTR521/SendGuard-AI` 연동). `/api/check` 인증·`/api/stripe/webhook` 프로덕션 실측 통과. Spamhaus 실측은 Supabase 환경변수 대기.
 > ⚠️ 랜딩 CTA 교체는 **Stripe Payment Link URL 확보 대기.** Resend는 도메인 인증 전까지 계정 소유자 주소로만 발송 가능 — 고객 발송 전 도메인 인증 필요.
 
 ---
@@ -80,4 +81,5 @@
 | 2026-07-12 | 리팩토링(카운터 API 삭제, 네이밍) + 테스트 9개 추가 | e34c3dc |
 | 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | fab6ae6 |
 | 2026-07-12 | T14 부분 진행: sendguard-ai에 이메일 테스트 하네스 + `/checkout/success` 페이지 + EMAIL_FROM 폴백 수정 (sendguard-ai 커밋 155f9b9). Resend 키 미입력 확인 → 실발송·CTA 교체 대기. launch.json에 `sendguard-api-dev` 추가 | 1b4a29f |
-| 2026-07-12 | T14 이메일 레그 검증 완료: Resend 키 입력 → 실발송 성공(exit 0, sendguard-ai 커밋 01ca06d). 테스트 모드 제약(도메인 인증 전 계정 소유자 주소만) 기록 | (이 커밋) |
+| 2026-07-12 | T14 이메일 레그 검증 완료: Resend 키 입력 → 실발송 성공(exit 0, sendguard-ai 커밋 01ca06d). 테스트 모드 제약(도메인 인증 전 계정 소유자 주소만) 기록 | 06b2504 |
+| 2026-07-12 | sendguard-ai T15: GitHub(`PLTR521/SendGuard-AI`) 연결 + Vercel 배포(send-guard-ai.vercel.app), 프로덕션 401/503/404 실측 통과 (sendguard-ai 커밋 37bcc32) | (이 커밋) |

@@ -1,12 +1,15 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-12 (T14 부분 진행 세션)
+> 최종 업데이트: 2026-07-12 (sendguard-ai T15 Vercel 배포 완료)
 > 프로젝트: **SendGuard AI 랜딩페이지** (수요검증용 fake-door waitlist)
 > 배포: https://biz-item2-landing.vercel.app/ (main push 시 Vercel 자동 배포)
 > 리포: https://github.com/PLTR521/biz-item2-landing
 > ✅ **T14 이메일 레그 검증 완료(2026-07-12)**: Resend 키 입력 → 실발송 성공(sendguard-ai 01ca06d).
-> success 페이지(`/checkout/success`)도 완료(155f9b9). **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
-> ⚠️ Resend 도메인 인증 전에는 계정 소유자 주소로만 발송 가능 — 실제 고객 발송 전 도메인 인증 필요.
+> success 페이지(`/checkout/success`)도 완료(155f9b9).
+> ✅ **T15 Vercel 배포 완료(2026-07-12)**: sendguard-ai API가 https://send-guard-ai.vercel.app 에 배포됨
+> (GitHub `PLTR521/SendGuard-AI` main 연동). 프로덕션 curl 실측: `/api/check` 무키/무효키 401, 웹훅 미설정 503 — 로컬과 동일.
+> **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
+> ⚠️ 미완: Vercel에 Supabase 환경변수 없어 Spamhaus 실측(200 경로)은 아직 불가. Resend 도메인 인증 전에는 계정 소유자 주소로만 발송 가능.
 
 ---
 
