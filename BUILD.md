@@ -1,9 +1,9 @@
 # BUILD.md — SendGuard AI 랜딩 빌드 플랜 & 진행 로그
 
 > 이 파일이 계획의 SSOT. 구현과의 차이는 GAP_REPORT.md 참고.
-> 최종 업데이트: 2026-07-12 (T14 부분 진행 세션)
-> ⚠️ T14(노션 BUILD.md 기준) 재개 시도 — **sendguard-ai 쪽 코드 준비 완료, 랜딩 CTA 교체는 Stripe Payment Link URL 확보 대기.**
-> Resend 키는 "설정됨"으로 알려졌으나 `sendguard-ai/.env.local` 실측 결과 **빈 값** — 키 입력이 선행 조건.
+> 최종 업데이트: 2026-07-12 (T14 이메일 레그 검증 완료)
+> ✅ T14 이메일 발송: Resend 키 입력 후 **실발송 성공 실측** (sendguard-ai `scripts/send-test-email.ts`, exit 0).
+> ⚠️ 랜딩 CTA 교체는 **Stripe Payment Link URL 확보 대기.** Resend는 도메인 인증 전까지 계정 소유자 주소로만 발송 가능 — 고객 발송 전 도메인 인증 필요.
 
 ---
 
@@ -79,4 +79,5 @@
 | 2026-07-12 | 종료 문서 작성 (STATUS / NEXT_TASK / BUILD / GAP_REPORT) | 61423cf |
 | 2026-07-12 | 리팩토링(카운터 API 삭제, 네이밍) + 테스트 9개 추가 | e34c3dc |
 | 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | fab6ae6 |
-| 2026-07-12 | T14 부분 진행: sendguard-ai에 이메일 테스트 하네스 + `/checkout/success` 페이지 + EMAIL_FROM 폴백 수정 (sendguard-ai 커밋 155f9b9). Resend 키 미입력 확인 → 실발송·CTA 교체 대기. launch.json에 `sendguard-api-dev` 추가 | (이 커밋) |
+| 2026-07-12 | T14 부분 진행: sendguard-ai에 이메일 테스트 하네스 + `/checkout/success` 페이지 + EMAIL_FROM 폴백 수정 (sendguard-ai 커밋 155f9b9). Resend 키 미입력 확인 → 실발송·CTA 교체 대기. launch.json에 `sendguard-api-dev` 추가 | 1b4a29f |
+| 2026-07-12 | T14 이메일 레그 검증 완료: Resend 키 입력 → 실발송 성공(exit 0, sendguard-ai 커밋 01ca06d). 테스트 모드 제약(도메인 인증 전 계정 소유자 주소만) 기록 | (이 커밋) |

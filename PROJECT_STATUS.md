@@ -4,9 +4,9 @@
 > 프로젝트: **SendGuard AI 랜딩페이지** (수요검증용 fake-door waitlist)
 > 배포: https://biz-item2-landing.vercel.app/ (main push 시 Vercel 자동 배포)
 > 리포: https://github.com/PLTR521/biz-item2-landing
-> ⚠️ **T14(랜딩 결제 CTA)**: sendguard-ai 쪽 준비 완료(155f9b9 — 이메일 하네스 + success 페이지).
-> 랜딩 CTA 교체는 **Stripe Payment Link URL + Resend 키 입력 후** 진행. `sendguard-ai/.env.local`은
-> 2026-07-12 실측 결과 전부 빈 값(Resend 키 미입력) — 사용자 키 입력이 선행 조건.
+> ✅ **T14 이메일 레그 검증 완료(2026-07-12)**: Resend 키 입력 → 실발송 성공(sendguard-ai 01ca06d).
+> success 페이지(`/checkout/success`)도 완료(155f9b9). **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
+> ⚠️ Resend 도메인 인증 전에는 계정 소유자 주소로만 발송 가능 — 실제 고객 발송 전 도메인 인증 필요.
 
 ---
 

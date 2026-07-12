@@ -1,10 +1,10 @@
 # NEXT_TASK.md
 
 > 다음 세션 시작용. 작성일: 2026-07-12 (T14 부분 진행 세션 종료 시점)
-> ⚠️ **T14 현황:** sendguard-ai 쪽 코드 준비 완료 — ① 이메일 발송 경로(`lib/billing/email.ts`,
-> `process.env.RESEND_API_KEY` 사용) ② 테스트 하네스(`npx tsx scripts/send-test-email.ts <이메일>`)
-> ③ success_url 페이지(`/checkout/success`). **단, `sendguard-ai/.env.local`은 실측 결과 전부 빈 값**
-> (Resend 키 미입력). 랜딩 CTA 교체는 Resend 키 + Stripe Payment Link URL 확보 후 진행.
+> ✅ **T14 현황(2026-07-12):** 이메일 레그 실발송 검증 완료 — `npx tsx scripts/send-test-email.ts` 성공(exit 0).
+> success_url 페이지(`/checkout/success`)도 완료. **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
+> ⚠️ Resend 테스트 모드: 도메인 인증 전엔 계정 소유자 이메일로만 발송 가능(타 수신자 403 실측).
+> 실제 고객 키 발송 전 resend.com/domains 도메인 인증 + `EMAIL_FROM` 교체 필수.
 
 ---
 
@@ -29,13 +29,13 @@ PROJECT_STATUS.md와 NEXT_TASK.md를 읽고 이어서 작업해.
    fake-door 전환율(방문 → CTA 클릭 → 이메일 제출)을 잴 수 있게 해줘.
 ```
 
-## T14 재개 프롬프트 (Resend 키 입력 후)
+## T14 재개 프롬프트 (Stripe Payment Link 준비 후)
 
 ```
-sendguard-ai/.env.local에 RESEND_API_KEY를 입력하고 저장했어.
-1. npx tsx scripts/send-test-email.ts <내 이메일>로 실발송 검증해줘.
-2. (Stripe Payment Link URL도 준비된 경우) 랜딩 CTA를 Payment Link로 교체하고
-   fake-door 카피를 실제 제품 존재에 맞게 재검토해줘.
+Stripe Payment Link를 만들었어: <URL 붙여넣기>
+1. 랜딩 CTA("Get an API key")를 이 Payment Link로 교체해줘.
+2. fake-door 카피("private beta" 등)를 실제 제품 존재에 맞게 재검토해줘 (과장금지 규칙).
+3. 테스트 + 빌드 통과 확인 후 커밋+push까지 알아서 해줘.
 ```
 
 ## 다음 작업 목표
