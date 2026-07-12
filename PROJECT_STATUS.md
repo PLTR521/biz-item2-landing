@@ -1,10 +1,12 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-12 (리팩토링·테스트 세션)
+> 최종 업데이트: 2026-07-12 (T14 부분 진행 세션)
 > 프로젝트: **SendGuard AI 랜딩페이지** (수요검증용 fake-door waitlist)
 > 배포: https://biz-item2-landing.vercel.app/ (main push 시 Vercel 자동 배포)
 > 리포: https://github.com/PLTR521/biz-item2-landing
-> ⚠️ **외부 서비스 계정 생성 불가로 T14 이후 구현은 보류 중** (Vercel Analytics 등 외부 계정 필요 작업)
+> ⚠️ **T14(랜딩 결제 CTA)**: sendguard-ai 쪽 준비 완료(155f9b9 — 이메일 하네스 + success 페이지).
+> 랜딩 CTA 교체는 **Stripe Payment Link URL + Resend 키 입력 후** 진행. `sendguard-ai/.env.local`은
+> 2026-07-12 실측 결과 전부 빈 값(Resend 키 미입력) — 사용자 키 입력이 선행 조건.
 
 ---
 

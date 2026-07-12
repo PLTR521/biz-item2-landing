@@ -6,6 +6,12 @@
       "runtimeExecutable": "C:\\devtools\\start-next.cmd",
       "runtimeArgs": [],
       "port": 3000
+    },
+    {
+      "name": "sendguard-api-dev",
+      "runtimeExecutable": "C:\\devtools\\start-sendguard-api.cmd",
+      "runtimeArgs": [],
+      "port": 3210
     }
   ]
 }

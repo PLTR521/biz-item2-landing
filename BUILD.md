@@ -1,8 +1,9 @@
 # BUILD.md — SendGuard AI 랜딩 빌드 플랜 & 진행 로그
 
 > 이 파일이 계획의 SSOT. 구현과의 차이는 GAP_REPORT.md 참고.
-> 최종 업데이트: 2026-07-12 (리팩토링·테스트 세션)
-> ⚠️ 외부 서비스 계정 생성 불가 → **T14 이후(외부 계정 필요 작업) 보류**
+> 최종 업데이트: 2026-07-12 (T14 부분 진행 세션)
+> ⚠️ T14(노션 BUILD.md 기준) 재개 시도 — **sendguard-ai 쪽 코드 준비 완료, 랜딩 CTA 교체는 Stripe Payment Link URL 확보 대기.**
+> Resend 키는 "설정됨"으로 알려졌으나 `sendguard-ai/.env.local` 실측 결과 **빈 값** — 키 입력이 선행 조건.
 
 ---
 
@@ -77,4 +78,5 @@
 | 2026-07-11 | 라이트 테마 devtool 스타일 전면 리디자인 | aeca598 |
 | 2026-07-12 | 종료 문서 작성 (STATUS / NEXT_TASK / BUILD / GAP_REPORT) | 61423cf |
 | 2026-07-12 | 리팩토링(카운터 API 삭제, 네이밍) + 테스트 9개 추가 | e34c3dc |
-| 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | (이 커밋) |
+| 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | fab6ae6 |
+| 2026-07-12 | T14 부분 진행: sendguard-ai에 이메일 테스트 하네스 + `/checkout/success` 페이지 + EMAIL_FROM 폴백 수정 (sendguard-ai 커밋 155f9b9). Resend 키 미입력 확인 → 실발송·CTA 교체 대기. launch.json에 `sendguard-api-dev` 추가 | (이 커밋) |

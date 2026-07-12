@@ -1,7 +1,10 @@
 # NEXT_TASK.md
 
-> 다음 세션 시작용. 작성일: 2026-07-12 (리팩토링·테스트 세션 종료 시점)
-> ⚠️ 외부 서비스 계정 생성 불가로 **T14 이후 구현 보류 중** — 아래 프롬프트는 계정 없이 가능한 작업만 포함.
+> 다음 세션 시작용. 작성일: 2026-07-12 (T14 부분 진행 세션 종료 시점)
+> ⚠️ **T14 현황:** sendguard-ai 쪽 코드 준비 완료 — ① 이메일 발송 경로(`lib/billing/email.ts`,
+> `process.env.RESEND_API_KEY` 사용) ② 테스트 하네스(`npx tsx scripts/send-test-email.ts <이메일>`)
+> ③ success_url 페이지(`/checkout/success`). **단, `sendguard-ai/.env.local`은 실측 결과 전부 빈 값**
+> (Resend 키 미입력). 랜딩 CTA 교체는 Resend 키 + Stripe Payment Link URL 확보 후 진행.
 
 ---
 
@@ -24,6 +27,15 @@ PROJECT_STATUS.md와 NEXT_TASK.md를 읽고 이어서 작업해.
 1. Vercel Analytics를 붙여서 방문 수를 측정할 수 있게 해줘.
 2. "Get an API key" CTA 클릭과 waitlist 폼 제출을 이벤트로 추적해서
    fake-door 전환율(방문 → CTA 클릭 → 이메일 제출)을 잴 수 있게 해줘.
+```
+
+## T14 재개 프롬프트 (Resend 키 입력 후)
+
+```
+sendguard-ai/.env.local에 RESEND_API_KEY를 입력하고 저장했어.
+1. npx tsx scripts/send-test-email.ts <내 이메일>로 실발송 검증해줘.
+2. (Stripe Payment Link URL도 준비된 경우) 랜딩 CTA를 Payment Link로 교체하고
+   fake-door 카피를 실제 제품 존재에 맞게 재검토해줘.
 ```
 
 ## 다음 작업 목표
