@@ -82,4 +82,5 @@
 | 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | fab6ae6 |
 | 2026-07-12 | T14 부분 진행: sendguard-ai에 이메일 테스트 하네스 + `/checkout/success` 페이지 + EMAIL_FROM 폴백 수정 (sendguard-ai 커밋 155f9b9). Resend 키 미입력 확인 → 실발송·CTA 교체 대기. launch.json에 `sendguard-api-dev` 추가 | 1b4a29f |
 | 2026-07-12 | T14 이메일 레그 검증 완료: Resend 키 입력 → 실발송 성공(exit 0, sendguard-ai 커밋 01ca06d). 테스트 모드 제약(도메인 인증 전 계정 소유자 주소만) 기록 | 06b2504 |
-| 2026-07-12 | sendguard-ai T15: GitHub(`PLTR521/SendGuard-AI`) 연결 + Vercel 배포(send-guard-ai.vercel.app), 프로덕션 401/503/404 실측 통과 (sendguard-ai 커밋 37bcc32) | (이 커밋) |
+| 2026-07-12 | sendguard-ai T15: GitHub(`PLTR521/SendGuard-AI`) 연결 + Vercel 배포(send-guard-ai.vercel.app), 프로덕션 401/503/404 실측 통과 (sendguard-ai 커밋 37bcc32) | 3fe5078 |
+| 2026-07-13 | sendguard-ai T15 프로덕션 검증 완료: 200 경로 + Barracuda/SpamCop 리스팅 검출 + checks 로깅. Spamhaus는 정책 차단 확정 → DQS 키 필요 (sendguard-ai 커밋 89cab14) | (이 커밋) |
