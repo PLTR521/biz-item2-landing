@@ -11,8 +11,7 @@ export default function FinalCTA() {
           Start checking domains today.
         </h2>
         <p className="mb-10 text-lg leading-relaxed text-[#94a3b8]">
-          Get an API key, hit our beta endpoint. Free while we&apos;re in private
-          beta.
+          Get a free API key instantly — no credit card, 100 checks/day.
         </p>
         <div className="mx-auto max-w-md">
           <WaitlistForm variant="dark" buttonLabel="Get an API key" />

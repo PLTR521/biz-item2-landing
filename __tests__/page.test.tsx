@@ -11,7 +11,7 @@ describe("랜딩 페이지 스모크", () => {
         name: "Deliverability API for AI agents",
       })
     ).toBeInTheDocument();
-    expect(screen.getByText("Currently in private beta")).toBeInTheDocument();
+    expect(screen.getByText("Free tier available now")).toBeInTheDocument();
   });
 
   it("모든 섹션 헤딩을 렌더링한다", () => {

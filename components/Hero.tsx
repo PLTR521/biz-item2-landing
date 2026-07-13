@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="text-center lg:text-left">
           <span className="mb-5 inline-flex items-center gap-2 text-sm font-medium text-[var(--text-tertiary)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
-            Currently in private beta
+            Free tier available now
           </span>
           <h1 className="mb-5 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.4rem]">
             Deliverability API for AI agents
