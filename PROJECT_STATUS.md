@@ -10,6 +10,10 @@
 > (gmail.com → healthy/low, IP 5개 resolve, SPF/DMARC 실측 일치). 중복 가입 409, 무효 키 401 모두 정상. 콘솔 에러 0.
 > ✅ **테스트 데이터 정리 완료**: 프로덕션 Supabase `accounts` 테이블 비움(검증 계정 전부 삭제).
 > ✅ **Vercel Analytics 추가(커밋 f542a99)**: `@vercel/analytics` — **단, Vercel 대시보드 Analytics 탭에서 켜야 집계 시작.**
+> ✅ **Signup rate limit 완료(2026-07-13, sendguard-ai 커밋 6a908a8)**: `/api/signup`에 IP당 10분 5회 고정
+> 윈도 rate limit(Supabase RPC 원자적 증가). 로컬+프로덕션 모두 검증: 정상 429/Retry-After, 병렬 15개 요청에서
+> 정확히 5개만 허용(레이스 없음), 정상 사용자 무영향. **Vercel이 client-supplied x-forwarded-for를 무시하고
+> 실제 접속 IP로 덮어쓰는 것도 확인 — IP 스푸핑으로 우회 불가.** 마이그레이션은 사용자가 Supabase SQL Editor에서 직접 실행함.
 > ⚠️ **T16(Show HN) 전 남은 게이트**: ① Vercel 대시보드에서 Analytics **ON** ② (권장) Resend 도메인 인증 — 안 하면
 > 가입 확인 메일이 계정 소유자 외 주소로 안 감(키는 화면 표시로 전달되니 하드 블로커는 아님) ③ Show HN 본문 URL 확정.
 > ℹ️ sendguard-ai 리포: GitHub 자동배포가 한동안 안 걸려(웹훅 이슈) 사용자가 GitHub 연동 재설정 후 629b92c 배포 반영됨.
