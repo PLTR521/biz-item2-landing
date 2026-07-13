@@ -1,15 +1,18 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-12 (sendguard-ai T15 Vercel 배포 완료)
-> 프로젝트: **SendGuard AI 랜딩페이지** (수요검증용 fake-door waitlist)
+> 최종 업데이트: 2026-07-13 (셀프서브 가입 + 프로덕션 E2E 검증 + Analytics 완료)
+> 프로젝트: **SendGuard AI 랜딩페이지** (실제 무료 티어 셀프서브 가입 — 더 이상 fake-door 아님)
 > 배포: https://biz-item2-landing.vercel.app/ (main push 시 Vercel 자동 배포)
 > 리포: https://github.com/PLTR521/biz-item2-landing
-> ✅ **T14 이메일 레그 검증 완료(2026-07-12)**: Resend 키 입력 → 실발송 성공(sendguard-ai 01ca06d).
-> success 페이지(`/checkout/success`)도 완료(155f9b9).
-> ✅ **T15 Vercel 배포 완료(2026-07-12)**: sendguard-ai API가 https://send-guard-ai.vercel.app 에 배포됨
-> (GitHub `PLTR521/SendGuard-AI` main 연동). 프로덕션 curl 실측: `/api/check` 무키/무효키 401, 웹훅 미설정 503 — 로컬과 동일.
-> **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
-> ⚠️ 미완: Vercel에 Supabase 환경변수 없어 Spamhaus 실측(200 경로)은 아직 불가. Resend 도메인 인증 전에는 계정 소유자 주소로만 발송 가능.
+> ✅ **셀프서브 가입 완료(2026-07-13)**: 랜딩 폼이 sendguard-ai `POST /api/signup`(새 라우트, 커밋 629b92c)을 호출해
+> free 티어 계정 생성 + 실제 API 키를 화면에 즉시 표시(+ best-effort 이메일). fake-door → 실제 작동 흐름으로 전환.
+> ✅ **프로덕션 E2E 검증 통과(2026-07-13)**: 랜딩 방문 → CTA → 이메일 제출 → 실제 키 발급 → 그 키로 `/api/check` 200
+> (gmail.com → healthy/low, IP 5개 resolve, SPF/DMARC 실측 일치). 중복 가입 409, 무효 키 401 모두 정상. 콘솔 에러 0.
+> ✅ **테스트 데이터 정리 완료**: 프로덕션 Supabase `accounts` 테이블 비움(검증 계정 전부 삭제).
+> ✅ **Vercel Analytics 추가(커밋 f542a99)**: `@vercel/analytics` — **단, Vercel 대시보드 Analytics 탭에서 켜야 집계 시작.**
+> ⚠️ **T16(Show HN) 전 남은 게이트**: ① Vercel 대시보드에서 Analytics **ON** ② (권장) Resend 도메인 인증 — 안 하면
+> 가입 확인 메일이 계정 소유자 외 주소로 안 감(키는 화면 표시로 전달되니 하드 블로커는 아님) ③ Show HN 본문 URL 확정.
+> ℹ️ sendguard-ai 리포: GitHub 자동배포가 한동안 안 걸려(웹훅 이슈) 사용자가 GitHub 연동 재설정 후 629b92c 배포 반영됨.
 
 ---
 
