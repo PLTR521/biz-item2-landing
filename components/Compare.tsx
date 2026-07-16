@@ -1,3 +1,7 @@
+import { Check } from "lucide-react";
+
+const worksWith = ["Resend", "SendGrid", "Postmark", "Amazon SES"];
+
 export default function Compare() {
   const rows = [
     {
@@ -16,11 +20,10 @@ export default function Compare() {
     <section className="border-t border-[var(--border)] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-3xl">
         <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-[2rem] md:leading-[1.15]">
-          Why not just Resend or SendGrid?
+          Using Resend or SendGrid? Add a safety check before sending.
         </h2>
         <p className="mb-10 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-          SendGuard doesn&apos;t replace your ESP. It runs before it — a safety
-          layer between your app and the send.
+          SendGuard runs before your ESP, not instead of it.
         </p>
 
         <div className="overflow-hidden rounded-xl border border-[var(--border)]">
@@ -51,10 +54,26 @@ export default function Compare() {
           ))}
         </div>
 
-        <p className="mt-6 text-sm leading-relaxed text-[var(--text-tertiary)]">
-          Think of it as <span className="text-[var(--text-secondary)]">Resend + SendGuard</span>,
-          not <span className="text-[var(--text-secondary)]">Resend or SendGuard</span>.
-        </p>
+        <div className="mt-8">
+          <p className="mb-3 text-sm font-medium uppercase tracking-wider text-[var(--text-tertiary)]">
+            Works with
+          </p>
+          <ul className="flex flex-wrap gap-x-6 gap-y-3">
+            {worksWith.map((esp) => (
+              <li
+                key={esp}
+                className="flex items-center gap-2 text-[15px] text-[var(--text-primary)]"
+              >
+                <Check
+                  className="h-4 w-4 text-[var(--success)]"
+                  aria-hidden="true"
+                  strokeWidth={2.5}
+                />
+                {esp}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 const audiences = [
   "Multi-tenant SaaS",
   "AI Agents",
-  "Outbound automation",
+  "Customer email infrastructure",
 ];
 
 export default function BuiltFor() {

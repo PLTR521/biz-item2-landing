@@ -1,4 +1,4 @@
-import CodeCard, { K, S, N, C } from "./CodeCard";
+import CodeCard, { K, S, N, C, Cmd, Flag } from "./CodeCard";
 
 const specs = [
   "DNSBL lookup",
@@ -57,6 +57,23 @@ export default function Example() {
             </li>
           ))}
         </ul>
+
+        <div className="mt-10">
+          <p className="mb-3 text-sm font-medium uppercase tracking-wider text-[var(--text-tertiary)]">
+            Verify it&apos;s live
+          </p>
+          <CodeCard label="$ curl">
+            <Cmd>curl</Cmd> https://api.sendguard.ai/health
+            {"\n\n"}
+            {"{ "}
+            <K>&quot;status&quot;</K>: <S>&quot;ok&quot;</S>,{" "}
+            <K>&quot;service&quot;</K>: <S>&quot;sendguard&quot;</S>
+            {" }"}
+          </CodeCard>
+          <p className="mt-3 text-sm text-[var(--text-tertiary)]">
+            Public health endpoint. Run it before you sign up.
+          </p>
+        </div>
       </div>
     </section>
   );

@@ -17,7 +17,7 @@ describe("랜딩 페이지 스모크", () => {
   it("모든 섹션 헤딩을 렌더링한다", () => {
     render(<Home />);
     const headings = [
-      "Why not just Resend or SendGrid?",
+      "Using Resend or SendGrid? Add a safety check before sending.",
       "When to check",
       "Before your AI agent sends",
       "Before your SaaS sends for a customer",
@@ -63,7 +63,7 @@ describe("랜딩 페이지 스모크", () => {
     for (const label of [
       "Multi-tenant SaaS",
       "AI Agents",
-      "Outbound automation",
+      "Customer email infrastructure",
     ]) {
       expect(screen.getByText(label)).toBeInTheDocument();
     }

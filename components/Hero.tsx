@@ -19,7 +19,7 @@ export default function Hero() {
             The deliverability check API for multi-tenant SaaS platforms.
           </h1>
           <p className="mx-auto mb-8 max-w-xl text-lg leading-relaxed text-[var(--text-secondary)] lg:mx-0">
-            Catch reputation problems before your AI burns your domain.
+            Catch reputation problems before your platform sends email.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row lg:items-start lg:justify-start">
             <a
