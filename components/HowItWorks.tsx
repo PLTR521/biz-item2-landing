@@ -15,18 +15,22 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section className="border-t border-[var(--border)] px-6 py-20 md:py-28">
-      <div className="mx-auto max-w-5xl">
-        <h2 className="mb-12 text-2xl font-bold tracking-tight md:text-[2rem]">
+    <section
+      id="how-it-works"
+      className="scroll-mt-16 border-t border-[var(--border)] px-6 py-20 md:py-28"
+    >
+      <div className="mx-auto max-w-6xl">
+        <p className="eyebrow mb-4">03 — Mechanics</p>
+        <h2 className="mb-12 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
           How it works
         </h2>
-        <div className="grid gap-8 md:grid-cols-3 md:gap-6">
+        <div className="grid gap-10 md:grid-cols-3 md:gap-0 md:divide-x md:divide-[var(--border)]">
           {steps.map((step, i) => (
-            <div key={step.title}>
-              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-[var(--accent-soft)] font-mono text-sm font-semibold text-[var(--accent)]">
-                {i + 1}
-              </div>
-              <h3 className="mb-2 text-lg font-semibold tracking-tight">
+            <div key={step.title} className="md:px-8 md:first:pl-0 md:last:pr-0">
+              <p className="mb-4 font-mono text-sm text-[var(--text-tertiary)]">
+                0{i + 1}
+              </p>
+              <h3 className="mb-2 text-lg font-semibold tracking-[-0.02em]">
                 {step.title}
               </h3>
               <p className="leading-relaxed text-[var(--text-secondary)]">

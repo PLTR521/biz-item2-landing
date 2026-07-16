@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowRight, Check, Copy } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 
 // SendGuard API의 셀프서브 무료 티어 가입 엔드포인트 (별도 리포 sendguard-ai).
 const SIGNUP_ENDPOINT =
@@ -69,15 +69,15 @@ export default function WaitlistForm({
   if (apiKey) {
     return (
       <div
-        className={`rounded-lg border px-5 py-4 text-left ${
+        className={`rounded-md border px-5 py-4 text-left ${
           isDark
-            ? "border-[rgba(134,239,172,0.3)] bg-[rgba(34,197,94,0.12)]"
-            : "border-[rgba(22,163,74,0.25)] bg-[rgba(22,163,74,0.08)]"
+            ? "border-[rgba(142,201,154,0.3)] bg-[rgba(26,127,55,0.14)]"
+            : "border-[rgba(26,127,55,0.3)] bg-[var(--ok-soft)]"
         }`}
       >
         <div
           className={`mb-2 flex items-center gap-2 text-sm font-medium ${
-            isDark ? "text-[#86efac]" : "text-[var(--success)]"
+            isDark ? "text-[#8ec99a]" : "text-[var(--ok)]"
           }`}
         >
           <Check className="h-4 w-4 shrink-0" />
@@ -91,7 +91,7 @@ export default function WaitlistForm({
           <code
             className={`flex-1 overflow-x-auto whitespace-nowrap rounded px-3 py-2 font-mono text-xs ${
               isDark
-                ? "bg-[var(--code-bg)] text-[var(--code-text)]"
+                ? "bg-[var(--code-bg-2)] text-[var(--code-text)]"
                 : "bg-[var(--bg-muted)] text-[var(--text-primary)]"
             }`}
           >
@@ -100,7 +100,7 @@ export default function WaitlistForm({
           <button
             type="button"
             onClick={handleCopy}
-            className={`inline-flex shrink-0 items-center gap-1.5 rounded px-3 py-2 text-xs font-medium transition-colors duration-200 ${
+            className={`inline-flex shrink-0 items-center gap-1.5 rounded px-3 py-2 text-xs font-medium transition-colors duration-150 ${
               isDark
                 ? "bg-[rgba(255,255,255,0.08)] text-white hover:bg-[rgba(255,255,255,0.14)]"
                 : "bg-white text-[var(--text-primary)] hover:bg-[var(--bg-muted)]"
@@ -124,24 +124,29 @@ export default function WaitlistForm({
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
           disabled={loading}
-          className={`flex-1 rounded-lg px-5 py-3.5 transition-colors duration-200 focus:outline-none disabled:opacity-50 ${
+          className={`flex-1 rounded-md px-5 py-3.5 transition-colors duration-150 focus:outline-none disabled:opacity-50 ${
             isDark
-              ? "border border-[var(--code-border)] bg-[rgba(255,255,255,0.06)] text-white placeholder:text-[#64748b] focus:border-[var(--accent-hover)]"
-              : "border border-[var(--border-strong)] bg-white text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--accent)]"
+              ? "border border-[var(--code-border)] bg-[rgba(255,255,255,0.06)] text-white placeholder:text-[#6f6f66] focus:border-[rgba(255,255,255,0.4)]"
+              : "border border-[var(--border-strong)] bg-white text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] focus:border-[var(--text-primary)]"
           }`}
         />
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg bg-[var(--accent)] px-6 py-3.5 font-medium text-white transition-colors duration-200 hover:bg-[var(--accent-hover)] disabled:cursor-not-allowed disabled:opacity-60"
+          className={`inline-flex items-center justify-center whitespace-nowrap rounded-md px-6 py-3.5 font-medium transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-60 ${
+            isDark
+              ? "bg-white text-[var(--text-primary)] hover:bg-[#e8e8e2]"
+              : "bg-[var(--btn)] text-white hover:bg-[var(--btn-hover)]"
+          }`}
         >
           {loading ? "Creating key..." : buttonLabel}
-          {!loading && <ArrowRight className="h-4 w-4" />}
         </button>
       </form>
       {error && (
         <p
-          className={`mt-3 text-sm ${isDark ? "text-red-300" : "text-red-500"}`}
+          className={`mt-3 text-sm ${
+            isDark ? "text-[#f0a3a8]" : "text-[var(--danger)]"
+          }`}
         >
           {error}
         </p>

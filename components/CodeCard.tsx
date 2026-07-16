@@ -6,24 +6,28 @@ import type { ReactNode } from "react";
  */
 export default function CodeCard({
   label,
+  meta,
   children,
   className = "",
 }: {
   label: string;
+  meta?: ReactNode;
   children: ReactNode;
   className?: string;
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-xl border border-[var(--code-border)] bg-[var(--code-bg)] shadow-[0_24px_60px_-24px_rgba(15,23,42,0.45)] ${className}`}
+      className={`overflow-hidden rounded-lg border border-[var(--code-border)] bg-[var(--code-bg)] shadow-[0_16px_40px_-20px_rgba(20,20,18,0.5)] ${className}`}
     >
-      <div className="flex items-center gap-2 border-b border-[var(--code-border)] px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
-        <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
-        <span className="h-3 w-3 rounded-full bg-[#28c840]" />
-        <span className="ml-2 truncate font-mono text-xs text-[var(--code-comment)]">
+      <div className="flex items-center justify-between gap-3 border-b border-[var(--code-border)] bg-[var(--code-bg-2)] px-4 py-2.5">
+        <span className="truncate font-mono text-xs text-[var(--code-comment)]">
           {label}
         </span>
+        {meta && (
+          <span className="shrink-0 font-mono text-xs text-[var(--code-comment)]">
+            {meta}
+          </span>
+        )}
       </div>
       <pre className="overflow-x-auto px-5 py-4 font-mono text-[13px] leading-[1.7] text-[var(--code-text)]">
         <code>{children}</code>

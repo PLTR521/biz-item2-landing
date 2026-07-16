@@ -24,6 +24,7 @@ describe("랜딩 페이지 스모크", () => {
       "Before an automation workflow fires",
       "How it works",
       "One thing, done right",
+      "FAQ",
       "Start checking domains today.",
     ];
     for (const name of headings) {
@@ -58,14 +59,20 @@ describe("랜딩 페이지 스모크", () => {
     ).toBeInTheDocument();
   });
 
-  it("Built for 대상 3개를 렌더링한다", () => {
+  it("FAQ 항목을 렌더링한다", () => {
     render(<Home />);
-    for (const label of [
-      "Multi-tenant SaaS",
-      "AI Agents",
-      "Customer email infrastructure",
+    for (const question of [
+      "Is SendGuard an ESP?",
+      "Who is it built for?",
+      "What signals do you inspect?",
+      "Do you see my email content?",
+      "What does the free tier include?",
     ]) {
-      expect(screen.getByText(label)).toBeInTheDocument();
+      expect(screen.getByText(question)).toBeInTheDocument();
     }
+    // 핵심 타겟 3종이 FAQ 답변에 남아 있어야 한다
+    expect(
+      screen.getByText(/Multi-tenant SaaS platforms sending on behalf/)
+    ).toBeInTheDocument();
   });
 });

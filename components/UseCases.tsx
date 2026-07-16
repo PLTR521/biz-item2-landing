@@ -2,11 +2,15 @@ import type { ReactNode } from "react";
 import CodeCard, { K, S, N, C } from "./CodeCard";
 
 function UseCaseRow({
+  index,
+  tag,
   visual,
   title,
   body,
   flip = false,
 }: {
+  index: string;
+  tag: string;
   visual: ReactNode;
   title: string;
   body: ReactNode;
@@ -14,7 +18,10 @@ function UseCaseRow({
 }) {
   const text = (
     <div className="flex flex-col justify-center">
-      <h3 className="mb-3 text-xl font-semibold tracking-tight md:text-2xl">
+      <p className="eyebrow mb-3">
+        {index} — {tag}
+      </p>
+      <h3 className="mb-3 text-xl font-semibold tracking-[-0.02em] md:text-2xl">
         {title}
       </h3>
       <p className="max-w-md leading-relaxed text-[var(--text-secondary)]">
@@ -45,7 +52,8 @@ export default function UseCases() {
     <section className="border-t border-[var(--border)] bg-[var(--bg-subtle)] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 md:mb-16">
-          <h2 className="mb-3 text-2xl font-bold tracking-tight md:text-[2rem] md:leading-[1.15]">
+          <p className="eyebrow mb-4">02 — Use cases</p>
+          <h2 className="mb-3 text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
             When to check
           </h2>
           <p className="max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
@@ -55,6 +63,8 @@ export default function UseCases() {
 
         <div className="flex flex-col gap-16 md:gap-24">
           <UseCaseRow
+            index="a"
+            tag="AI agents"
             visual={
               <CodeCard label="agent.ts">
                 <C>// Before the agent triggers a send</C>
@@ -72,6 +82,8 @@ export default function UseCases() {
           />
 
           <UseCaseRow
+            index="b"
+            tag="Multi-tenant"
             flip
             title="Before your SaaS sends for a customer"
             body="If you're a platform sending on behalf of many customers, every tenant domain gets its own reputation score. One bad-actor tenant doesn't taint the rest of your platform."
@@ -91,6 +103,8 @@ export default function UseCases() {
           />
 
           <UseCaseRow
+            index="c"
+            tag="Automation"
             visual={
               <CodeCard label="worker">
                 <K>safe_volume_24h</K>: <N>1200</N>

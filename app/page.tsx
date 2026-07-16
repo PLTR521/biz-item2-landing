@@ -3,9 +3,10 @@ import Hero from "@/components/Hero";
 import Compare from "@/components/Compare";
 import UseCases from "@/components/UseCases";
 import HowItWorks from "@/components/HowItWorks";
-import BuiltFor from "@/components/BuiltFor";
 import Example from "@/components/Example";
+import FAQ from "@/components/FAQ";
 import FinalCTA from "@/components/FinalCTA";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
@@ -16,8 +17,9 @@ export default function Home() {
       <UseCases />
       <HowItWorks />
       <Example />
-      <BuiltFor />
+      <FAQ />
       <FinalCTA />
+      <Footer />
     </main>
   );
 }

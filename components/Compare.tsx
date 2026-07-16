@@ -1,74 +1,69 @@
-import { Check } from "lucide-react";
-
 const worksWith = ["Resend", "SendGrid", "Postmark", "Amazon SES"];
 
-export default function Compare() {
-  const rows = [
-    {
-      need: "Send email",
-      solution: "Resend · SendGrid · Postmark",
-      accent: false,
-    },
-    {
-      need: "Check deliverability before sending",
-      solution: "SendGuard",
-      accent: true,
-    },
-  ];
+const pipeline = [
+  { label: "Your app", sub: "queues an email", guard: false },
+  { label: "SendGuard", sub: "/v1/check · runs first", guard: true },
+  { label: "Your ESP", sub: "Resend · SendGrid · Postmark", guard: false },
+  { label: "Inbox", sub: "not the spam folder", guard: false },
+];
 
+export default function Compare() {
   return (
     <section className="border-t border-[var(--border)] px-6 py-20 md:py-28">
-      <div className="mx-auto max-w-3xl">
-        <h2 className="mb-4 text-2xl font-bold tracking-tight md:text-[2rem] md:leading-[1.15]">
+      <div className="mx-auto max-w-6xl">
+        <p className="eyebrow mb-4">01 — Where it sits</p>
+        <h2 className="mb-4 max-w-2xl text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
           Using Resend or SendGrid? Add a safety check before sending.
         </h2>
-        <p className="mb-10 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
+        <p className="mb-12 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
           SendGuard runs before your ESP, not instead of it.
         </p>
 
-        <div className="overflow-hidden rounded-xl border border-[var(--border)]">
-          <div className="grid grid-cols-[1fr_1fr] border-b border-[var(--border)] bg-[var(--bg-subtle)] px-5 py-3 text-xs font-medium uppercase tracking-wider text-[var(--text-tertiary)]">
-            <div>Need</div>
-            <div>Solution</div>
-          </div>
-          {rows.map((row, i) => (
+        {/* Pipeline: where the check sits in the send path */}
+        <div className="flex flex-col items-stretch gap-2 md:flex-row md:items-center md:gap-3">
+          {pipeline.map((node, i) => (
             <div
-              key={row.need}
-              className={`grid grid-cols-[1fr_1fr] items-center px-5 py-4 text-[15px] md:text-base ${
-                i > 0 ? "border-t border-[var(--border)]" : ""
-              }`}
+              key={node.label}
+              className="flex flex-col items-stretch gap-2 md:flex-1 md:flex-row md:items-center md:gap-3"
             >
-              <div className="pr-4 text-[var(--text-secondary)]">
-                {row.need}
-              </div>
+              {i > 0 && (
+                <span
+                  aria-hidden="true"
+                  className="self-center font-mono text-[var(--text-tertiary)] md:rotate-0 rotate-90"
+                >
+                  →
+                </span>
+              )}
               <div
-                className={
-                  row.accent
-                    ? "font-semibold text-[var(--text-primary)]"
-                    : "text-[var(--text-primary)]"
-                }
+                className={`flex-1 rounded-md border px-4 py-3.5 ${
+                  node.guard
+                    ? "border-[var(--ok)] bg-[var(--ok-soft)]"
+                    : "border-[var(--border)] bg-[var(--bg)]"
+                }`}
               >
-                {row.solution}
+                <p
+                  className={`text-[15px] font-semibold tracking-tight ${
+                    node.guard ? "text-[var(--ok)]" : "text-[var(--text-primary)]"
+                  }`}
+                >
+                  {node.label}
+                </p>
+                <p className="mt-0.5 font-mono text-xs text-[var(--text-tertiary)]">
+                  {node.sub}
+                </p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="mt-8">
-          <p className="mb-3 text-sm font-medium uppercase tracking-wider text-[var(--text-tertiary)]">
-            Works with
-          </p>
-          <ul className="flex flex-wrap gap-x-6 gap-y-3">
+        <div className="mt-12 flex flex-wrap items-baseline gap-x-8 gap-y-3 border-t border-[var(--border)] pt-6">
+          <p className="eyebrow">Works with</p>
+          <ul className="flex flex-wrap gap-x-7 gap-y-2">
             {worksWith.map((esp) => (
               <li
                 key={esp}
-                className="flex items-center gap-2 text-[15px] text-[var(--text-primary)]"
+                className="font-mono text-sm text-[var(--text-secondary)]"
               >
-                <Check
-                  className="h-4 w-4 text-[var(--success)]"
-                  aria-hidden="true"
-                  strokeWidth={2.5}
-                />
                 {esp}
               </li>
             ))}
