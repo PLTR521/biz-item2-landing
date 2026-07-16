@@ -1,15 +1,15 @@
 const steps = [
   {
     title: "POST a domain",
-    body: "Send us a domain via the check endpoint.",
+    body: "One HTTP call, right before your ESP would send. No SDK required.",
   },
   {
     title: "We inspect the signals",
-    body: "DNS records, blacklists, reputation history, recent send patterns.",
+    body: "DNSBL, SPF, DKIM, DMARC, and recent reputation history for that specific domain.",
   },
   {
     title: "You get a decision",
-    body: "A score, a spam risk level, and a safe send volume for the next 24 hours.",
+    body: "A reputation score, a spam risk level, and a safe send volume for the next 24 hours.",
   },
 ];
 

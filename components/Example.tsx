@@ -1,5 +1,14 @@
 import CodeCard, { K, S, N, C } from "./CodeCard";
 
+const specs = [
+  "DNSBL lookup",
+  "SPF / DKIM / DMARC validation",
+  "JSON API",
+  "No dashboard",
+  "No warmup",
+  "Stateless",
+];
+
 export default function Example() {
   return (
     <section
@@ -37,10 +46,17 @@ export default function Example() {
           {"\n}"}
         </CodeCard>
 
-        <p className="mt-6 leading-relaxed text-[var(--text-secondary)]">
-          One API call. Warmup, dashboards, and alerts come later — right now
-          we&apos;re solving this one thing.
-        </p>
+        <ul className="mt-8 grid grid-cols-2 gap-x-4 gap-y-3 md:grid-cols-3">
+          {specs.map((spec) => (
+            <li
+              key={spec}
+              className="flex items-center gap-2 text-sm text-[var(--text-secondary)]"
+            >
+              <span className="h-1 w-1 rounded-full bg-[var(--text-tertiary)]" />
+              {spec}
+            </li>
+          ))}
+        </ul>
       </div>
     </section>
   );

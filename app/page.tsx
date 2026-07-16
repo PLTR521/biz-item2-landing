@@ -1,7 +1,7 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
-import WhyWarmup from "@/components/WhyWarmup";
-import Features from "@/components/Features";
+import Compare from "@/components/Compare";
+import UseCases from "@/components/UseCases";
 import HowItWorks from "@/components/HowItWorks";
 import BuiltFor from "@/components/BuiltFor";
 import Example from "@/components/Example";
@@ -12,11 +12,11 @@ export default function Home() {
     <main>
       <Nav />
       <Hero />
-      <WhyWarmup />
-      <Features />
+      <Compare />
+      <UseCases />
       <HowItWorks />
-      <BuiltFor />
       <Example />
+      <BuiltFor />
       <FinalCTA />
     </main>
   );

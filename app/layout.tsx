@@ -10,13 +10,15 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SendGuard AI — Deliverability API for AI agents",
+  title:
+    "SendGuard AI — The deliverability check API for multi-tenant SaaS",
   description:
-    "Check any domain's reputation and safe send volume with one API call — built for bursty, event-driven agent traffic.",
+    "Catch domain reputation problems before your AI agents burn your reputation. One HTTP call before your ESP sends. Complements Resend, SendGrid, and Postmark.",
   openGraph: {
-    title: "SendGuard AI — Deliverability API for AI agents",
+    title:
+      "SendGuard AI — The deliverability check API for multi-tenant SaaS",
     description:
-      "Check any domain's reputation and safe send volume with one API call — built for bursty, event-driven agent traffic.",
+      "Catch domain reputation problems before your AI agents burn your reputation. One HTTP call before your ESP sends.",
     type: "website",
   },
 };

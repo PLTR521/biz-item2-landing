@@ -15,12 +15,11 @@ export default function Hero() {
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)]" />
             Free tier available now
           </span>
-          <h1 className="mb-5 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.4rem]">
-            Deliverability API for AI agents
+          <h1 className="mb-5 text-4xl font-bold leading-[1.08] tracking-tight md:text-5xl lg:text-[3.2rem]">
+            The deliverability check API for multi-tenant SaaS platforms.
           </h1>
           <p className="mx-auto mb-8 max-w-xl text-lg leading-relaxed text-[var(--text-secondary)] lg:mx-0">
-            Check any domain&apos;s reputation and safe send volume with one API
-            call — built for bursty, event-driven agent traffic.
+            Catch reputation problems before your AI burns your domain.
           </p>
           <div className="flex flex-col items-center gap-3 sm:flex-row lg:items-start lg:justify-start">
             <a
@@ -50,20 +49,14 @@ export default function Hero() {
             {"\n  "}
             <Flag>-d</Flag>{" "}
             <S>
-              &apos;&#123;&quot;domain&quot;: &quot;yourdomain.com&quot;&#125;&apos;
+              &apos;&#123;&quot;domain&quot;: &quot;acme.com&quot;&#125;&apos;
             </S>
             {"\n\n"}
             {"{\n  "}
             <K>&quot;reputation&quot;</K>: <S>&quot;healthy&quot;</S>,{"\n  "}
             <K>&quot;spam_risk&quot;</K>: <S>&quot;low&quot;</S>,{"\n  "}
-            <K>&quot;safe_volume_24h&quot;</K>: <N>1200</N>,{"\n  "}
-            <K>&quot;recommended_volume_24h&quot;</K>: <N>850</N>,{"\n  "}
-            <K>&quot;signals&quot;</K>: {"{\n    "}
-            <K>&quot;spf&quot;</K>: <S>&quot;pass&quot;</S>,{"\n    "}
-            <K>&quot;dkim&quot;</K>: <S>&quot;pass&quot;</S>,{"\n    "}
-            <K>&quot;dmarc&quot;</K>: <S>&quot;pass&quot;</S>,{"\n    "}
-            <K>&quot;dnsbl_hits&quot;</K>: <N>0</N>
-            {"\n  }\n}"}
+            <K>&quot;safe_volume_24h&quot;</K>: <N>1200</N>
+            {"\n}"}
           </CodeCard>
         </div>
       </div>

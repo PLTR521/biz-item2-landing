@@ -8,7 +8,7 @@ describe("랜딩 페이지 스모크", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Deliverability API for AI agents",
+        name: "The deliverability check API for multi-tenant SaaS platforms.",
       })
     ).toBeInTheDocument();
     expect(screen.getByText("Free tier available now")).toBeInTheDocument();
@@ -17,10 +17,11 @@ describe("랜딩 페이지 스모크", () => {
   it("모든 섹션 헤딩을 렌더링한다", () => {
     render(<Home />);
     const headings = [
-      "Why warmup tools don't work for agent-sent email",
-      "Reputation, in one call",
-      "Safe volume, not warmup schedules",
-      "Per-tenant, not per-app",
+      "Why not just Resend or SendGrid?",
+      "When to check",
+      "Before your AI agent sends",
+      "Before your SaaS sends for a customer",
+      "Before an automation workflow fires",
       "How it works",
       "One thing, done right",
       "Start checking domains today.",
@@ -57,16 +58,14 @@ describe("랜딩 페이지 스모크", () => {
     ).toBeInTheDocument();
   });
 
-  it("프레임워크 텍스트 목록을 렌더링한다", () => {
+  it("Built for 대상 3개를 렌더링한다", () => {
     render(<Home />);
-    for (const tool of [
-      "LangChain",
-      "CrewAI",
-      "Vercel AI SDK",
-      "n8n",
-      "OpenAI Agents SDK",
+    for (const label of [
+      "Multi-tenant SaaS",
+      "AI Agents",
+      "Outbound automation",
     ]) {
-      expect(screen.getByText(tool)).toBeInTheDocument();
+      expect(screen.getByText(label)).toBeInTheDocument();
     }
   });
 });
