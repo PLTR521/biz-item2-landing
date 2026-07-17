@@ -1,7 +1,7 @@
 # Email Deliverability — Landing Page
 
 > **The pre-send check API for multi-tenant SaaS** — 수요검증용 랜딩페이지 (구명: SendGuard AI)
-> 배포: https://email-deliverability.vercel.app/ (main push 시 Vercel 자동 배포; 구 URL biz-item2-landing.vercel.app도 유효)
+> 배포: https://emaildeliverability.vercel.app/ (main push 시 Vercel 자동 배포; 구 URL biz-item2-landing.vercel.app도 유효)
 
 발송 전 도메인 평판 체크 API라는 가설을 검증하는 랜딩입니다. "Get an API key" CTA는 실제
 셀프서브 가입(`POST /api/signup`, 별도 리포 sendguard-ai)으로 연결되어 무료 티어 키를 즉시 발급합니다
