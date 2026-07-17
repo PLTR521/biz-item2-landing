@@ -13,7 +13,7 @@ export default function Hero() {
 
       <div className="relative mx-auto grid max-w-6xl items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         {/* Left: copy */}
-        <div>
+        <div className="min-w-0">
           <p className="eyebrow mb-6 flex items-center gap-2.5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[var(--ok)] opacity-60" />
@@ -49,12 +49,12 @@ export default function Hero() {
         </div>
 
         {/* Right: terminal */}
-        <div className="lg:pl-2">
-          <CodeCard label="POST /v1/check" meta="200 OK">
-            <Cmd>curl</Cmd> https://api.sendguard.ai/v1/check{" "}
+        <div className="min-w-0 lg:pl-2">
+          <CodeCard label="POST /api/check" meta="200 OK">
+            <Cmd>curl</Cmd> https://send-guard-ai.vercel.app/api/check{" "}
             <span className="text-[var(--code-comment)]">\</span>
             {"\n  "}
-            <Flag>-H</Flag> <S>&quot;Authorization: Bearer sg_...&quot;</S>{" "}
+            <Flag>-H</Flag> <S>&quot;Authorization: Bearer sg_live_...&quot;</S>{" "}
             <span className="text-[var(--code-comment)]">\</span>
             {"\n  "}
             <Flag>-d</Flag>{" "}
@@ -64,8 +64,8 @@ export default function Hero() {
             {"\n\n"}
             {"{\n  "}
             <K>&quot;reputation&quot;</K>: <S>&quot;healthy&quot;</S>,{"\n  "}
-            <K>&quot;spam_risk&quot;</K>: <S>&quot;low&quot;</S>,{"\n  "}
-            <K>&quot;safe_volume_24h&quot;</K>: <N>1200</N>
+            <K>&quot;spamRisk&quot;</K>: <S>&quot;low&quot;</S>,{"\n  "}
+            <K>&quot;safeToSendToday&quot;</K>: <N>1000</N>
             {"\n}"}
           </CodeCard>
         </div>

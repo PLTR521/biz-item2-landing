@@ -35,7 +35,7 @@ function UseCaseRow({
       {flip ? (
         <>
           {text}
-          <div className="md:order-last">{visual}</div>
+          <div className="min-w-0 md:order-last">{visual}</div>
         </>
       ) : (
         <>
@@ -74,7 +74,7 @@ export default function UseCases() {
                 <span className="text-[var(--code-flag)]">check</span>(domain);
                 {"\n"}
                 <span className="text-[var(--code-flag)]">if</span> (ok.
-                <K>spam_risk</K> === <S>&quot;low&quot;</S>) esp.send(...);
+                <K>spamRisk</K> === <S>&quot;low&quot;</S>) esp.send(...);
               </CodeCard>
             }
             title="Before your AI agent sends"
@@ -91,11 +91,11 @@ export default function UseCases() {
               <CodeCard label="per-tenant">
                 <C>// Each customer&apos;s domain scored on its own</C>
                 {"\n"}
-                <span className="text-[var(--code-flag)]">GET</span>{" "}
-                /v1/check?domain=tenant-a.com
+                <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
+                <S>&#123;&quot;domain&quot;: &quot;tenant-a.com&quot;&#125;</S>
                 {"\n"}
-                <span className="text-[var(--code-flag)]">GET</span>{" "}
-                /v1/check?domain=tenant-b.com
+                <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
+                <S>&#123;&quot;domain&quot;: &quot;tenant-b.com&quot;&#125;</S>
                 {"\n"}
                 <C>// No cross-contamination</C>
               </CodeCard>
@@ -107,9 +107,9 @@ export default function UseCases() {
             tag="Automation"
             visual={
               <CodeCard label="worker">
-                <K>safe_volume_24h</K>: <N>1200</N>
+                <K>safeToSendToday</K>: <N>1000</N>
                 {"\n"}
-                <K>recommended_volume_24h</K>: <N>850</N>
+                <K>recommendedVolume</K>: <N>850</N>
                 {"\n"}
                 <C>// Use these as the ceiling for the next cron tick</C>
               </CodeCard>

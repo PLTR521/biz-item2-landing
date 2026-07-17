@@ -17,7 +17,7 @@ export default function CodeCard({
 }) {
   return (
     <div
-      className={`overflow-hidden rounded-lg border border-[var(--code-border)] bg-[var(--code-bg)] shadow-[0_16px_40px_-20px_rgba(20,20,18,0.5)] ${className}`}
+      className={`min-w-0 overflow-hidden rounded-lg border border-[var(--code-border)] bg-[var(--code-bg)] shadow-[0_16px_40px_-20px_rgba(20,20,18,0.5)] ${className}`}
     >
       <div className="flex items-center justify-between gap-3 border-b border-[var(--code-border)] bg-[var(--code-bg-2)] px-4 py-2.5">
         <span className="truncate font-mono text-xs text-[var(--code-comment)]">

@@ -2,7 +2,7 @@ const links = [
   { href: "#how-it-works", label: "How it works" },
   { href: "#example", label: "Example response" },
   { href: "#faq", label: "FAQ" },
-  { href: "https://api.sendguard.ai/health", label: "API health", external: true },
+  { href: "https://send-guard-ai.vercel.app/health", label: "API health", external: true },
 ];
 
 export default function Footer() {

@@ -2,7 +2,7 @@ const worksWith = ["Resend", "SendGrid", "Postmark", "Amazon SES"];
 
 const pipeline = [
   { label: "Your app", sub: "queues an email", guard: false },
-  { label: "SendGuard", sub: "/v1/check · runs first", guard: true },
+  { label: "SendGuard", sub: "/api/check · runs first", guard: true },
   { label: "Your ESP", sub: "Resend · SendGrid · Postmark", guard: false },
   { label: "Inbox", sub: "not the spam folder", guard: false },
 ];

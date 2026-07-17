@@ -22,26 +22,27 @@ export default function Example() {
         </h2>
 
         <CodeCard
-          label="sendguard.check(&quot;acme.com&quot;)"
+          label="POST /api/check &#123;&quot;domain&quot;: &quot;acme.com&quot;&#125;"
           meta="example response"
         >
           {"{\n  "}
-          <K>&quot;reputation&quot;</K>: <S>&quot;healthy&quot;</S>,{"        "}
-          <C>// single rolled-up score</C>
+          <K>&quot;reputation&quot;</K>: <S>&quot;healthy&quot;</S>,{"      "}
+          <C>// healthy | warning | bad</C>
           {"\n  "}
-          <K>&quot;spam_risk&quot;</K>: <S>&quot;low&quot;</S>,{"          "}
-          <C>// low | elevated | high</C>
+          <K>&quot;spamRisk&quot;</K>: <S>&quot;low&quot;</S>,{"           "}
+          <C>// low | medium | high</C>
           {"\n  "}
-          <K>&quot;safe_volume_24h&quot;</K>: <N>1200</N>,{"     "}
+          <K>&quot;safeToSendToday&quot;</K>: <N>1000</N>,{"     "}
           <C>// hard ceiling for today</C>
           {"\n  "}
-          <K>&quot;recommended_volume_24h&quot;</K>: <N>850</N>,{" "}
-          <C>// comfortable target</C>
+          <K>&quot;recommendedVolume&quot;</K>: <N>1000</N>,{"   "}
+          <C>// rule-based, conservative</C>
           {"\n  "}
-          <K>&quot;signals&quot;</K>: {"{ "}
-          <K>&quot;spf&quot;</K>: <S>&quot;pass&quot;</S>,{" "}
-          <K>&quot;dkim&quot;</K>: <S>&quot;pass&quot;</S>,{" "}
-          <K>&quot;dmarc&quot;</K>: <S>&quot;pass&quot;</S>{" }"}
+          <K>&quot;signals&quot;</K>: {"[ "}
+          {"{ "}
+          <K>&quot;code&quot;</K>: <S>&quot;SPF_PRESENT&quot;</S>, ...{" }"}
+          {" ]"}{"  "}
+          <C>// DNSBL + SPF/DKIM/DMARC detail</C>
           {"\n}"}
         </CodeCard>
 
@@ -62,7 +63,7 @@ export default function Example() {
             Live — verify it yourself
           </p>
           <CodeCard label="$ curl">
-            <Cmd>curl</Cmd> https://api.sendguard.ai/health
+            <Cmd>curl</Cmd> https://send-guard-ai.vercel.app/health
             {"\n\n"}
             {"{ "}
             <K>&quot;status&quot;</K>: <S>&quot;ok&quot;</S>,{" "}
