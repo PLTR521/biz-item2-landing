@@ -1,6 +1,10 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-13 (셀프서브 가입 + 프로덕션 E2E 검증 + Analytics 완료)
+> 최종 업데이트: 2026-07-17 (도메인 사실 확정 + 랜딩 예제 실제 API로 교체 + /health 신설)
+> ⚠️ **도메인 주의(2026-07-17 RDAP 확정): sendguard.io와 sendguard.ai는 둘 다 제3자 소유다.** 우리 것은
+> 랜딩 biz-item2-landing.vercel.app + API send-guard-ai.vercel.app 뿐. 랜딩 예제가 api.sendguard.ai(남의 서버)를
+> 가리키던 버그는 0b542c0에서 수정 완료(실제 주소 + 실제 응답 스키마). 사용자 결정: 검증 먼저(Show HN은
+> vercel.app 주소로 진행), 리브랜딩·도메인 구매는 지불의향 확인 후.
 > 프로젝트: **SendGuard AI 랜딩페이지** (실제 무료 티어 셀프서브 가입 — 더 이상 fake-door 아님)
 > 배포: https://biz-item2-landing.vercel.app/ (main push 시 Vercel 자동 배포)
 > 리포: https://github.com/PLTR521/biz-item2-landing
