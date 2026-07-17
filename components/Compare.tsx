@@ -2,7 +2,7 @@ const worksWith = ["Resend", "SendGrid", "Postmark", "Amazon SES"];
 
 const pipeline = [
   { label: "Your app", sub: "queues an email", guard: false },
-  { label: "SendGuard", sub: "/api/check · runs first", guard: true },
+  { label: "Email Deliverability", sub: "/api/check · runs first", guard: true },
   { label: "Your ESP", sub: "Resend · SendGrid · Postmark", guard: false },
   { label: "Inbox", sub: "not the spam folder", guard: false },
 ];
@@ -16,7 +16,7 @@ export default function Compare() {
           Using Resend or SendGrid? Add a safety check before sending.
         </h2>
         <p className="mb-12 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-          SendGuard runs before your ESP, not instead of it.
+          The check runs before your ESP, not instead of it.
         </p>
 
         {/* Pipeline: where the check sits in the send path */}

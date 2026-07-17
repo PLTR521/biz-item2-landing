@@ -16,9 +16,9 @@ export default function Nav() {
             aria-hidden="true"
             className="inline-block h-2.5 w-2.5 self-center rounded-[3px] bg-[var(--ok)]"
           />
-          SendGuard{" "}
+          Email Deliverability{" "}
           <span className="font-mono text-xs font-normal text-[var(--text-tertiary)]">
-            AI
+            API
           </span>
         </a>
 

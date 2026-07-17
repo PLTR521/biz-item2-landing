@@ -1,7 +1,7 @@
 const faqs = [
   {
-    q: "Is SendGuard an ESP?",
-    a: "No. SendGuard never sends email. It runs one check before your ESP — Resend, SendGrid, Postmark, Amazon SES — and returns a decision. Your ESP still does the sending.",
+    q: "Is this an ESP?",
+    a: "No. It never sends email. It runs one check before your ESP — Resend, SendGrid, Postmark, Amazon SES — and returns a decision. Your ESP still does the sending.",
   },
   {
     q: "Who is it built for?",

@@ -70,7 +70,7 @@ export default function UseCases() {
                 <C>// Before the agent triggers a send</C>
                 {"\n"}
                 <span className="text-[var(--code-flag)]">const</span> ok ={" "}
-                <span className="text-[var(--code-cmd)]">await</span> sendguard.
+                <span className="text-[var(--code-cmd)]">await</span> deliverability.
                 <span className="text-[var(--code-flag)]">check</span>(domain);
                 {"\n"}
                 <span className="text-[var(--code-flag)]">if</span> (ok.

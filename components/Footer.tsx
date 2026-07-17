@@ -15,9 +15,9 @@ export default function Footer() {
               aria-hidden="true"
               className="inline-block h-2.5 w-2.5 self-center rounded-[3px] bg-[var(--ok)]"
             />
-            SendGuard{" "}
+            Email Deliverability{" "}
             <span className="font-mono text-xs font-normal text-[#7a7a70]">
-              AI
+              API
             </span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-[#7a7a70]">
@@ -42,7 +42,7 @@ export default function Footer() {
         </nav>
 
         <p className="font-mono text-xs text-[#7a7a70]">
-          © 2026 SendGuard
+          © 2026 Email Deliverability
         </p>
       </div>
     </footer>

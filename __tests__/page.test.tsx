@@ -62,7 +62,7 @@ describe("랜딩 페이지 스모크", () => {
   it("FAQ 항목을 렌더링한다", () => {
     render(<Home />);
     for (const question of [
-      "Is SendGuard an ESP?",
+      "Is this an ESP?",
       "Who is it built for?",
       "What signals do you inspect?",
       "Do you see my email content?",
