@@ -1,12 +1,14 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-17 (도메인 사실 확정 + 랜딩 예제 실제 API로 교체 + /health 신설)
-> ⚠️ **도메인 주의(2026-07-17 RDAP 확정): sendguard.io와 sendguard.ai는 둘 다 제3자 소유다.** 우리 것은
-> 랜딩 biz-item2-landing.vercel.app + API send-guard-ai.vercel.app 뿐. 랜딩 예제가 api.sendguard.ai(남의 서버)를
-> 가리키던 버그는 0b542c0에서 수정 완료(실제 주소 + 실제 응답 스키마). 사용자 결정: 검증 먼저(Show HN은
-> vercel.app 주소로 진행), 리브랜딩·도메인 구매는 지불의향 확인 후.
-> 프로젝트: **SendGuard AI 랜딩페이지** (실제 무료 티어 셀프서브 가입 — 더 이상 fake-door 아님)
-> 배포: https://biz-item2-landing.vercel.app/ (main push 시 Vercel 자동 배포)
+> 최종 업데이트: 2026-07-17 (제품명 **Email Deliverability**로 리브랜딩 + Vercel 프로젝트 리네이밍)
+> ⚠️ **도메인 주의(2026-07-17 RDAP 확정): sendguard.io와 sendguard.ai는 둘 다 제3자 소유다.** 랜딩 예제가
+> api.sendguard.ai(남의 서버)를 가리키던 버그는 0b542c0에서 수정 완료(실제 주소 + 실제 응답 스키마).
+> ✅ **리브랜딩(2026-07-17, 커밋 9b86a4e):** SendGuard 이름 충돌을 피해 제품명·URL을 **Email Deliverability**로
+> 변경. Vercel 프로젝트 biz-item2-landing → email-deliverability 리네이밍(사용자 지시, Claude in Chrome으로 수행).
+> 구 URL(biz-item2-landing.vercel.app)도 계속 서빙됨. API CORS는 신·구 origin 둘 다 허용(SendGuard-AI 208dfa1).
+> GitHub 리포 이름은 그대로 biz-item2-landing.
+> 프로젝트: **Email Deliverability 랜딩페이지** (실제 무료 티어 셀프서브 가입 — 더 이상 fake-door 아님)
+> 배포: https://email-deliverability.vercel.app/ (main push 시 Vercel 자동 배포; 구 URL biz-item2-landing.vercel.app도 유효)
 > 리포: https://github.com/PLTR521/biz-item2-landing
 > ✅ **셀프서브 가입 완료(2026-07-13)**: 랜딩 폼이 sendguard-ai `POST /api/signup`(새 라우트, 커밋 629b92c)을 호출해
 > free 티어 계정 생성 + 실제 API 키를 화면에 즉시 표시(+ best-effort 이메일). fake-door → 실제 작동 흐름으로 전환.

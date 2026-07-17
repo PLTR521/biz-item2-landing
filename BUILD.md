@@ -1,7 +1,7 @@
 # BUILD.md — SendGuard AI 랜딩 빌드 플랜 & 진행 로그
 
 > 이 파일이 계획의 SSOT. 구현과의 차이는 GAP_REPORT.md 참고.
-> 최종 업데이트: 2026-07-17 (도메인 사실 확정 + 랜딩 예제 실제 API로 교체 + /health 신설)
+> 최종 업데이트: 2026-07-17 (제품명·URL Email Deliverability로 리브랜딩 — 상세는 진행 로그)
 > ✅ T14 이메일 발송: Resend 키 입력 후 **실발송 성공 실측** (sendguard-ai `scripts/send-test-email.ts`, exit 0).
 > ✅ T15 배포: sendguard-ai가 https://send-guard-ai.vercel.app 로 배포됨 (GitHub `PLTR521/SendGuard-AI` 연동). `/api/check` 인증·`/api/stripe/webhook` 프로덕션 실측 통과. Spamhaus 실측은 Supabase 환경변수 대기.
 > ⚠️ 랜딩 CTA 교체는 **Stripe Payment Link URL 확보 대기.** Resend는 도메인 인증 전까지 계정 소유자 주소로만 발송 가능 — 고객 발송 전 도메인 인증 필요.
@@ -87,3 +87,4 @@
 | 2026-07-16 | 포지셔닝 리팩토링(멀티테넌트 SaaS 안전장치 프레이밍) + UI 리디자인("AI 티" 제거: 잉크 버튼·블루프린트 그리드·파이프라인 다이어그램·FAQ·푸터) | 71dc934, d5aefa5 |
 | 2026-07-17 | ⚠️ **도메인 사실 확정(RDAP 실측): sendguard.io(2025-08-29 등록)·sendguard.ai(2026-04-30 등록) 모두 제3자 소유.** 랜딩 예제 전체가 남의 서버(api.sendguard.ai)를 가리키던 버그 발견. 사용자 결정: 도메인 때문에 출시를 미루지 않는다 — 검증 먼저, 리브랜딩·도메인 구매는 지불의향 확인 후 | — |
 | 2026-07-17 | 위 버그 수정: sendguard-ai에 공개 `/health` 신설(sendguard-ai 커밋 e04fec1) + 랜딩 예제 전부 실제 배포 주소·실제 응답 스키마로 교체(`POST /api/check`, `spamRisk`, `safeToSendToday`, `recommendedVolume`, `signals[]`) + 모바일 min-w-0 레이아웃 수정. 프로덕션 실측: `/health` 200, 옛 문자열 0건, 가입→키 발급→check 200 E2E 재통과, `127.0.0.2` → bad/high/0 (Spamhaus DQS+Barracuda+SpamCop 검출) | 0b542c0 |
+| 2026-07-17 | **리브랜딩: 제품명·URL을 Email Deliverability로 변경**(사용자 지시). Vercel 프로젝트 biz-item2-landing → email-deliverability 리네이밍(Claude in Chrome) → 새 URL email-deliverability.vercel.app, 구 URL도 계속 서빙. 랜딩 표기 전면 교체(타이틀/OG/Nav/Footer/파이프라인/FAQ). API CORS를 신·구 origin allowlist로 확장(SendGuard-AI 커밋 208dfa1, `LANDING_ORIGIN` env 콤마 구분 지원). GitHub 리포명은 유지 | 9b86a4e |

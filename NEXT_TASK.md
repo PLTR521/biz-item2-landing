@@ -17,7 +17,7 @@
 PROJECT_STATUS.md와 NEXT_TASK.md를 읽고 이어서 작업해.
 
 오늘 목표 (외부 서비스 계정 불필요한 작업만):
-1. https://biz-item2-landing.vercel.app/ 프로덕션 배포가 최신 커밋대로
+1. https://email-deliverability.vercel.app/ 프로덕션 배포가 최신 커밋대로
    잘 나오는지 브라우저로 확인해줘 (데스크톱 + 모바일 뷰포트).
 2. favicon과 OG 이미지를 추가해줘 (정적 파일, SNS/커뮤니티 공유 대비).
 3. npm test로 테스트가 여전히 통과하는지 확인하고 커밋+push까지 알아서 해줘.
