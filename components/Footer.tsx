@@ -1,7 +1,11 @@
+import Link from "next/link";
+
+// 홈·/pricing 공용 — 섹션 링크는 '/#...'로 두 페이지 어디서든 동작한다.
 const links = [
-  { href: "#how-it-works", label: "How it works" },
-  { href: "#example", label: "Example response" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#example", label: "Example response" },
+  { href: "/#faq", label: "FAQ" },
+  { href: "/pricing", label: "Pricing" },
   { href: "https://send-guard-ai.vercel.app/health", label: "API health", external: true },
 ];
 
@@ -27,18 +31,27 @@ export default function Footer() {
         </div>
 
         <nav className="flex flex-col gap-2.5">
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              {...(link.external
-                ? { target: "_blank", rel: "noopener noreferrer" }
-                : {})}
-              className="text-sm text-[#a3a39a] transition-colors duration-150 hover:text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+          {links.map((link) =>
+            link.external ? (
+              <a
+                key={link.href}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-[#a3a39a] transition-colors duration-150 hover:text-white"
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-[#a3a39a] transition-colors duration-150 hover:text-white"
+              >
+                {link.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <p className="font-mono text-xs text-[#7a7a70]">
