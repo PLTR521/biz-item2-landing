@@ -23,7 +23,7 @@ export default function TierCard({ tier }: { tier: Tier }) {
         {tier.blurb}
       </p>
 
-      <p className="mt-5">
+      <p className="mt-5 flex items-baseline gap-1.5">
         {pricePlaceholder ? (
           <span className="font-mono text-lg text-[var(--warn)]">
             {tier.price}
@@ -31,6 +31,11 @@ export default function TierCard({ tier }: { tier: Tier }) {
         ) : (
           <span className="text-3xl font-semibold tracking-tight">
             {tier.price}
+          </span>
+        )}
+        {tier.priceNote && (
+          <span className="text-sm text-[var(--text-tertiary)]">
+            {tier.priceNote}
           </span>
         )}
       </p>

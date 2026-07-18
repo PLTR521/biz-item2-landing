@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "What does the free tier include?",
-    a: "100 checks per day with an API key issued instantly. No credit card required.",
+    a: "25 checks per month with an API key issued instantly, no credit card required. Pro adds 3,000 checks a month for $19.",
   },
 ];
 

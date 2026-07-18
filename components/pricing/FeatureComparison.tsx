@@ -102,7 +102,13 @@ export default function FeatureComparison() {
                 {tier.name}
                 <span className="flex items-baseline gap-3">
                   <span className="text-sm text-[var(--text-secondary)]">
-                    <PlaceholderText text={tier.price} />
+                    <PlaceholderText
+                      text={
+                        tier.priceNote
+                          ? `${tier.price} ${tier.priceNote}`
+                          : tier.price
+                      }
+                    />
                   </span>
                   <span
                     aria-hidden="true"

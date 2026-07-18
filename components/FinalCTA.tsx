@@ -12,7 +12,7 @@ export default function FinalCTA() {
           Start checking domains today.
         </h2>
         <p className="mb-10 text-lg leading-relaxed text-[#a3a39a]">
-          Get a free API key instantly — no credit card, 100 checks/day.
+          Get a free API key instantly — no credit card, 25 checks/month free.
         </p>
         <div className="mx-auto max-w-md">
           <WaitlistForm variant="dark" buttonLabel="Get an API key" />

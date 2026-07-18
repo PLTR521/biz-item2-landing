@@ -44,7 +44,7 @@ export default function Hero() {
             </a>
           </div>
           <p className="mt-5 font-mono text-xs text-[var(--text-tertiary)]">
-            100 checks/day free · no credit card · no SDK required
+            25 checks/month free · no credit card · no SDK required
           </p>
         </div>
 
