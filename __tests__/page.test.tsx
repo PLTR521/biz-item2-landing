@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
+import { PAYMENTS_ENABLED } from "@/lib/pricing";
 
 describe("랜딩 페이지 스모크", () => {
   it("히어로 헤드라인과 Eyebrow를 렌더링한다", () => {
@@ -57,6 +58,14 @@ describe("랜딩 페이지 스모크", () => {
     expect(
       screen.getByRole("button", { name: /Get an API key/ })
     ).toBeInTheDocument();
+  });
+
+  it("PAYMENTS_ENABLED에 따라 Pricing 링크 노출이 결정된다", () => {
+    render(<Home />);
+    // 결제 미연동 동안은 Nav·Footer 어디에도 노출되지 않아야 한다.
+    expect(screen.queryAllByRole("link", { name: "Pricing" })).toHaveLength(
+      PAYMENTS_ENABLED ? 2 : 0
+    );
   });
 
   it("FAQ 항목을 렌더링한다", () => {

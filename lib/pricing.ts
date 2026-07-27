@@ -36,6 +36,11 @@ export interface Faq {
 // 연간 요금제 미운영 — true로 바꾸고 연간 가격을 채우기 전까지 BillingToggle 미렌더.
 export const ANNUAL_BILLING_OFFERED = false;
 
+// 결제(Stripe) 미연동 — 결제 관련 UI 전체를 한시적으로 감춘다.
+// true로 바꾸면 /pricing·/upgrade 라우트와 Nav·Footer의 Pricing 링크,
+// 홈 FAQ의 Pro 가격 문장이 한 번에 되살아난다 (middleware.ts 참고).
+export const PAYMENTS_ENABLED = false;
+
 // Stripe Payment Link 생성 후 Vercel env에 등록하면 /upgrade 체크아웃이 활성화된다.
 export const PRO_PAYMENT_LINK = process.env.NEXT_PUBLIC_PRO_PAYMENT_LINK ?? "";
 

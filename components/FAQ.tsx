@@ -1,3 +1,5 @@
+import { PAYMENTS_ENABLED } from "@/lib/pricing";
+
 const faqs = [
   {
     q: "Is this an ESP?",
@@ -17,7 +19,10 @@ const faqs = [
   },
   {
     q: "What does the free tier include?",
-    a: "25 checks per month with an API key issued instantly, no credit card required. Pro adds 3,000 checks a month for $19.",
+    // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pro 가격 문장 미노출.
+    a: `25 checks per month with an API key issued instantly, no credit card required.${
+      PAYMENTS_ENABLED ? " Pro adds 3,000 checks a month for $19." : ""
+    }`,
   },
 ];
 

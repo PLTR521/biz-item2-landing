@@ -1,11 +1,16 @@
 import Link from "next/link";
+import { PAYMENTS_ENABLED } from "@/lib/pricing";
 
 // 홈·/pricing 공용 — 섹션 링크는 '/#...'로 두 페이지 어디서든 동작한다.
-const links = [
+// PAYMENTS_ENABLED를 켜고 끌 때 배열 요소 타입이 흔들리지 않도록 명시적으로 고정.
+type FooterLink = { href: string; label: string; external?: boolean };
+
+const links: FooterLink[] = [
   { href: "/#how-it-works", label: "How it works" },
   { href: "/#example", label: "Example response" },
   { href: "/#faq", label: "FAQ" },
-  { href: "/pricing", label: "Pricing" },
+  // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pricing 링크 미노출.
+  ...(PAYMENTS_ENABLED ? [{ href: "/pricing", label: "Pricing" }] : []),
   { href: "https://send-guard-ai.vercel.app/health", label: "API health", external: true },
 ];
 
