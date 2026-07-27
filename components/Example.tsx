@@ -67,7 +67,7 @@ export default function Example() {
             {"\n\n"}
             {"{ "}
             <K>&quot;status&quot;</K>: <S>&quot;ok&quot;</S>,{" "}
-            <K>&quot;service&quot;</K>: <S>&quot;sendguard&quot;</S>
+            <K>&quot;service&quot;</K>: <S>&quot;email-deliverability&quot;</S>
             {" }"}
           </CodeCard>
           <p className="mt-3 text-sm text-[var(--text-tertiary)]">

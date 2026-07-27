@@ -1,9 +1,11 @@
 // /pricing · /upgrade 페이지 데이터 — 티어 카드 · 기능 비교표 · FAQ를 한 곳에서 관리.
-// 2026-07-18 확정된 MVP 가격 모델(사용자 결정):
-//   Free $0 / 25 checks·월  ·  Pro $19/월 / 3,000 checks + 초과 $5/1,000  ·  Enterprise Custom / 50,000+
-// 결제는 Stripe Payment Link(sendguard-ai T14 설계) — 링크 생성 후
-// NEXT_PUBLIC_PRO_PAYMENT_LINK 환경변수에 넣으면 /upgrade의 체크아웃 버튼이 활성화된다.
-// ⚠️ 백엔드(sendguard-ai)는 아직 free 100/day를 적용 중 — 25/월 쿼터·80% 알림·초과 과금은 백엔드 반영 필요.
+// MVP 가격 모델:
+//   Free $0 / **50 checks·일**(2026-07-27 MVP 홍보용으로 25/월 → 50/일 상향)
+//   Pro $19/월 / 3,000 checks + 초과 $5/1,000  ·  Enterprise Custom / 50,000+
+// 결제 플랫폼은 **Paddle Billing v2**(2026-07-18 백엔드 전환). 결제 UI 전체는
+// PAYMENTS_ENABLED=false로 숨겨져 있어 지금은 렌더되지 않는다.
+// ⚠️ Free 일일 쿼터는 백엔드의 FREE_DAILY_LIMIT(lib/usage/quota.ts)과 반드시 일치시킬 것.
+// ⚠️ Pro 초과 종량·80% 사용량 알림은 백엔드 미구현 — 결제 UI 되살리기 전 확인 필요.
 
 export type Cell = boolean | string; // true → Yes, false → "—", 문자열은 그대로 표시
 
@@ -41,7 +43,8 @@ export const ANNUAL_BILLING_OFFERED = false;
 // 홈 FAQ의 Pro 가격 문장이 한 번에 되살아난다 (middleware.ts 참고).
 export const PAYMENTS_ENABLED = false;
 
-// Stripe Payment Link 생성 후 Vercel env에 등록하면 /upgrade 체크아웃이 활성화된다.
+// Paddle 체크아웃 URL을 Vercel env에 등록하면 /upgrade 체크아웃이 활성화된다.
+// (PAYMENTS_ENABLED가 false인 동안엔 /upgrade 자체가 홈으로 리다이렉트되므로 무효)
 export const PRO_PAYMENT_LINK = process.env.NEXT_PUBLIC_PRO_PAYMENT_LINK ?? "";
 
 export const TIERS: Tier[] = [
@@ -52,7 +55,7 @@ export const TIERS: Tier[] = [
     price: "$0",
     cta: { label: "Get Started", href: "#waitlist" },
     highlights: [
-      "25 checks / month",
+      "50 checks / day",
       "Full API access — every feature included",
       "Instant API key, no credit card",
       "Standard rate limit",
@@ -105,7 +108,10 @@ export const FEATURE_GROUPS: FeatureGroup[] = [
   {
     title: "Limits",
     rows: [
-      { label: "API checks / month", values: ["25", "3,000", "50,000+"] },
+      {
+        label: "API checks",
+        values: ["50 / day", "3,000 / month", "50,000+ / month"],
+      },
       {
         label: "Overage billing",
         values: [false, "$5 / 1,000 checks", "Custom"],
@@ -142,12 +148,12 @@ export const FAQS: Faq[] = [
     a: "One POST /api/check call = one check.",
   },
   {
-    q: "What happens when I hit my monthly limit?",
-    a: "We email you a heads-up at 80% of your quota. On Pro, usage beyond 3,000 checks is billed automatically at $5 per 1,000 checks, so the API never cuts you off mid-send. On Free, checks pause until you upgrade.",
+    q: "What happens when I hit my limit?",
+    a: "On Free, checks pause until your daily limit resets at midnight UTC — the response is a 429 with a Retry-After header. On Pro, usage beyond 3,000 checks a month is billed automatically at $5 per 1,000 checks, so the API never cuts you off mid-send.",
   },
   {
     q: "Can I use it across multiple tenants/customers?",
-    a: "Yes. One API key can check any domain — each tenant domain is scored independently, and every call counts toward your monthly quota.",
+    a: "Yes. One API key can check any domain — each tenant domain is scored independently, and every call counts toward your quota.",
   },
   {
     q: "When can I start?",

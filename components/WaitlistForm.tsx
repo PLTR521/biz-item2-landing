@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-// SendGuard API의 셀프서브 무료 티어 가입 엔드포인트 (별도 리포 sendguard-ai).
+// Email Deliverability API의 셀프서브 무료 티어 가입 엔드포인트
+// (별도 리포 PLTR521/SendGuard-AI — 리포·배포 호스트명은 구명 유지).
 const SIGNUP_ENDPOINT =
   (process.env.NEXT_PUBLIC_SENDGUARD_API_URL || "https://send-guard-ai.vercel.app") +
   "/api/signup";

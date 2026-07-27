@@ -13,8 +13,9 @@ export const metadata: Metadata = {
 };
 
 // 사용량 100% 도달 시 카드 미등록 고객이 도착하는 업그레이드 페이지.
-// 결제는 Stripe Payment Link(sendguard-ai T14 설계) — 링크가 env에 없으면
+// 결제 플랫폼은 Paddle Billing v2 — 체크아웃 URL이 env에 없으면
 // 정직한 준비-중 안내 + 무료 플랜 폴백을 보여준다.
+// ⚠️ PAYMENTS_ENABLED=false인 동안 이 페이지는 middleware가 홈으로 리다이렉트한다.
 export default function UpgradePage() {
   const pro = TIERS.find((t) => t.id === "pro")!;
 
@@ -78,8 +79,8 @@ export default function UpgradePage() {
                   <div className="rounded-md border border-[var(--border)] bg-[var(--bg-subtle)] px-4 py-3.5">
                     <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
                       Card checkout isn&apos;t live yet — we&apos;re finishing
-                      our Stripe setup. The Free plan works today: 25 checks a
-                      month with an instant API key.
+                      our Paddle setup. The Free plan works today: 50 checks a
+                      day with an instant API key.
                     </p>
                     <a
                       href="#waitlist"
@@ -99,7 +100,7 @@ export default function UpgradePage() {
               </h2>
               <ol className="mt-5 flex flex-col gap-4 text-sm">
                 {[
-                  "Pay by card through Stripe checkout.",
+                  "Pay by card through Paddle checkout.",
                   "Your Pro API key arrives by email within minutes.",
                   "Drop it into your existing Authorization header — nothing else changes.",
                 ].map((step, i) => (

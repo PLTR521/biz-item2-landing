@@ -10,7 +10,7 @@ import PricingFAQ from "@/components/pricing/PricingFAQ";
 export const metadata: Metadata = {
   title: "Pricing — Email Deliverability API",
   description:
-    "Simple pricing for AI email agents. Free: 25 checks/month. Pro: $19/month for 3,000 checks with usage-based overage. Enterprise: custom.",
+    "Simple pricing for AI email agents. Free: 50 checks/day. Pro: $19/month for 3,000 checks with usage-based overage. Enterprise: custom.",
 };
 
 export default function PricingPage() {

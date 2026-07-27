@@ -20,7 +20,7 @@ const faqs = [
   {
     q: "What does the free tier include?",
     // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pro 가격 문장 미노출.
-    a: `25 checks per month with an API key issued instantly, no credit card required.${
+    a: `50 checks per day with an API key issued instantly, no credit card required. The daily limit resets at midnight UTC.${
       PAYMENTS_ENABLED ? " Pro adds 3,000 checks a month for $19." : ""
     }`,
   },
