@@ -88,8 +88,12 @@ export default function WaitlistForm({
         >
           <Check className="h-4 w-4 shrink-0" />
           <span>
+            {/*
+              메일이 나갔든 안 나갔든 키 자체는 서버에 해시로만 남아 재표시가
+              불가능하다. 발송 여부는 부가 정보일 뿐이라 경고를 대체할 수 없다.
+            */}
             {emailed
-              ? "Your API key is ready — also sent to your inbox."
+              ? "Your API key is ready — save it now, it won't be shown again. We also sent a copy to your inbox."
               : "Your API key is ready — save it now, it won't be shown again."}
           </span>
         </div>
