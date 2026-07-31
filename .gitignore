@@ -15,3 +15,6 @@ out/
 # misc
 .DS_Store
 *.log
+
+# TypeScript incremental build 산출물 (커밋 금지)
+tsconfig.tsbuildinfo

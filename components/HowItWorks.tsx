@@ -5,7 +5,9 @@ const steps = [
   },
   {
     title: "We inspect the signals",
-    body: "DNSBL, SPF, DKIM, DMARC, and recent reputation history for that specific domain.",
+    // 실제로 하는 일만 적는다: 요청 시점의 라이브 DNS 조회.
+    // 이력 데이터는 저장도 조회도 하지 않으므로 "reputation history"라고 쓰면 거짓말이 된다.
+    body: "Live DNS at request time: DNSBL listings for every IP behind that domain's MX, plus its SPF, DKIM, and DMARC records.",
   },
   {
     title: "You get a decision",

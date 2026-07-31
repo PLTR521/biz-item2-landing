@@ -73,6 +73,59 @@ export default function Example() {
           <p className="mt-3 text-sm text-[var(--text-tertiary)]">
             Public health endpoint. Run it before you sign up.
           </p>
+
+          {/*
+            127.0.0.2는 DNSBL 업계 표준 테스트 주소 — 모든 블랙리스트가 "리스팅됨"으로
+            응답하도록 약속된 IP다. 아래는 그 주소로 프로덕션 API를 실제 호출해 받은
+            응답이다 (2026-07-30 23:55 UTC 실호출). 폭 때문에 detail의 링크 URL과
+            중복 필드만 덜어냈고 판정값(reputation/spamRisk/safeToSendToday/severity)은
+            한 글자도 바꾸지 않았다. 값을 손으로 고치지 말 것 —
+            고치는 순간 이 블록은 증거가 아니라 광고가 된다.
+          */}
+          <div className="mt-8 border-t border-[var(--border)] pt-6">
+            <CodeCard
+              label="POST /api/check &#123;&quot;ip&quot;: &quot;127.0.0.2&quot;&#125;"
+              meta="real response"
+            >
+              {"{\n  "}
+              <K>&quot;reputation&quot;</K>: <S>&quot;bad&quot;</S>,
+              {"\n  "}
+              <K>&quot;spamRisk&quot;</K>: <S>&quot;high&quot;</S>,
+              {"\n  "}
+              <K>&quot;safeToSendToday&quot;</K>: <N>0</N>,
+              {"\n  "}
+              <K>&quot;signals&quot;</K>: {"[\n    { "}
+              <K>&quot;code&quot;</K>: <S>&quot;DNSBL_SPAMHAUS_ZEN&quot;</S>,{" "}
+              <K>&quot;severity&quot;</K>: <S>&quot;critical&quot;</S>,
+              {"\n      "}
+              <K>&quot;detail&quot;</K>:{" "}
+              <S>
+                &quot;127.0.0.2 is listed on Spamhaus ZEN — Listed by PBL |
+                Listed by XBL | Listed by SBL&quot;
+              </S>
+              {" },\n    { "}
+              <K>&quot;code&quot;</K>: <S>&quot;DNSBL_BARRACUDA&quot;</S>,{" "}
+              <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>
+              {" },\n    { "}
+              <K>&quot;code&quot;</K>: <S>&quot;DNSBL_SPAMCOP&quot;</S>,{" "}
+              <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>
+              {" }\n  ]\n}"}
+            </CodeCard>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--text-tertiary)]">
+              <code className="font-mono text-[var(--text-secondary)]">
+                127.0.0.2
+              </code>{" "}
+              is the standard DNSBL test address — every list is supposed to
+              answer &quot;listed&quot; for it. That&apos;s a real production
+              response, not a mockup: three lists hit, Spamhaus resolved down to
+              the individual SBL / PBL / XBL entries, and the volume ceiling
+              drops to zero. Only the lookup URLs inside{" "}
+              <code className="font-mono text-[var(--text-secondary)]">
+                detail
+              </code>{" "}
+              were trimmed to fit. Sign up and run the same call.
+            </p>
+          </div>
         </div>
       </div>
     </section>

@@ -1,6 +1,10 @@
 # NEXT_TASK.md
 
-> 다음 세션 시작용. 작성일: 2026-07-12 (sendguard-ai T15 Vercel 배포 완료 시점)
+> 갱신: 2026-07-31 — 실사용 후기 반영분 완료. 랜딩 쪽 남은 것은 **Phase 2(측정 인프라)**와
+> favicon/OG. 유입은 여전히 측정 이후. API 쪽 남은 것은 API 리포 `NEXT_TASK.md` 참고
+> (하드 게이트는 Resend 도메인 인증 하나).
+>
+> 이하 작성일: 2026-07-12 (sendguard-ai T15 Vercel 배포 완료 시점)
 > ✅ **T14 현황(2026-07-12):** 이메일 레그 실발송 검증 완료 — `npx tsx scripts/send-test-email.ts` 성공(exit 0).
 > success_url 페이지(`/checkout/success`)도 완료. **랜딩 CTA 교체만 남음 — Stripe Payment Link URL 대기.**
 > ⚠️ Resend 테스트 모드: 도메인 인증 전엔 계정 소유자 이메일로만 발송 가능(타 수신자 403 실측).
@@ -32,14 +36,16 @@ PROJECT_STATUS.md와 NEXT_TASK.md를 읽고 이어서 작업해.
    fake-door 전환율(방문 → CTA 클릭 → 이메일 제출)을 잴 수 있게 해줘.
 ```
 
-## T14 재개 프롬프트 (Stripe Payment Link 준비 후)
+## 결제 UI 복구 프롬프트 (Paddle 연동 후)
 
 ```
-Stripe Payment Link를 만들었어: <URL 붙여넣기>
-1. 랜딩 CTA("Get an API key")를 이 Payment Link로 교체해줘.
-2. fake-door 카피("private beta" 등)를 실제 제품 존재에 맞게 재검토해줘 (과장금지 규칙).
+Paddle 연동이 끝났어.
+1. lib/pricing.ts의 PAYMENTS_ENABLED를 true로 바꿔줘 (middleware.ts의 307도 같이 풀림).
+2. /pricing·/upgrade의 가격·쿼터가 API 리포 lib/usage/quota.ts 값과 같은지 확인해줘.
 3. 테스트 + 빌드 통과 확인 후 커밋+push까지 알아서 해줘.
 ```
+
+> ⚠️ Stripe는 더 이상 계획이 아니다 (2026-07-27 Paddle로 확정). 옛 문서에서 Stripe 언급을 보면 그건 이미 지난 계획이다.
 
 ## 다음 작업 목표
 
@@ -50,10 +56,15 @@ Stripe Payment Link를 만들었어: <URL 붙여넣기>
 
 ## 주의사항
 
-1. **과장 금지 규칙 유지** — 허위 후기/고객 수/파트너십/"파일럿 중" 문구 금지. 현재 fake-door 카피("Get an API key", "private beta")는 사용자 명시 승인 범위. 이 이상으로 단정 수위를 올리지 말 것.
-2. **Formspree endpoint 유지** — `https://formspree.io/f/mzdqnklk` 변경 금지 (기존 신청자 데이터와 연속성).
-3. **허위 카운터 재도입 금지** — 시드 섞인 대기자 카운터(구 `app/api/waitlist/route.ts`, e34c3dc에서 삭제됨)를 부활시키지 말 것.
-4. **자율 push 승인 있음** — 완결 단위마다 커밋+push 알아서 진행 (biz-item2-landing 한정).
-5. **dev 서버는 launch.json으로** — 서버명 **`sendguard-dev`** (e34c3dc에서 개명됨). Bash로 직접 `next dev` 돌리지 말 것.
-6. **테스트 먼저** — 코드 수정 후 `npm test` (vitest 9개) + `npm run build` 통과 확인 후 커밋.
-7. Browser pane 스크린샷이 타임아웃될 수 있음 — 그 경우 read_page/computed CSS로 대체 검증.
+1. **과장 금지 규칙 유지** — 허위 후기/고객 수/파트너십/"파일럿 중" 문구 금지. CTA는 이제 fake-door가 아니라 실제 키 발급이다.
+2. **카피는 제품보다 앞서지 않는다 (2026-07-31 추가)** — 새 문장을 쓸 때 그걸 뒷받침하는 코드가 어디 있는지 말할 수 있어야 한다. "recent reputation history"가 몇 달간 살아남은 게 이 규칙이 없었기 때문. 판단 기준: API가 실제로 하는 일 = 요청 시점 라이브 DNS 조회(DNSBL 3종 + SPF/DKIM/DMARC). 이력 저장·조회 없음.
+3. **`Example.tsx`의 `127.0.0.2` 블록은 실측 증거** — 판정값을 손으로 고치지 말 것. 갱신이 필요하면 프로덕션에 다시 호출해서 받은 값으로 교체.
+4. **허위 카운터 재도입 금지** — 시드 섞인 대기자 카운터(구 `app/api/waitlist/route.ts`, e34c3dc에서 삭제됨)를 부활시키지 말 것.
+5. **자율 push 승인 있음** — 완결 단위마다 커밋+push 알아서 진행 (biz-item2-landing 한정).
+6. **dev 서버는 launch.json으로** — 랜딩 `sendguard-dev`(3000), API `email-deliverability-api-dev`(3210, 2026-07-31에 죽은 경로 수정됨). Bash로 직접 `next dev` 돌리지 말 것.
+7. **테스트 먼저** — 코드 수정 후 `npm test` (vitest 11개) + `npm run build` 통과 확인 후 커밋.
+8. Browser pane 스크린샷이 타임아웃될 수 있음 — 그 경우 read_page/computed CSS로 대체 검증.
+9. **가입 폼이 조용히 죽을 수 있다** — 랜딩 도메인이 늘거나 바뀌면 API 리포
+   `app/api/signup/route.ts`의 `DEFAULT_LANDING_ORIGINS`(또는 `LANDING_ORIGIN` env)에
+   반드시 추가할 것. 빠지면 브라우저 CORS 단계에서 막혀 화면엔 "Network error"만 뜬다
+   (2026-07-30에 이 이유로 몇 주간 아무도 키를 못 받았다).

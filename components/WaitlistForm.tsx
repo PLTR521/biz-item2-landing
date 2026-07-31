@@ -3,16 +3,21 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-// Email Deliverability API의 셀프서브 무료 티어 가입 엔드포인트
+// Email Deliverability API 배포 주소
 // (별도 리포 PLTR521/SendGuard-AI — 리포·배포 호스트명은 구명 유지).
-const SIGNUP_ENDPOINT =
-  (process.env.NEXT_PUBLIC_SENDGUARD_API_URL || "https://send-guard-ai.vercel.app") +
-  "/api/signup";
+const API_BASE =
+  process.env.NEXT_PUBLIC_SENDGUARD_API_URL || "https://send-guard-ai.vercel.app";
+
+// 셀프서브 무료 티어 가입 엔드포인트
+const SIGNUP_ENDPOINT = API_BASE + "/api/signup";
+
+// 키를 잃어버린 사람이 갈 곳. 로그인(매직링크) 후 대시보드에서 재발급한다.
+const RECOVER_URL = `${API_BASE}/login`;
 
 const ERROR_MESSAGES: Record<string, string> = {
   invalid_email: "Please enter a valid email address.",
   email_already_registered:
-    "That email already has a key. Check your inbox, or use a different address.",
+    "That email already has a key. Check your inbox — or sign in to regenerate it if you lost it.",
 };
 
 export default function WaitlistForm({
@@ -88,6 +93,10 @@ export default function WaitlistForm({
               : "Your API key is ready — save it now, it won't be shown again."}
           </span>
         </div>
+        {/*
+          키는 화면에 1회만 뜨고 서버는 해시만 갖는다. 이메일이 안 나간 경우
+          (도메인 인증 전) 이 안내가 유일한 복구 경로이므로 키 바로 옆에 둔다.
+        */}
         <div className="flex items-center gap-2">
           <code
             className={`flex-1 overflow-x-auto whitespace-nowrap rounded px-3 py-2 font-mono text-xs ${
@@ -111,6 +120,25 @@ export default function WaitlistForm({
             {copied ? "Copied" : "Copy"}
           </button>
         </div>
+        <p
+          className={`mt-3 text-xs leading-relaxed ${
+            isDark ? "text-[#a8a89e]" : "text-[var(--text-tertiary)]"
+          }`}
+        >
+          Lose it and we can&apos;t show it again — we only store a hash. You
+          can{" "}
+          <a
+            href={RECOVER_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`underline underline-offset-2 ${
+              isDark ? "text-white" : "text-[var(--text-primary)]"
+            }`}
+          >
+            sign in with this email
+          </a>{" "}
+          to issue a replacement key at any time.
+        </p>
       </div>
     );
   }

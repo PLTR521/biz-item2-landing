@@ -11,7 +11,8 @@ const faqs = [
   },
   {
     q: "What signals do you inspect?",
-    a: "DNSBL listings, SPF / DKIM / DMARC validation, and recent reputation history — per domain, rolled up into one score, one risk level, and a safe volume ceiling.",
+    // 과장 금지: 저장된 이력이 아니라 매 요청 시점의 라이브 DNS 조회가 전부다.
+    a: "Three DNSBLs — Spamhaus ZEN, Barracuda, SpamCop — for every IP behind the domain's MX, plus its SPF / DKIM / DMARC records. All of it is read live from DNS at request time and rolled up into one score, one risk level, and a safe volume ceiling. We keep no reputation history, so every answer is what DNS says at the moment you ask.",
   },
   {
     q: "Do you see my email content?",

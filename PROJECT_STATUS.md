@@ -1,6 +1,27 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-17 (제품명 **Email Deliverability**로 리브랜딩 + Vercel 프로젝트 리네이밍)
+> 최종 업데이트: 2026-07-31 (실사용 후기 반영 — 과장 문구 삭제 + 실응답 증거 게시)
+>
+> ### ✅ 2026-07-31 — 카피 정직성 정리 (API 리포 `SESSION_LOG_2026-07-30.md` 후속)
+> 2026-07-30 실사용 후기가 남긴 "다음 우선순위 ③"을 처리했다.
+> 1. **"recent reputation history" 삭제** (`FAQ.tsx`, `HowItWorks.tsx`) — 이 API는 평판 이력을
+>    저장하지도 조회하지도 않는다. 실제로 하는 일(요청 시점 라이브 DNS: DNSBL 3종 +
+>    SPF/DKIM/DMARC)로 교체. **기능보다 카피가 앞서 있던 유일한 자리였다.**
+> 2. **`127.0.0.2` 실응답을 Example 섹션에 증거로 게시** — 2026-07-30 23:55 UTC 프로덕션
+>    실호출 결과. bad/high/0 + ZEN critical(SBL·PBL·XBL) + Barracuda·SpamCop warn.
+>    판정값 무수정, 폭 때문에 detail의 링크 URL만 축약했고 그 사실도 화면에 명시.
+> 3. **키 분실 복구 경로 안내 추가** (`WaitlistForm.tsx`) — API 리포에 07-31 신설된
+>    `POST /api/keys/rotate` + `/login` 대시보드 재발급. 키는 화면에 1회만 뜨고 서버는
+>    해시만 갖는데 지금까지 복구 방법 안내가 아예 없었다.
+> 4. `.claude/launch.json`의 `sendguard-api-dev`가 죽은 경로(`C:\온라인 사업\sendguard-ai`)를
+>    가리켜 **조용히 랜딩을 대신 띄우고 있었다** → `email-deliverability-api-dev`로 교체(포트 3210).
+>
+> 검증: `tsc --noEmit` / `vitest` 11개 / `next build` 통과, 브라우저 실측(문구 0건, 증거 블록
+> 렌더 정상, 콘솔 에러 0, 모바일 375px 가로 스크롤 없음).
+>
+> ---
+>
+> 이전 업데이트: 2026-07-17 (제품명 **Email Deliverability**로 리브랜딩 + Vercel 프로젝트 리네이밍)
 > ⚠️ **도메인 주의(2026-07-17 RDAP 확정): sendguard.io와 sendguard.ai는 둘 다 제3자 소유다.** 랜딩 예제가
 > api.sendguard.ai(남의 서버)를 가리키던 버그는 0b542c0에서 수정 완료(실제 주소 + 실제 응답 스키마).
 > ✅ **리브랜딩(2026-07-17, 커밋 9b86a4e):** SendGuard 이름 충돌을 피해 제품명·URL을 **Email Deliverability**로

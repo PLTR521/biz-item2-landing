@@ -1,10 +1,15 @@
-# BUILD.md — SendGuard AI 랜딩 빌드 플랜 & 진행 로그
+# BUILD.md — Email Deliverability 랜딩 빌드 플랜 & 진행 로그
 
 > 이 파일이 계획의 SSOT. 구현과의 차이는 GAP_REPORT.md 참고.
-> 최종 업데이트: 2026-07-17 (제품명·URL Email Deliverability로 리브랜딩 — 상세는 진행 로그)
-> ✅ T14 이메일 발송: Resend 키 입력 후 **실발송 성공 실측** (sendguard-ai `scripts/send-test-email.ts`, exit 0).
-> ✅ T15 배포: sendguard-ai가 https://send-guard-ai.vercel.app 로 배포됨 (GitHub `PLTR521/SendGuard-AI` 연동). `/api/check` 인증·`/api/stripe/webhook` 프로덕션 실측 통과. Spamhaus 실측은 Supabase 환경변수 대기.
-> ⚠️ 랜딩 CTA 교체는 **Stripe Payment Link URL 확보 대기.** Resend는 도메인 인증 전까지 계정 소유자 주소로만 발송 가능 — 고객 발송 전 도메인 인증 필요.
+> 최종 업데이트: 2026-07-31 (실사용 후기 반영 — 카피 정직성 정리)
+> **불변 규칙(2026-07-31 추가): 카피는 제품보다 앞서지 않는다.** 새 문장을 쓸 때 그 문장을
+> 뒷받침하는 코드가 어디 있는지 말할 수 없으면 쓰지 않는다. `Example.tsx`의 `127.0.0.2`
+> 블록은 프로덕션 실응답이므로 판정값을 손으로 고치지 말 것 (고치면 증거가 아니라 광고).
+> ✅ CTA는 fake-door가 아니다: "Get an API key" → API 리포 `POST /api/signup` → 실제 무료 키 즉시 발급.
+> ✅ API 배포: https://send-guard-ai.vercel.app (GitHub `PLTR521/SendGuard-AI` 연동, Spamhaus DQS 실측 완료).
+> ⚠️ 결제 UI는 `PAYMENTS_ENABLED=false`로 전체 숨김 상태(2026-07-27, Paddle 미연동). 플래그 한 줄로 복구.
+> ⚠️ Resend 도메인 인증 전까지 가입 메일은 계정 소유자 주소로만 발송됨(`emailed: false`) —
+> 2026-07-31부터 키를 잃어도 `/login`에서 재발급 가능하므로 하드 블로커는 아니다.
 
 ---
 
@@ -60,6 +65,18 @@
 - [ ] ⏸️ Vercel Analytics 추가 — *외부 계정 필요, 보류*
 - [ ] ⏸️ CTA 클릭 + 폼 제출 이벤트 추적 (fake-door 전환율) — *보류*
 
+## Phase 2.5 — 카피 정직성 (완료, 2026-07-31)
+
+2026-07-30 실사용 후기(API 리포 `SESSION_LOG_2026-07-30.md`)가 지적한 것들.
+계획서에 없던 Phase — "구현 대비 계획"만 보고 "카피 대비 제품"은 아무도 안 보고 있었다.
+
+- [x] "recent reputation history" 삭제 (`FAQ.tsx`, `HowItWorks.tsx`) — 하지 않는 일을 적고 있었음
+- [x] 실제 시그널로 교체: DNSBL 3종(Spamhaus ZEN·Barracuda·SpamCop) + SPF/DKIM/DMARC, 라이브 조회
+- [x] `127.0.0.2` **프로덕션 실응답**을 Example 섹션에 증거로 게시 (판정값 무수정)
+- [x] 키 분실 시 복구 경로(`/login` → 재발급) 안내 — 키 표시 화면과 중복가입 에러 메시지 양쪽
+- [x] `.claude/launch.json`의 죽은 API dev 경로 수정 (조용히 랜딩을 대신 띄우고 있었음)
+- [x] 검증: tsc / vitest 11개 / build / 브라우저(문구 0건·증거 렌더·콘솔 0·모바일 스크롤 없음)
+
 ## Phase 3 — 수요검증 운영 (미착수, Phase 2 완료가 선행 조건)
 
 - [ ] Reddit / X / Discord 유입 시작 (전용 스킬 활용) — **측정 인프라 없이 시작 금지**
@@ -88,3 +105,7 @@
 | 2026-07-17 | ⚠️ **도메인 사실 확정(RDAP 실측): sendguard.io(2025-08-29 등록)·sendguard.ai(2026-04-30 등록) 모두 제3자 소유.** 랜딩 예제 전체가 남의 서버(api.sendguard.ai)를 가리키던 버그 발견. 사용자 결정: 도메인 때문에 출시를 미루지 않는다 — 검증 먼저, 리브랜딩·도메인 구매는 지불의향 확인 후 | — |
 | 2026-07-17 | 위 버그 수정: sendguard-ai에 공개 `/health` 신설(sendguard-ai 커밋 e04fec1) + 랜딩 예제 전부 실제 배포 주소·실제 응답 스키마로 교체(`POST /api/check`, `spamRisk`, `safeToSendToday`, `recommendedVolume`, `signals[]`) + 모바일 min-w-0 레이아웃 수정. 프로덕션 실측: `/health` 200, 옛 문자열 0건, 가입→키 발급→check 200 E2E 재통과, `127.0.0.2` → bad/high/0 (Spamhaus DQS+Barracuda+SpamCop 검출) | 0b542c0 |
 | 2026-07-17 | **리브랜딩: 제품명·URL을 Email Deliverability로 변경**(사용자 지시). Vercel 프로젝트 biz-item2-landing → email-deliverability 리네이밍(Claude in Chrome). ⚠️ **하이픈 서브도메인 email-deliverability.vercel.app은 제3자 프로젝트가 선점**("Deliverability Help" 사이트) → 도메인으로 **emaildeliverability.vercel.app**(하이픈 없음)을 프로젝트에 추가해 새 프로덕션 URL로 사용, 구 URL(biz-item2-landing.vercel.app)도 계속 서빙. 랜딩 표기 전면 교체(타이틀/OG/Nav/Footer/파이프라인/FAQ). API CORS를 신·구 origin allowlist로 확장(SendGuard-AI 커밋 208dfa1 + 하이픈 origin 제거 93f5c20, `LANDING_ORIGIN` env 콤마 구분 지원). GitHub 리포명은 유지 | 9b86a4e |
+| 2026-07-18 | `/pricing` 신설(4티어 → 3티어 정리) + `/upgrade` 페이지, 실제 3티어 가격 반영 | 62e0dd7, f3f984f |
+| 2026-07-27 | 결제 미연동 상태를 숨김: `lib/pricing.ts`의 `PAYMENTS_ENABLED=false` 한 줄 + `middleware.ts`가 `/pricing`·`/upgrade` → 홈 307. 페이지 파일은 보존(복구는 플래그 true). 무료 티어 표기 25/월 → **50/일**, 결제 플랫폼 Paddle 확정, SendGuard 잔재 네이밍 제거 | 3269243, 0d8cefa |
+| 2026-07-30 | (API 리포) 실제 방문자 시점 검증에서 **이 랜딩의 가입 폼이 CORS로 몇 주간 죽어 있던 것** 발견 — `emaildeliverabilityapi.vercel.app` origin이 API 허용 목록에 없었음. 화면엔 "Network error"만, 서버 로그엔 흔적 없음 (SendGuard-AI 커밋 9f62232로 해결) | — |
+| 2026-07-31 | **Phase 2.5 카피 정직성:** "recent reputation history" 삭제(하지 않는 일이었음), `127.0.0.2` 프로덕션 실응답을 증거로 게시(판정값 무수정), 키 분실 복구 경로(`/login` 재발급) 안내 추가, launch.json 죽은 API dev 경로 수정. API 리포에는 같은 날 잔량 헤더·키 재발급 라우트·스키마 검증 스크립트가 들어감 | (이 커밋) |
