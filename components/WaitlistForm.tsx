@@ -3,10 +3,12 @@
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
 
-// Email Deliverability API 배포 주소
-// (별도 리포 PLTR521/SendGuard-AI — 리포·배포 호스트명은 구명 유지).
+// Email Deliverability API 배포 주소 (별도 리포 PLTR521/email-deliverability).
+// 2026-08-04: 구 호스트 send-guard-ai.vercel.app → email-deliverability-app.vercel.app.
+// 바꾸기 전 /health 실호출로 {"status":"ok","service":"email-deliverability"} 확인함.
 const API_BASE =
-  process.env.NEXT_PUBLIC_SENDGUARD_API_URL || "https://send-guard-ai.vercel.app";
+  process.env.NEXT_PUBLIC_SENDGUARD_API_URL ||
+  "https://email-deliverability-app.vercel.app";
 
 // 셀프서브 무료 티어 가입 엔드포인트
 const SIGNUP_ENDPOINT = API_BASE + "/api/signup";

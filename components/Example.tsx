@@ -1,12 +1,56 @@
 import CodeCard, { K, S, N, C, Cmd, Flag } from "./CodeCard";
 
 const specs = [
-  "DNSBL lookup",
-  "SPF / DKIM / DMARC validation",
-  "JSON API",
-  "No dashboard",
-  "No warmup",
-  "Stateless",
+  "SPF · DKIM · DMARC",
+  "Spamhaus · Barracuda · SpamCop",
+  "Live DNS per request",
+  "REST · JSON · no SDK",
+  "Deterministic scoring",
+  "No dashboard, no agents",
+];
+
+/*
+  코드 → 의미 → 조치. API 응답에는 code/severity/detail만 들어간다 —
+  아래 "무엇을 의미하고 무엇을 하면 되는가"는 이 페이지의 설명이지 응답 필드가 아니다.
+  그 사실을 화면에도 명시한다(아래 안내 문단). 없는 필드를 있는 것처럼 보이면 안 된다.
+  코드값은 lib/dns/auth-records.ts · lib/dns/dnsbl.ts의 실제 코드와 일치해야 한다.
+*/
+const signalGuide = [
+  {
+    code: "SPF_MISSING",
+    means:
+      "No v=spf1 record on the domain, so receivers can't confirm which servers may send as you.",
+    action: "Publish an SPF record that covers your ESP before the next send.",
+  },
+  {
+    code: "DKIM_SELECTOR_NOT_FOUND",
+    means:
+      "The selector you passed has no key published, so signatures from it won't verify.",
+    action:
+      "Re-copy the DKIM record from your ESP, or pass the selector it actually signs with.",
+  },
+  {
+    code: "DMARC_MISSING",
+    means:
+      "No DMARC policy. Google and Yahoo both require one from bulk senders.",
+    action: "Publish a DMARC record — p=none is a valid first step.",
+  },
+  {
+    code: "DMARC_POLICY_NONE",
+    means: "DMARC is published, but p=none means nothing is enforced yet.",
+    action:
+      "Move to p=quarantine once every sending source authenticates cleanly.",
+  },
+  {
+    code: "DNSBL_SPAMHAUS_ZEN",
+    means: "A sending IP is on the blocklist most receivers actually act on.",
+    action: "Stop sending from that IP and request delisting at Spamhaus.",
+  },
+  {
+    code: "DOMAIN_UNRESOLVED",
+    means: "No MX or A records resolved, so there are no sending IPs to score.",
+    action: "Confirm the domain is spelled right and its DNS is live.",
+  },
 ];
 
 export default function Example() {
@@ -16,9 +60,9 @@ export default function Example() {
       className="scroll-mt-20 border-t border-[var(--border)] px-6 py-20 md:py-28"
     >
       <div className="mx-auto max-w-3xl">
-        <p className="eyebrow mb-4">04 — The API surface</p>
+        <p className="eyebrow mb-4">05 — The API surface</p>
         <h2 className="mb-6 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
-          One thing, done right
+          One endpoint, and the reason behind every verdict
         </h2>
 
         <CodeCard
@@ -26,23 +70,34 @@ export default function Example() {
           meta="example response"
         >
           {"{\n  "}
-          <K>&quot;reputation&quot;</K>: <S>&quot;healthy&quot;</S>,{"      "}
+          <K>&quot;reputation&quot;</K>: <S>&quot;warning&quot;</S>,{"    "}
           <C>// healthy | warning | bad</C>
           {"\n  "}
-          <K>&quot;spamRisk&quot;</K>: <S>&quot;low&quot;</S>,{"           "}
+          <K>&quot;spamRisk&quot;</K>: <S>&quot;medium&quot;</S>,{"      "}
           <C>// low | medium | high</C>
           {"\n  "}
-          <K>&quot;safeToSendToday&quot;</K>: <N>1000</N>,{"     "}
-          <C>// hard ceiling for today</C>
+          <K>&quot;signals&quot;</K>: {"[            "}
+          <C>// every verdict comes with its evidence</C>
+          {"\n    { "}
+          <K>&quot;code&quot;</K>: <S>&quot;SPF_MISSING&quot;</S>,{" "}
+          <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>,
+          {"\n      "}
+          <K>&quot;detail&quot;</K>:{" "}
+          <S>&quot;No v=spf1 TXT record found on acme.com&quot;</S>
+          {" },\n    { "}
+          <K>&quot;code&quot;</K>: <S>&quot;DMARC_POLICY_NONE&quot;</S>,{" "}
+          <K>&quot;severity&quot;</K>: <S>&quot;info&quot;</S>
+          {" },\n    { "}
+          <K>&quot;code&quot;</K>: <S>&quot;DNSBL_SPAMCOP&quot;</S>,{" "}
+          <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>
+          {" }\n  ],\n  "}
+          <K>&quot;resolvedIps&quot;</K>: {"[ "}
+          <S>&quot;198.51.100.24&quot;</S>, ...{" ],"}
           {"\n  "}
-          <K>&quot;recommendedVolume&quot;</K>: <N>1000</N>,{"   "}
-          <C>// rule-based, conservative</C>
+          <K>&quot;safeToSendToday&quot;</K>: <N>500</N>,{"       "}
+          <C>// conservative, rule-based</C>
           {"\n  "}
-          <K>&quot;signals&quot;</K>: {"[ "}
-          {"{ "}
-          <K>&quot;code&quot;</K>: <S>&quot;SPF_PRESENT&quot;</S>, ...{" }"}
-          {" ]"}{"  "}
-          <C>// DNSBL + SPF/DKIM/DMARC detail</C>
+          <K>&quot;checkedAt&quot;</K>: <S>&quot;2026-08-04T09:12:44Z&quot;</S>
           {"\n}"}
         </CodeCard>
 
@@ -57,13 +112,66 @@ export default function Example() {
           ))}
         </ul>
 
+        <div className="mt-14">
+          <p className="eyebrow mb-4">Every signal maps to one fix</p>
+          <p className="mb-7 leading-relaxed text-[var(--text-secondary)]">
+            The response carries{" "}
+            <code className="font-mono text-[var(--text-secondary)]">code</code>
+            ,{" "}
+            <code className="font-mono text-[var(--text-secondary)]">
+              severity
+            </code>
+            , and a one-line{" "}
+            <code className="font-mono text-[var(--text-secondary)]">
+              detail
+            </code>
+            . Here&apos;s what each one means and what to do about it. Scoring is
+            deterministic, not a model: two{" "}
+            <code className="font-mono text-[var(--text-secondary)]">warn</code>{" "}
+            signals make the reputation{" "}
+            <code className="font-mono text-[var(--text-secondary)]">
+              warning
+            </code>
+            , and a single{" "}
+            <code className="font-mono text-[var(--text-secondary)]">
+              critical
+            </code>{" "}
+            makes it{" "}
+            <code className="font-mono text-[var(--text-secondary)]">bad</code>{" "}
+            with a ceiling of zero. Same domain, same DNS, same answer.
+          </p>
+          <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
+            {signalGuide.map((signal) => (
+              <div
+                key={signal.code}
+                className="grid gap-2 py-4 md:grid-cols-[minmax(0,13.5rem)_1fr] md:gap-6"
+              >
+                <code className="font-mono text-xs leading-relaxed text-[var(--text-primary)]">
+                  {signal.code}
+                </code>
+                <div className="min-w-0">
+                  <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
+                    {signal.means}
+                  </p>
+                  <p className="mt-1.5 text-sm leading-relaxed text-[var(--text-tertiary)]">
+                    <span aria-hidden="true" className="font-mono">
+                      →{" "}
+                    </span>
+                    {signal.action}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="mt-14 rounded-lg border border-[var(--border)] bg-[var(--bg-subtle)] p-5 md:p-6">
           <p className="eyebrow mb-4 flex items-center gap-2 !text-[var(--ok)]">
             <span className="h-1.5 w-1.5 rounded-full bg-[var(--ok)]" />
             Live — verify it yourself
           </p>
           <CodeCard label="$ curl">
-            <Cmd>curl</Cmd> https://send-guard-ai.vercel.app/health
+            <Cmd>curl</Cmd> https://email-deliverability-app.vercel.app/health
             {"\n\n"}
             {"{ "}
             <K>&quot;status&quot;</K>: <S>&quot;ok&quot;</S>,{" "}

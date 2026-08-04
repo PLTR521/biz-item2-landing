@@ -1,5 +1,6 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
+import Chain from "@/components/Chain";
 import Compare from "@/components/Compare";
 import UseCases from "@/components/UseCases";
 import HowItWorks from "@/components/HowItWorks";
@@ -13,6 +14,7 @@ export default function Home() {
     <main>
       <Nav />
       <Hero />
+      <Chain />
       <Compare />
       <UseCases />
       <HowItWorks />

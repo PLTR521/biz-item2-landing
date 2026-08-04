@@ -2,27 +2,46 @@ import { PAYMENTS_ENABLED } from "@/lib/pricing";
 
 const faqs = [
   {
-    q: "Is this an ESP?",
-    a: "No. It never sends email. It runs one check before your ESP — Resend, SendGrid, Postmark, Amazon SES — and returns a decision. Your ESP still does the sending.",
+    q: "Does this replace SendGrid or Resend?",
+    a: "No, and it can't — it has no SMTP layer and never touches a message. Your ESP takes the email and delivers it. This runs one step earlier and answers a question your ESP doesn't: is the domain authenticated and off the blocklists right now? Keep the ESP; put this in front of it.",
+  },
+  {
+    q: "Does it measure whether my email reaches the inbox?",
+    // "Deliverability API"라는 이름 때문에 가장 오해받기 쉬운 지점 — 정면으로 부정한다.
+    a: "No, and nothing that runs before the send can. Placement is decided inside the receiver's system after the message arrives; measuring it means seed-list testing, which is a different product. What this reads is the layer placement depends on — whether the domain still authenticates, and whether its sending IPs are listed. Authentication is one of the strongest inputs into deliverability, and unlike placement it's something you can check and fix in advance.",
+  },
+  {
+    q: "Why do I need this if SPF and DKIM are already set up?",
+    a: "Because \"set up\" is a state, not a guarantee. Records get edited during an unrelated DNS change, a team connects HubSpot or Mailchimp and rewrites the SPF line, a selector rotates, an ESP moves you to a different IP pool — and an IP can get listed weeks after you configured everything correctly. Reading the records at send time is the only way to know they still say what you think they say.",
   },
   {
     q: "Who is it built for?",
     a: "Multi-tenant SaaS platforms sending on behalf of customers, AI agents that send autonomously, and teams running customer email infrastructure.",
   },
   {
-    q: "What signals do you inspect?",
+    q: "What exactly do you inspect?",
     // 과장 금지: 저장된 이력이 아니라 매 요청 시점의 라이브 DNS 조회가 전부다.
-    a: "Three DNSBLs — Spamhaus ZEN, Barracuda, SpamCop — for every IP behind the domain's MX, plus its SPF / DKIM / DMARC records. All of it is read live from DNS at request time and rolled up into one score, one risk level, and a safe volume ceiling. We keep no reputation history, so every answer is what DNS says at the moment you ask.",
+    a: "Authentication — the SPF and DMARC records on the domain, the DMARC policy value, and DKIM when you pass a selector. Reputation — every sending IP behind the domain's MX against Spamhaus ZEN, Barracuda, and SpamCop. All of it is read live from DNS on each request and rolled up into one reputation level, one risk level, and the signals behind them. We store no reputation history, so every answer is what DNS says at the moment you ask.",
+  },
+  {
+    q: "Does it keep watching my domain after the response?",
+    // 정직성 핵심 문항 — 백그라운드 작업·알림 기능은 없다. 있는 척하지 않는다.
+    a: "No. There's no background job, no alerting, and nothing running between your requests. It answers when you call it — which is why the moments worth calling are the cheap ones: before an autonomous send, before you onboard a customer domain, before a bulk run. Every response carries a checkedAt timestamp so you know exactly how fresh the answer is.",
+  },
+  {
+    q: "Is the score AI-generated?",
+    // lib/risk.ts — LLM 호출 없음, 순수 룰. 이 답이 바뀌면 코드가 먼저 바뀐 것이다.
+    a: "No. The verdict is a small set of rules over the DNS signals — count the criticals, count the warns, return a level. No model, no scoring service, nothing probabilistic. The same domain with the same DNS returns the same answer, and every signal behind it is in the response so you can check the work.",
   },
   {
     q: "Do you see my email content?",
-    a: "Never. The API takes a domain and returns a verdict. It's stateless — there's no dashboard, no warmup period, and nothing to configure.",
+    a: "Never. The API takes a domain — or an IP — and returns a verdict. It's stateless: no warmup period, no list upload, nothing to configure.",
   },
   {
     q: "What does the free tier include?",
     // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pro 가격 문장 미노출.
-    a: `50 checks per day with an API key issued instantly, no credit card required. The daily limit resets at midnight UTC.${
-      PAYMENTS_ENABLED ? " Pro adds 3,000 checks a month for $19." : ""
+    a: `50 requests per day with an API key issued instantly, no credit card required. The daily limit resets at midnight UTC.${
+      PAYMENTS_ENABLED ? " Pro adds 3,000 requests a month for $19." : ""
     }`,
   },
 ];
@@ -35,7 +54,7 @@ export default function FAQ() {
     >
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_2fr]">
         <div>
-          <p className="eyebrow mb-4">05 — Questions</p>
+          <p className="eyebrow mb-4">06 — Questions</p>
           <h2 className="text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
             FAQ
           </h2>

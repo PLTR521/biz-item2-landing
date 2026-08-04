@@ -9,16 +9,17 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
+const TITLE =
+  "Email Deliverability — the pre-send deliverability check API";
+const DESCRIPTION =
+  "Detect broken SPF, DKIM, and DMARC records and blocklisted sending IPs before you send, not after inbox placement drops. One HTTP call before your ESP. Works alongside Resend, SendGrid, and Postmark.";
+
 export const metadata: Metadata = {
-  title:
-    "Email Deliverability — the pre-send check API for multi-tenant SaaS",
-  description:
-    "Catch domain reputation problems before your AI agents burn your reputation. One HTTP call before your ESP sends. Complements Resend, SendGrid, and Postmark.",
+  title: TITLE,
+  description: DESCRIPTION,
   openGraph: {
-    title:
-      "Email Deliverability — the pre-send check API for multi-tenant SaaS",
-    description:
-      "Catch domain reputation problems before your AI agents burn your reputation. One HTTP call before your ESP sends.",
+    title: TITLE,
+    description: DESCRIPTION,
     type: "website",
   },
 };

@@ -3,7 +3,8 @@ import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import WaitlistForm from "@/components/WaitlistForm";
 
-const SIGNUP_ENDPOINT = "https://send-guard-ai.vercel.app/api/signup";
+const SIGNUP_ENDPOINT =
+  "https://email-deliverability-app.vercel.app/api/signup";
 
 describe("WaitlistForm", () => {
   beforeEach(() => {
@@ -59,7 +60,9 @@ describe("WaitlistForm", () => {
     );
     await user.click(screen.getByRole("button", { name: /Get an API key/ }));
 
-    expect(await screen.findByText(/also sent to your inbox/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/also sent a copy to your inbox/i)
+    ).toBeInTheDocument();
   });
 
   it("서버 에러 시 에러 메시지를 보여주고 폼을 유지한다", async () => {

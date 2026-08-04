@@ -6,7 +6,10 @@
 > 뒷받침하는 코드가 어디 있는지 말할 수 없으면 쓰지 않는다. `Example.tsx`의 `127.0.0.2`
 > 블록은 프로덕션 실응답이므로 판정값을 손으로 고치지 말 것 (고치면 증거가 아니라 광고).
 > ✅ CTA는 fake-door가 아니다: "Get an API key" → API 리포 `POST /api/signup` → 실제 무료 키 즉시 발급.
-> ✅ API 배포: https://send-guard-ai.vercel.app (GitHub `PLTR521/SendGuard-AI` 연동, Spamhaus DQS 실측 완료).
+> ✅ API 배포: https://email-deliverability-app.vercel.app (GitHub `PLTR521/email-deliverability` 연동,
+> Spamhaus DQS 실측 완료). **2026-08-04: 구 호스트 `send-guard-ai.vercel.app`에서 이 주소로 교체.**
+> 랜딩의 코드 예제·Footer 링크·`WaitlistForm`의 `API_BASE` 폴백까지 전부 새 주소를 가리킨다
+> (`/health` 실호출로 `{"status":"ok","service":"email-deliverability"}` 확인 후 교체).
 > ⚠️ 결제 UI는 `PAYMENTS_ENABLED=false`로 전체 숨김 상태(2026-07-27, Paddle 미연동). 플래그 한 줄로 복구.
 > ⚠️ Resend 도메인 인증 전까지 가입 메일은 계정 소유자 주소로만 발송됨(`emailed: false`) —
 > 2026-07-31부터 키를 잃어도 `/login`에서 재발급 가능하므로 하드 블로커는 아니다.
@@ -99,7 +102,7 @@
 | 2026-07-12 | README 신규 + 문서 최신화, T14 이후 보류 반영 | fab6ae6 |
 | 2026-07-12 | T14 부분 진행: sendguard-ai에 이메일 테스트 하네스 + `/checkout/success` 페이지 + EMAIL_FROM 폴백 수정 (sendguard-ai 커밋 155f9b9). Resend 키 미입력 확인 → 실발송·CTA 교체 대기. launch.json에 `sendguard-api-dev` 추가 | 1b4a29f |
 | 2026-07-12 | T14 이메일 레그 검증 완료: Resend 키 입력 → 실발송 성공(exit 0, sendguard-ai 커밋 01ca06d). 테스트 모드 제약(도메인 인증 전 계정 소유자 주소만) 기록 | 06b2504 |
-| 2026-07-12 | sendguard-ai T15: GitHub(`PLTR521/SendGuard-AI`) 연결 + Vercel 배포(send-guard-ai.vercel.app), 프로덕션 401/503/404 실측 통과 (sendguard-ai 커밋 37bcc32) | 3fe5078 |
+| 2026-07-12 | sendguard-ai T15: GitHub(`PLTR521/SendGuard-AI`) 연결 + Vercel 배포(당시 호스트 send-guard-ai.vercel.app → 현 email-deliverability-app.vercel.app), 프로덕션 401/503/404 실측 통과 (sendguard-ai 커밋 37bcc32) | 3fe5078 |
 | 2026-07-13 | sendguard-ai T15 프로덕션 검증 완료: 200 경로 + Barracuda/SpamCop 리스팅 검출 + checks 로깅. Spamhaus는 정책 차단 확정 → DQS 키 필요 (sendguard-ai 커밋 89cab14) | (이 커밋) |
 | 2026-07-16 | 포지셔닝 리팩토링(멀티테넌트 SaaS 안전장치 프레이밍) + UI 리디자인("AI 티" 제거: 잉크 버튼·블루프린트 그리드·파이프라인 다이어그램·FAQ·푸터) | 71dc934, d5aefa5 |
 | 2026-07-17 | ⚠️ **도메인 사실 확정(RDAP 실측): sendguard.io(2025-08-29 등록)·sendguard.ai(2026-04-30 등록) 모두 제3자 소유.** 랜딩 예제 전체가 남의 서버(api.sendguard.ai)를 가리키던 버그 발견. 사용자 결정: 도메인 때문에 출시를 미루지 않는다 — 검증 먼저, 리브랜딩·도메인 구매는 지불의향 확인 후 | — |

@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "sendguard-dev",
-      "runtimeExecutable": "C:\\devtools\\start-next.cmd",
-      "runtimeArgs": [],
+      "name": "email-deliverability-landing-dev",
+      "runtimeExecutable": "powershell.exe",
+      "runtimeArgs": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", "Set-Location -LiteralPath 'C:\\온라인 사업\\email-deliverabilityapi'; npm run dev"],
       "port": 3000
     },
     {

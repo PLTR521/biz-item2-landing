@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import CodeCard, { K, S, N, C } from "./CodeCard";
+import CodeCard, { K, S, C } from "./CodeCard";
 
 function UseCaseRow({
   index,
@@ -52,12 +52,14 @@ export default function UseCases() {
     <section className="border-t border-[var(--border)] bg-[var(--bg-subtle)] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 md:mb-16">
-          <p className="eyebrow mb-4">02 — Use cases</p>
+          <p className="eyebrow mb-4">03 — Use cases</p>
           <h2 className="mb-3 text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
-            When to check
+            Call it while the problem is still cheap
           </h2>
           <p className="max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-            One HTTP call, right before an autonomous or on-behalf-of send.
+            Before an autonomous send, before you onboard a customer domain,
+            before a bulk run — the three moments where an authentication
+            problem is still one DNS edit away from fixed.
           </p>
         </div>
 
@@ -69,16 +71,18 @@ export default function UseCases() {
               <CodeCard label="agent.ts">
                 <C>// Before the agent triggers a send</C>
                 {"\n"}
-                <span className="text-[var(--code-flag)]">const</span> ok ={" "}
+                <span className="text-[var(--code-flag)]">const</span> risk ={" "}
                 <span className="text-[var(--code-cmd)]">await</span> deliverability.
                 <span className="text-[var(--code-flag)]">check</span>(domain);
                 {"\n"}
-                <span className="text-[var(--code-flag)]">if</span> (ok.
+                <span className="text-[var(--code-flag)]">if</span> (risk.
                 <K>spamRisk</K> === <S>&quot;low&quot;</S>) esp.send(...);
+                {"\n"}
+                <C>// else: log risk.signals and hold</C>
               </CodeCard>
             }
             title="Before your AI agent sends"
-            body="LLM-driven agents send in bursts, at odd hours, on unpredictable triggers. Check the domain once per send so a runaway loop doesn't burn your reputation overnight."
+            body="Agents send in bursts, at odd hours, on triggers nobody reviews. One call per send means a missing DMARC record or a freshly listed IP is caught by your code — not discovered days later when replies stop coming."
           />
 
           <UseCaseRow
@@ -86,13 +90,16 @@ export default function UseCases() {
             tag="Multi-tenant"
             flip
             title="Before your SaaS sends for a customer"
-            body="If you're a platform sending on behalf of many customers, every tenant domain gets its own reputation score. One bad-actor tenant doesn't taint the rest of your platform."
+            body="A tenant domain doesn't stay the way you onboarded it. Customers wire the same domain into HubSpot or Mailchimp, edit DNS, drop a record. Run each domain on its own before you send for it and you get its SPF, DKIM, and DMARC state right now — so one customer's broken setup stays their problem, not your platform's reputation."
             visual={
               <CodeCard label="per-tenant">
                 <C>// Each customer&apos;s domain scored on its own</C>
                 {"\n"}
                 <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
-                <S>&#123;&quot;domain&quot;: &quot;tenant-a.com&quot;&#125;</S>
+                <S>
+                  &#123;&quot;domain&quot;: &quot;tenant-a.com&quot;,
+                  &quot;dkimSelector&quot;: &quot;hs1&quot;&#125;
+                </S>
                 {"\n"}
                 <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
                 <S>&#123;&quot;domain&quot;: &quot;tenant-b.com&quot;&#125;</S>
@@ -107,15 +114,18 @@ export default function UseCases() {
             tag="Automation"
             visual={
               <CodeCard label="worker">
-                <K>safeToSendToday</K>: <N>1000</N>
+                <K>reputation</K>: <S>&quot;bad&quot;</S>
                 {"\n"}
-                <K>recommendedVolume</K>: <N>850</N>
+                <K>spamRisk</K>: <S>&quot;high&quot;</S>
                 {"\n"}
-                <C>// Use these as the ceiling for the next cron tick</C>
+                <K>signals</K>: [&#123; <K>code</K>:{" "}
+                <S>&quot;DNSBL_SPAMHAUS_ZEN&quot;</S> &#125;]
+                {"\n"}
+                <C>// Fail the job here, not 40k sends later</C>
               </CodeCard>
             }
-            title="Before an automation workflow fires"
-            body="Cron jobs, webhook handlers, drip queues — anywhere email leaves without a human in the loop. Get a safe ceiling for the next 24 hours instead of guessing."
+            title="Before a bulk run or a scheduled send"
+            body="Cron jobs, webhook handlers, drip queues — anywhere email leaves without a human in the loop. A blocklisted sending IP costs you the whole batch, and you find out from the bounce rate. One call at the top of the worker turns that into a failed job."
           />
         </div>
       </div>

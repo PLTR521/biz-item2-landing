@@ -12,9 +12,9 @@ export default function PricingHero() {
           Simple pricing for AI email agents
         </h1>
         <p className="mb-9 text-lg leading-relaxed text-[var(--text-secondary)]">
-          Check domain reputation, spam risk, and safe sending volume from a
-          single API call — before your agents hit send. Start free, upgrade
-          when your agents go to production.
+          Detect broken SPF, DKIM, and DMARC records and blocklisted sending
+          IPs from a single API call — before your agents hit send. Start free,
+          upgrade when your agents go to production.
         </p>
         <div className="flex flex-col items-center gap-3">
           <a
@@ -24,7 +24,7 @@ export default function PricingHero() {
             Get an API key
           </a>
           <p className="font-mono text-xs text-[var(--text-tertiary)]">
-            50 checks/day free · no credit card · no SDK required
+            50 requests/day free · no credit card · no SDK required
           </p>
         </div>
       </div>

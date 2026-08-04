@@ -9,14 +9,18 @@ export default function FinalCTA() {
       <div className="mx-auto max-w-2xl text-center">
         <p className="eyebrow mb-5 !text-[#7a7a70]">One endpoint away</p>
         <h2 className="mb-4 text-3xl font-semibold tracking-[-0.03em] text-white md:text-[2.6rem] md:leading-[1.1]">
-          Start checking domains today.
+          Run it on your own domain.
         </h2>
         <p className="mb-10 text-lg leading-relaxed text-[#a3a39a]">
-          Get a free API key instantly — no credit card, 50 checks/day free.
+          The key is issued on this page — paste it into curl and you have a
+          verdict on your first request. No credit card, 50 requests/day free.
         </p>
         <div className="mx-auto max-w-md">
-          <WaitlistForm variant="dark" buttonLabel="Get an API key" />
+          <WaitlistForm variant="dark" buttonLabel="Get a free API key" />
         </div>
+        <p className="mt-6 font-mono text-xs text-[#7a7a70]">
+          One request · REST + JSON · no SDK · no background agents
+        </p>
       </div>
     </section>
   );

@@ -9,7 +9,7 @@ describe("랜딩 페이지 스모크", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "The deliverability check API for multi-tenant SaaS platforms.",
+        name: "Broken SPF never throws an error. Your email just stops arriving.",
       })
     ).toBeInTheDocument();
     expect(screen.getByText("Free tier available now")).toBeInTheDocument();
@@ -18,15 +18,16 @@ describe("랜딩 페이지 스모크", () => {
   it("모든 섹션 헤딩을 렌더링한다", () => {
     render(<Home />);
     const headings = [
-      "Using Resend or SendGrid? Add a safety check before sending.",
-      "When to check",
+      "Authentication is the input. Inbox placement is the outcome.",
+      "Why not just use SendGrid or Resend?",
+      "Call it while the problem is still cheap",
       "Before your AI agent sends",
       "Before your SaaS sends for a customer",
-      "Before an automation workflow fires",
+      "Before a bulk run or a scheduled send",
       "How it works",
-      "One thing, done right",
+      "One endpoint, and the reason behind every verdict",
       "FAQ",
-      "Start checking domains today.",
+      "Run it on your own domain.",
     ];
     for (const name of headings) {
       expect(screen.getByRole("heading", { name })).toBeInTheDocument();
@@ -35,15 +36,17 @@ describe("랜딩 페이지 스모크", () => {
 
   it("CTA 앵커가 올바른 타겟을 가리킨다", () => {
     render(<Home />);
-    // Nav + Hero의 "Get an API key" 링크 → #waitlist
-    const apiKeyLinks = screen.getAllByRole("link", { name: /Get an API key/ });
+    // Nav("Get an API key") + Hero("Get a free API key") 링크 → #waitlist
+    const apiKeyLinks = screen.getAllByRole("link", {
+      name: /Get a(n| free) API key/,
+    });
     expect(apiKeyLinks.length).toBeGreaterThanOrEqual(2);
     for (const link of apiKeyLinks) {
       expect(link).toHaveAttribute("href", "#waitlist");
     }
     // Secondary CTA → #example
     expect(
-      screen.getByRole("link", { name: "View example response" })
+      screen.getByRole("link", { name: "See a real response" })
     ).toHaveAttribute("href", "#example");
     // 앵커 타겟 섹션 존재
     expect(document.getElementById("waitlist")).not.toBeNull();
@@ -56,7 +59,7 @@ describe("랜딩 페이지 스모크", () => {
       screen.getByPlaceholderText("you@company.com")
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: /Get an API key/ })
+      screen.getByRole("button", { name: /Get a free API key/ })
     ).toBeInTheDocument();
   });
 
@@ -71,9 +74,13 @@ describe("랜딩 페이지 스모크", () => {
   it("FAQ 항목을 렌더링한다", () => {
     render(<Home />);
     for (const question of [
-      "Is this an ESP?",
+      "Does this replace SendGrid or Resend?",
+      "Does it measure whether my email reaches the inbox?",
+      "Why do I need this if SPF and DKIM are already set up?",
       "Who is it built for?",
-      "What signals do you inspect?",
+      "What exactly do you inspect?",
+      "Does it keep watching my domain after the response?",
+      "Is the score AI-generated?",
       "Do you see my email content?",
       "What does the free tier include?",
     ]) {

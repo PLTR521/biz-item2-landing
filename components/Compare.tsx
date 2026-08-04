@@ -2,21 +2,28 @@ const worksWith = ["Resend", "SendGrid", "Postmark", "Amazon SES"];
 
 const pipeline = [
   { label: "Your app", sub: "queues an email", guard: false },
-  { label: "Email Deliverability", sub: "/api/check · runs first", guard: true },
+  {
+    label: "Email Deliverability",
+    sub: "/api/check · auth + blocklists",
+    guard: true,
+  },
   { label: "Your ESP", sub: "Resend · SendGrid · Postmark", guard: false },
-  { label: "Inbox", sub: "not the spam folder", guard: false },
+  { label: "Inbox", sub: "where it should land", guard: false },
 ];
 
 export default function Compare() {
   return (
     <section className="border-t border-[var(--border)] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <p className="eyebrow mb-4">01 — Where it sits</p>
+        <p className="eyebrow mb-4">02 — Where it sits</p>
         <h2 className="mb-4 max-w-2xl text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
-          Using Resend or SendGrid? Add a safety check before sending.
+          Why not just use SendGrid or Resend?
         </h2>
         <p className="mb-12 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-          The check runs before your ESP, not instead of it.
+          Because an ESP&apos;s job starts the moment you hand it the message.
+          It accepts the send, delivers what it can, and reports bounces
+          afterward. This answers a different question, one step earlier: is
+          this domain authenticated and in the clear right now?
         </p>
 
         {/* Pipeline: where the check sits in the send path */}
@@ -55,6 +62,11 @@ export default function Compare() {
             </div>
           ))}
         </div>
+
+        <p className="mt-6 font-mono text-xs leading-relaxed text-[var(--text-tertiary)]">
+          Runs before your ESP, not instead of it. No SMTP, no message content,
+          no queue to manage.
+        </p>
 
         <div className="mt-12 flex flex-wrap items-baseline gap-x-8 gap-y-3 border-t border-[var(--border)] pt-6">
           <p className="eyebrow">Works with</p>

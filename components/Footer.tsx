@@ -11,7 +11,11 @@ const links: FooterLink[] = [
   { href: "/#faq", label: "FAQ" },
   // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pricing 링크 미노출.
   ...(PAYMENTS_ENABLED ? [{ href: "/pricing", label: "Pricing" }] : []),
-  { href: "https://send-guard-ai.vercel.app/health", label: "API health", external: true },
+  {
+    href: "https://email-deliverability-app.vercel.app/health",
+    label: "API health",
+    external: true,
+  },
 ];
 
 export default function Footer() {
@@ -30,8 +34,8 @@ export default function Footer() {
             </span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-[#7a7a70]">
-            The deliverability check that runs before your ESP. No dashboard,
-            no warmup — one endpoint.
+            The pre-send deliverability check. SPF, DKIM, DMARC, and blocklists
+            — one endpoint, before your ESP.
           </p>
         </div>
 

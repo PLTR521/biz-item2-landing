@@ -1,6 +1,67 @@
 # PROJECT_STATUS.md
 
-> 최종 업데이트: 2026-07-31 (실사용 후기 반영 — 과장 문구 삭제 + 실응답 증거 게시)
+> 최종 업데이트: 2026-08-04 (랜딩 카피 전면 개편 — 포지셔닝·CVR·오해 차단 3라운드)
+>
+> ### ✅ 2026-08-04 — 랜딩 카피/포지셔닝 개편 (Reddit 고객 조사 반영, UI 무변경)
+> 사용자가 r/emaildeliverability 등에서 조사한 실제 고객 언어를 반영해 카피만 3라운드로 고쳤다.
+> **레이아웃·색상·타이포그래피·여백은 한 줄도 안 건드렸다.** 새로 만든 `Chain.tsx`도 기존 토큰
+> (`.eyebrow` / 파이프라인 카드 / `--ok`·`--ok-soft` / lucide `Check`)만 재사용했다.
+>
+> **① 포지셔닝** — "도메인 한 번 검사하는 API" → "보내기 전에 인증·평판 문제를 잡는 사전 점검 API".
+> h1을 `Broken SPF never throws an error. Your email just stops arriving.`로 교체(문제 우선).
+> Safe Send Volume 비중을 낮추고 SPF/DKIM/DMARC/DNSBL을 전면에 올렸다.
+>
+> **② CVR** — Compare h2를 반론 그대로(`Why not just use SendGrid or Resend?`)로 바꾸고,
+> Example에 **시그널 → 의미 → 조치** 블록 6행 추가(응답 필드가 아니라 페이지 설명임을 화면에 명시).
+> `lib/risk.ts`가 순수 룰이라 **채점 규칙을 공개**했다(warn 2 → warning, critical 1 → bad + ceiling 0).
+> CTA: `Get an API key` → `Get a free API key`, 최종 CTA h2 → `Run it on your own domain.`
+>
+> **③ 오해 차단(신규 섹션 `Chain.tsx`, Hero 바로 아래 `01`)** — "Deliverability API"라는 이름 때문에
+> **inbox placement를 직접 측정한다고 오해받는 것**을 막는 게 목적. Authentication → Sender reputation
+> → Inbox placement → Customer 체인을 세로로 보여주고 **우리가 읽는 1·2단계만 ok 색으로 표시**
+> (2단계는 "blocklists, too" — DNSBL이 실제로 reputation 레이어라 1단계만 표시하면 오히려 과소설명).
+> 3·4단계는 "측정하지 않는다"고 섹션 본문 + FAQ 양쪽에 명시. 섹션 번호 01~06으로 재정렬.
+>
+> **⚠️ 카피가 코드를 앞서지 않도록 실제로 잘라낸 것들** (BUILD.md 불변 규칙 준수):
+> - `DMARC alignment 검사` ✂️ — `auth-records.ts`는 레코드 존재 + `p=` 값만 본다. alignment 검증 없음.
+> - `SPF 설정 오류 검출` ✂️ — `v=spf1` 존재 여부만 확인. 10-lookup 초과 등은 못 잡는다.
+> - `Gmail 평판 하락 감지` ✂️ — Postmaster 데이터를 안 본다.
+> - `Missing DKIM` ✂️ → `A DKIM selector with no key published behind it` — 셀렉터 없으면
+>   `DKIM_NOT_CHECKED`(실패 아님)라서 "누락"이라고 쓸 수 없다.
+> - `Suspicious DNS configuration` ✂️ — 그런 판정을 하는 코드가 없다. 실재하는 `DOMAIN_UNRESOLVED`로 대체.
+> - 파이프라인 마지막 노드 `not the spam folder` → `where it should land` (유일하게 결과를 약속하는 문장이었음).
+> - 금지 표현(Continuous Monitoring / Automatic Alerts / Background Scanning / Real-time / AI Detection /
+>   Inbox Guarantee) 0건. FAQ의 "no background job, no alerting", "not a guarantee"는 전부 부정문.
+> - 반대로 `dnsbl.ts`에서 **없던 근거를 발견해 노출**: 블록리스트가 조회를 거부하면 `"unknown", never "clean"`.
+>
+> **🔗 API 호스트 교체:** `send-guard-ai.vercel.app` → **`email-deliverability-app.vercel.app`**.
+> Hero curl / Example curl / Footer "API health" 링크 + **`WaitlistForm.tsx`의 `API_BASE` 폴백**까지 전부.
+> 마지막 건은 실제 가입 요청 경로라 바꾸기 전에 `/health` 실호출로
+> `{"status":"ok","service":"email-deliverability"}` 확인함. 코드 경로에 구 도메인 잔존 0건
+> (문서의 "당시 호스트 → 현 주소" 주석만 남김 — 날짜별 로그를 소급 조작하지 않기 위해).
+>
+> **🐞 곁다리로 고친 기존 버그 2건:**
+> - `__tests__/waitlist-form.test.tsx`의 `/also sent to your inbox/i`가 컴포넌트 실제 문구
+>   (`also sent **a copy** to your inbox`)와 안 맞아 **이번 세션 이전부터 실패 중**이었다. 정규식 수정.
+> - `.claude/launch.json`의 `sendguard-dev`가 없어진 폴더(`biz-item2-landing`)를 가리켜 실행 불가 →
+>   `email-deliverability-landing-dev`(포트 3000)로 교체. 2026-07-31에도 같은 유형의 사고가 있었다.
+>
+> 검증: `tsc --noEmit` / `vitest` 11개 / `next build` 통과. 브라우저 실측 — 콘솔 에러 0건,
+> 375px·데스크톱 가로 스크롤 없음, Hero CTA가 720px 뷰포트에서도 폴드 위(649~697px).
+>
+> ### ✅ 2026-08-02 — 리포/프로젝트 이름 정합성 정리
+> Vercel 프로젝트 이름과 GitHub 리포 이름이 서로 어긋나 있던 걸(2026-07-17 리네이밍 때 Vercel
+> 프로젝트명만 바꾸고 GitHub 리포명은 그대로 뒀던 것) 이번에 GitHub 쪽도 맞춰서 정리했다.
+> - GitHub 리포 `PLTR521/biz-item2-landing` → **`PLTR521/email-deliverabilityapi`**로 리네임
+>   (Vercel 프로젝트 `email-deliverabilityapi`와 이름 일치. 이 리포가 실제 랜딩/가입폼 소스임 — 이름에
+>   "api"가 들어가지만 랜딩 리포가 맞다, 혼동 주의)
+> - GitHub 리포 `PLTR521/SendGuard-AI` → **`PLTR521/email-deliverability`**로 리네임
+>   (Vercel 프로젝트 `email-deliverability`와 이름 일치. 이 리포는 API 서버 리포)
+> - 로컬 폴더 `C:\온라인 사업\biz-item2-landing`도 사용자가 직접 `email-deliverabilityapi`로 리네임함
+>   (로컬 폴더 `C:\온라인 사업\email-deliverability`는 API 서버 리포 그대로 유지)
+> - `6251604`("Always warn the key won't be shown again, even when emailed", `WaitlistForm.tsx`)는
+>   이미 main에 push되어 있었음을 재확인 (기존에 이미 반영 완료, 별도 push 불필요했음)
+> - Vercel Git 연결은 리포 ID 기준이라 리네임 후에도 끊기지 않고 유지됨 확인
 >
 > ### ✅ 2026-07-31 — 카피 정직성 정리 (API 리포 `SESSION_LOG_2026-07-30.md` 후속)
 > 2026-07-30 실사용 후기가 남긴 "다음 우선순위 ③"을 처리했다.
