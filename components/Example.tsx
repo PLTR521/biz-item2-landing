@@ -1,5 +1,5 @@
 import CodeCard, { K, S, N, C, Cmd, Flag } from "./CodeCard";
-import { API_HOST, SITE_HOST } from "@/lib/site";
+import { API_HOST } from "@/lib/site";
 
 const specs = [
   "Spamhaus · Barracuda · SpamCop",
@@ -260,8 +260,12 @@ export default function Example() {
           {/*
             ── 자기 도메인 공개 ────────────────────────────────────────────────
             딜리버러빌리티 도구가 자기 도메인 결과를 숨기면 그 순간 신뢰를 잃는다.
-            아래 dig 출력은 2026-08-05에 8.8.8.8로 실제 조회한 결과다.
+            대상은 이 API가 응답하는 호스트다 — 랜딩 주소가 아니다.
+            페이지에 도메인은 하나만 인쇄한다(lib/site.ts 주석 참조).
+
+            아래 값은 2026-08-05에 8.8.8.8로 실제 조회한 결과다.
             결과가 좋지 않다 — 이 호스트에는 MX도 SPF도 DMARC도 없다. 그대로 노출한다.
+            A 레코드는 회전할 수 있으므로 날짜를 카드에 박아둔다.
 
             ⚠️ 이 블록에는 캡처된 /api/check 응답이 아직 들어 있지 않다.
                넣으려면 실제 키로 아래 curl을 돌려 응답을 그대로 붙일 것.
@@ -269,31 +273,31 @@ export default function Example() {
             ──────────────────────────────────────────────────────────────── */}
           <div className="mt-8 border-t border-[var(--border)] pt-6">
             <CodeCard
-              label={`$ nslookup ${SITE_HOST}`}
+              label={`$ nslookup ${API_HOST}`}
               meta="2026-08-05 · resolver 8.8.8.8"
             >
-              <Cmd>nslookup</Cmd> <Flag>-type=MX</Flag> {SITE_HOST} 8.8.8.8
+              <Cmd>nslookup</Cmd> <Flag>-type=MX</Flag> {API_HOST} 8.8.8.8
               {"\n"}
               <C>→ no MX records</C>
               {"\n\n"}
-              <Cmd>nslookup</Cmd> <Flag>-type=TXT</Flag> {SITE_HOST} 8.8.8.8
+              <Cmd>nslookup</Cmd> <Flag>-type=TXT</Flag> {API_HOST} 8.8.8.8
               {"\n"}
               <C>→ no TXT records — no v=spf1</C>
               {"\n\n"}
-              <Cmd>nslookup</Cmd> <Flag>-type=TXT</Flag> _dmarc.{SITE_HOST}{" "}
+              <Cmd>nslookup</Cmd> <Flag>-type=TXT</Flag> _dmarc.{API_HOST}{" "}
               8.8.8.8
               {"\n"}
               <C>→ no TXT records — no v=DMARC1</C>
               {"\n\n"}
-              <Cmd>nslookup</Cmd> <Flag>-type=A</Flag> {SITE_HOST} 8.8.8.8
+              <Cmd>nslookup</Cmd> <Flag>-type=A</Flag> {API_HOST} 8.8.8.8
               {"\n"}
-              <C>→</C> 64.29.17.131, 216.198.79.131
+              <C>→</C> 64.29.17.3, 216.198.79.3
             </CodeCard>
             <p className="mt-3 text-sm leading-relaxed text-[var(--text-tertiary)]">
-              That is this page&apos;s own hostname, looked up on the date shown
-              and summarised — the arrows are the answers, not the raw
-              transcript. It has no MX record, no SPF record, and no DMARC
-              record, so pointing{" "}
+              That is the host answering every call on this page, looked up on
+              the date shown and summarised — the arrows are the answers, not
+              the raw transcript. It has no MX record, no SPF record, and no
+              DMARC record, so pointing{" "}
               <code className="font-mono text-[var(--text-secondary)]">
                 /api/check
               </code>{" "}
@@ -313,9 +317,11 @@ export default function Example() {
               <code className="font-mono text-[var(--text-secondary)]">
                 reputation: &quot;warning&quot;
               </code>
-              . It is a static site that sends no mail, which is the reason and
-              not an excuse. We would rather print our own bad result than let
-              you find it. Run it yourself:
+              . No mail is sent as this hostname — it is an API deployment on a
+              platform subdomain whose DNS we don&apos;t control. That is the
+              reason and not an excuse: the check reports us exactly the way it
+              would report you. We would rather print our own bad result than
+              let you find it. Run it yourself:
             </p>
             <div className="mt-4">
               <CodeCard label="$ curl">
@@ -332,7 +338,7 @@ export default function Example() {
                 {"\n  "}
                 <Flag>-d</Flag>{" "}
                 <S>
-                  &apos;&#123;&quot;domain&quot;: &quot;{SITE_HOST}
+                  &apos;&#123;&quot;domain&quot;: &quot;{API_HOST}
                   &quot;&#125;&apos;
                 </S>
               </CodeCard>

@@ -1,20 +1,23 @@
 /**
- * 페이지 전체에서 쓰는 단일 도메인 상수.
+ * 페이지에 인쇄되는 유일한 도메인.
  *
- * 이 리포(랜딩)와 API는 서로 다른 배포다. 예전에 카피에는 랜딩 주소가,
- * curl 예제에는 API 주소가 섞여 들어가 방문자가 어디로 요청을 보내야 하는지
- * 알 수 없었다. 그래서 하드코딩을 전부 여기로 모은다 —
- * 문서·코드카드·푸터·가입폼은 반드시 이 상수만 참조할 것.
+ * ⚠️ 이 파일에 두 번째 호스트를 추가하지 말 것.
  *
+ * 랜딩(이 리포)은 emaildeliverability.vercel.app 에 배포되지만 그 주소는 API가
+ * 아니다 — 2026-08-05 실측: /health, /api/check, /api/signup 전부 404다.
+ * 예전에는 카피에 랜딩 주소가, curl 예제에는 API 주소가 섞여 들어가
+ * 한 페이지에 두 도메인이 21회(9 + 12) 인쇄됐고, 방문자는 어디로 요청을
+ * 보내야 하는지 알 수 없었다. 그래서 랜딩 주소는 화면에서 완전히 제거했다.
+ * 자기 도메인 검사 블록도 API 호스트를 대상으로 한다.
+ *
+ * 문서·코드카드·푸터·가입폼은 반드시 아래 상수만 참조할 것.
  * 바꾸기 전에 반드시 `curl https://<새 주소>/health` 로 실호출 확인.
  */
-
-/** 랜딩페이지가 서비스되는 주소 (이 리포). */
-export const SITE_HOST = "emaildeliverability.vercel.app";
 
 /**
  * API 배포 주소 (별도 리포 PLTR521/email-deliverability).
  * 2026-08-04: 구 호스트 send-guard-ai.vercel.app → email-deliverability-app.vercel.app.
+ * 2026-08-05 실측: /health 200, /api/check 401(missing_api_key), /api/signup 400.
  */
 export const API_ORIGIN =
   process.env.NEXT_PUBLIC_SENDGUARD_API_URL ||

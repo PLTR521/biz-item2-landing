@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { render, screen } from "@testing-library/react";
 import Home from "@/app/page";
 import { PAYMENTS_ENABLED } from "@/lib/pricing";
+import { API_HOST } from "@/lib/site";
 
 describe("랜딩 페이지 스모크", () => {
   it("히어로 헤드라인과 Eyebrow를 렌더링한다", () => {
@@ -34,6 +35,27 @@ describe("랜딩 페이지 스모크", () => {
     for (const name of headings) {
       expect(screen.getByRole("heading", { name })).toBeInTheDocument();
     }
+  });
+
+  /*
+    한때 이 페이지에는 랜딩 주소와 API 주소가 섞여 21회(9 + 12) 인쇄됐고,
+    방문자는 어느 쪽으로 요청을 보내야 하는지 알 수 없었다.
+    랜딩 주소(emaildeliverability.vercel.app)는 API가 아니다 — /health,
+    /api/check, /api/signup 전부 404다. 그래서 화면에는 API 호스트 하나만 나온다.
+    이 테스트가 깨지면 두 번째 도메인이 다시 들어온 것이다. 상수를 고쳐라.
+  */
+  it("페이지에 인쇄되는 vercel.app 호스트는 API 호스트 하나뿐이다", () => {
+    const { container } = render(<Home />);
+    const hosts = new Set(
+      (
+        container.innerHTML.match(
+          /[_a-z0-9-]+(?:\.[_a-z0-9-]+)*\.vercel\.app/gi
+        ) ?? []
+      )
+        // _dmarc.<host>는 DMARC 조회 이름이지 별개 도메인이 아니다
+        .map((h) => h.toLowerCase().replace(/^_dmarc\./, ""))
+    );
+    expect([...hosts]).toEqual([API_HOST]);
   });
 
   it("CTA 앵커가 올바른 타겟을 가리킨다", () => {
