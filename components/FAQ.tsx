@@ -2,6 +2,20 @@ import { PAYMENTS_ENABLED } from "@/lib/pricing";
 
 const faqs = [
   {
+    // 수집 사례에서 가장 많이 나온 반론이자 가장 먼저 답해야 하는 질문.
+    q: "I already have 10/10 on mail-tester. Why would I need this?",
+    a: "Because that score is about one message you sent by hand, down one path, at one moment. It says the message you mailed the tester authenticated correctly. It doesn't enumerate which IPs your domain resolves to today, it doesn't run them against blocklists on every send, and it can't be called from your code before a batch goes out. Plenty of the people who end up debugging deliverability are sitting on a perfect tester score — that's the situation this is built for, not the exception to it.",
+  },
+  {
+    q: "Is this the same as Google Postmaster Tools or SNDS?",
+    a: "No, and it doesn't replace either. Those are the provider's view of what already happened: aggregated over days, after you've sent, and often greyed out entirely if your volume is below their reporting threshold. This is the configuration state before you send — records and IPs, read live, returned in one request you can call from a worker. You want both. They answer \"how did it go\", this answers \"is anything obviously broken right now\".",
+  },
+  {
+    q: "My emails work manually but fail in automation. Will this help?",
+    // 팔지 않는 답. 사례 5 — 이 사람에게 이 제품은 필요 없다.
+    a: "Probably not. When mail sends fine by hand and only breaks inside a workflow tool or a cron job, the cause is usually the recipient address, not the domain — a template variable rendering empty or with quotes still attached, producing bounces like \"Address not found\". Log the actual To value right before the send and read it. Don't touch your DNS. That case is covered in what this does not do, above.",
+  },
+  {
     q: "Does this replace SendGrid or Resend?",
     a: "No, and it can't — it has no SMTP layer and never touches a message. Your ESP takes the email and delivers it. This runs one step earlier and answers a question your ESP doesn't: is the domain authenticated and off the blocklists right now? Keep the ESP; put this in front of it.",
   },
@@ -21,7 +35,7 @@ const faqs = [
   {
     q: "What exactly do you inspect?",
     // 과장 금지: 저장된 이력이 아니라 매 요청 시점의 라이브 DNS 조회가 전부다.
-    a: "Authentication — the SPF and DMARC records on the domain, the DMARC policy value, and DKIM when you pass a selector. Reputation — every sending IP behind the domain's MX against Spamhaus ZEN, Barracuda, and SpamCop. All of it is read live from DNS on each request and rolled up into one reputation level, one risk level, and the signals behind them. We store no reputation history, so every answer is what DNS says at the moment you ask.",
+    a: "Sending IPs first — the A records of the domain's MX hosts, or the domain's own A records when there's no MX, up to five per request, each against Spamhaus ZEN, Barracuda, and SpamCop. Then authentication: the SPF and DMARC records, the DMARC policy value, and DKIM when you pass a selector. All of it read live from DNS on each request and rolled up into one reputation level, one risk level, and the signals behind them. We store no history, so every answer is what DNS says at the moment you ask.",
   },
   {
     q: "Does it keep watching my domain after the response?",
@@ -54,7 +68,7 @@ export default function FAQ() {
     >
       <div className="mx-auto grid max-w-6xl gap-10 md:grid-cols-[1fr_2fr]">
         <div>
-          <p className="eyebrow mb-4">06 — Questions</p>
+          <p className="eyebrow mb-4">08 — Questions</p>
           <h2 className="text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
             FAQ
           </h2>

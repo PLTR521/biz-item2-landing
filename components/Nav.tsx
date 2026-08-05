@@ -3,7 +3,8 @@ import { PAYMENTS_ENABLED } from "@/lib/pricing";
 
 // 홈·/pricing 공용 — 섹션 링크는 '/#...'로 두 페이지 어디서든 동작한다.
 const links = [
-  { href: "/#how-it-works", label: "How it works" },
+  { href: "/#patterns", label: "Sending IPs" },
+  { href: "/#limits", label: "Limits" },
   { href: "/#example", label: "Example" },
   // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pricing 링크 미노출.
   ...(PAYMENTS_ENABLED ? [{ href: "/pricing", label: "Pricing" }] : []),

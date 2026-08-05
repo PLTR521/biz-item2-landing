@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PAYMENTS_ENABLED } from "@/lib/pricing";
+import { API_HEALTH_URL } from "@/lib/site";
 
 // 홈·/pricing 공용 — 섹션 링크는 '/#...'로 두 페이지 어디서든 동작한다.
 // PAYMENTS_ENABLED를 켜고 끌 때 배열 요소 타입이 흔들리지 않도록 명시적으로 고정.
@@ -11,8 +12,9 @@ const links: FooterLink[] = [
   { href: "/#faq", label: "FAQ" },
   // 결제 미연동 — PAYMENTS_ENABLED가 true가 될 때까지 Pricing 링크 미노출.
   ...(PAYMENTS_ENABLED ? [{ href: "/pricing", label: "Pricing" }] : []),
+  { href: "/#limits", label: "What it doesn't do" },
   {
-    href: "https://email-deliverability-app.vercel.app/health",
+    href: API_HEALTH_URL,
     label: "API health",
     external: true,
   },
@@ -34,8 +36,9 @@ export default function Footer() {
             </span>
           </p>
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-[#7a7a70]">
-            The pre-send deliverability check. SPF, DKIM, DMARC, and blocklists
-            — one endpoint, before your ESP.
+            The pre-send deliverability check. Sending IPs against three
+            blocklists, plus SPF, DKIM and DMARC — one endpoint, before your
+            ESP.
           </p>
         </div>
 

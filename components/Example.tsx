@@ -1,8 +1,9 @@
 import CodeCard, { K, S, N, C, Cmd, Flag } from "./CodeCard";
+import { API_HOST, SITE_HOST } from "@/lib/site";
 
 const specs = [
-  "SPF · DKIM · DMARC",
   "Spamhaus · Barracuda · SpamCop",
+  "SPF · DKIM · DMARC",
   "Live DNS per request",
   "REST · JSON · no SDK",
   "Deterministic scoring",
@@ -14,8 +15,34 @@ const specs = [
   아래 "무엇을 의미하고 무엇을 하면 되는가"는 이 페이지의 설명이지 응답 필드가 아니다.
   그 사실을 화면에도 명시한다(아래 안내 문단). 없는 필드를 있는 것처럼 보이면 안 된다.
   코드값은 lib/dns/auth-records.ts · lib/dns/dnsbl.ts의 실제 코드와 일치해야 한다.
+
+  순서는 페이지 포지셔닝과 같다: 블록리스트 먼저, 인증 나중.
 */
 const signalGuide = [
+  {
+    code: "DNSBL_SPAMHAUS_ZEN",
+    means:
+      "A sending IP is on the blocklist most receivers actually act on. This is the only severity:critical signal in the set.",
+    action: "Stop sending from that IP and request delisting at Spamhaus.",
+  },
+  {
+    code: "DNSBL_BARRACUDA · DNSBL_SPAMCOP",
+    means:
+      "A sending IP is listed somewhere narrower. Two of these together are enough to move the verdict to warning on their own.",
+    action:
+      "Check which IP in resolvedIps it is before you assume it's your ESP's.",
+  },
+  {
+    code: "DNSBL_QUERY_BLOCKED_*",
+    means:
+      "A list refused the lookup. The result is unknown, and unknown is reported as unknown — never rounded up to clean.",
+    action: "Re-run it, or treat that one list as unchecked for this send.",
+  },
+  {
+    code: "DOMAIN_UNRESOLVED",
+    means: "No MX or A records resolved, so there are no sending IPs to score.",
+    action: "Confirm the domain is spelled right and its DNS is live.",
+  },
   {
     code: "SPF_MISSING",
     means:
@@ -41,16 +68,6 @@ const signalGuide = [
     action:
       "Move to p=quarantine once every sending source authenticates cleanly.",
   },
-  {
-    code: "DNSBL_SPAMHAUS_ZEN",
-    means: "A sending IP is on the blocklist most receivers actually act on.",
-    action: "Stop sending from that IP and request delisting at Spamhaus.",
-  },
-  {
-    code: "DOMAIN_UNRESOLVED",
-    means: "No MX or A records resolved, so there are no sending IPs to score.",
-    action: "Confirm the domain is spelled right and its DNS is live.",
-  },
 ];
 
 export default function Example() {
@@ -60,7 +77,7 @@ export default function Example() {
       className="scroll-mt-20 border-t border-[var(--border)] px-6 py-20 md:py-28"
     >
       <div className="mx-auto max-w-3xl">
-        <p className="eyebrow mb-4">05 — The API surface</p>
+        <p className="eyebrow mb-4">06 — The API surface</p>
         <h2 className="mb-6 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
           One endpoint, and the reason behind every verdict
         </h2>
@@ -76,9 +93,19 @@ export default function Example() {
           <K>&quot;spamRisk&quot;</K>: <S>&quot;medium&quot;</S>,{"      "}
           <C>// low | medium | high</C>
           {"\n  "}
+          <K>&quot;resolvedIps&quot;</K>: {"[ "}
+          <S>&quot;198.51.100.24&quot;</S>, ...{" ],  "}
+          <C>// the IPs it actually checked</C>
+          {"\n  "}
           <K>&quot;signals&quot;</K>: {"[            "}
           <C>// every verdict comes with its evidence</C>
           {"\n    { "}
+          <K>&quot;code&quot;</K>: <S>&quot;DNSBL_SPAMCOP&quot;</S>,{" "}
+          <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>,
+          {"\n      "}
+          <K>&quot;detail&quot;</K>:{" "}
+          <S>&quot;198.51.100.24 is listed on SpamCop&quot;</S>
+          {" },\n    { "}
           <K>&quot;code&quot;</K>: <S>&quot;SPF_MISSING&quot;</S>,{" "}
           <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>,
           {"\n      "}
@@ -87,13 +114,7 @@ export default function Example() {
           {" },\n    { "}
           <K>&quot;code&quot;</K>: <S>&quot;DMARC_POLICY_NONE&quot;</S>,{" "}
           <K>&quot;severity&quot;</K>: <S>&quot;info&quot;</S>
-          {" },\n    { "}
-          <K>&quot;code&quot;</K>: <S>&quot;DNSBL_SPAMCOP&quot;</S>,{" "}
-          <K>&quot;severity&quot;</K>: <S>&quot;warn&quot;</S>
           {" }\n  ],\n  "}
-          <K>&quot;resolvedIps&quot;</K>: {"[ "}
-          <S>&quot;198.51.100.24&quot;</S>, ...{" ],"}
-          {"\n  "}
           <K>&quot;safeToSendToday&quot;</K>: <N>500</N>,{"       "}
           <C>// conservative, rule-based</C>
           {"\n  "}
@@ -125,8 +146,8 @@ export default function Example() {
             <code className="font-mono text-[var(--text-secondary)]">
               detail
             </code>
-            . Here&apos;s what each one means and what to do about it. Scoring is
-            deterministic, not a model: two{" "}
+            . Here&apos;s what each one means and what to do about it. The
+            scoring is a handful of rules, not a model: two{" "}
             <code className="font-mono text-[var(--text-secondary)]">warn</code>{" "}
             signals make the reputation{" "}
             <code className="font-mono text-[var(--text-secondary)]">
@@ -138,7 +159,8 @@ export default function Example() {
             </code>{" "}
             makes it{" "}
             <code className="font-mono text-[var(--text-secondary)]">bad</code>{" "}
-            with a ceiling of zero. Same domain, same DNS, same answer.
+            with a ceiling of zero. That matters for one reason only — you can
+            reproduce it. Same domain, same DNS, same answer.
           </p>
           <div className="divide-y divide-[var(--border)] border-y border-[var(--border)]">
             {signalGuide.map((signal) => (
@@ -171,7 +193,7 @@ export default function Example() {
             Live — verify it yourself
           </p>
           <CodeCard label="$ curl">
-            <Cmd>curl</Cmd> https://email-deliverability-app.vercel.app/health
+            <Cmd>curl</Cmd> https://{API_HOST}/health
             {"\n\n"}
             {"{ "}
             <K>&quot;status&quot;</K>: <S>&quot;ok&quot;</S>,{" "}
@@ -233,6 +255,88 @@ export default function Example() {
               </code>{" "}
               were trimmed to fit. Sign up and run the same call.
             </p>
+          </div>
+
+          {/*
+            ── 자기 도메인 공개 ────────────────────────────────────────────────
+            딜리버러빌리티 도구가 자기 도메인 결과를 숨기면 그 순간 신뢰를 잃는다.
+            아래 dig 출력은 2026-08-05에 8.8.8.8로 실제 조회한 결과다.
+            결과가 좋지 않다 — 이 호스트에는 MX도 SPF도 DMARC도 없다. 그대로 노출한다.
+
+            ⚠️ 이 블록에는 캡처된 /api/check 응답이 아직 들어 있지 않다.
+               넣으려면 실제 키로 아래 curl을 돌려 응답을 그대로 붙일 것.
+               직접 타이핑해서 채우지 말 것 — 그러면 증거가 아니라 광고가 된다.
+            ──────────────────────────────────────────────────────────────── */}
+          <div className="mt-8 border-t border-[var(--border)] pt-6">
+            <CodeCard
+              label={`$ nslookup ${SITE_HOST}`}
+              meta="2026-08-05 · resolver 8.8.8.8"
+            >
+              <Cmd>nslookup</Cmd> <Flag>-type=MX</Flag> {SITE_HOST} 8.8.8.8
+              {"\n"}
+              <C>→ no MX records</C>
+              {"\n\n"}
+              <Cmd>nslookup</Cmd> <Flag>-type=TXT</Flag> {SITE_HOST} 8.8.8.8
+              {"\n"}
+              <C>→ no TXT records — no v=spf1</C>
+              {"\n\n"}
+              <Cmd>nslookup</Cmd> <Flag>-type=TXT</Flag> _dmarc.{SITE_HOST}{" "}
+              8.8.8.8
+              {"\n"}
+              <C>→ no TXT records — no v=DMARC1</C>
+              {"\n\n"}
+              <Cmd>nslookup</Cmd> <Flag>-type=A</Flag> {SITE_HOST} 8.8.8.8
+              {"\n"}
+              <C>→</C> 64.29.17.131, 216.198.79.131
+            </CodeCard>
+            <p className="mt-3 text-sm leading-relaxed text-[var(--text-tertiary)]">
+              That is this page&apos;s own hostname, looked up on the date shown
+              and summarised — the arrows are the answers, not the raw
+              transcript. It has no MX record, no SPF record, and no DMARC
+              record, so pointing{" "}
+              <code className="font-mono text-[var(--text-secondary)]">
+                /api/check
+              </code>{" "}
+              at it returns{" "}
+              <code className="font-mono text-[var(--text-secondary)]">
+                SPF_MISSING
+              </code>{" "}
+              and{" "}
+              <code className="font-mono text-[var(--text-secondary)]">
+                DMARC_MISSING
+              </code>{" "}
+              — two{" "}
+              <code className="font-mono text-[var(--text-secondary)]">
+                warn
+              </code>{" "}
+              signals, which the rules above turn into{" "}
+              <code className="font-mono text-[var(--text-secondary)]">
+                reputation: &quot;warning&quot;
+              </code>
+              . It is a static site that sends no mail, which is the reason and
+              not an excuse. We would rather print our own bad result than let
+              you find it. Run it yourself:
+            </p>
+            <div className="mt-4">
+              <CodeCard label="$ curl">
+                <Cmd>curl</Cmd> <Flag>-X</Flag> POST https://{API_HOST}/api/check{" "}
+                <span className="text-[var(--code-comment)]">\</span>
+                {"\n  "}
+                <Flag>-H</Flag>{" "}
+                <S>&quot;Authorization: Bearer YOUR_KEY&quot;</S>{" "}
+                <span className="text-[var(--code-comment)]">\</span>
+                {"\n  "}
+                <Flag>-H</Flag>{" "}
+                <S>&quot;Content-Type: application/json&quot;</S>{" "}
+                <span className="text-[var(--code-comment)]">\</span>
+                {"\n  "}
+                <Flag>-d</Flag>{" "}
+                <S>
+                  &apos;&#123;&quot;domain&quot;: &quot;{SITE_HOST}
+                  &quot;&#125;&apos;
+                </S>
+              </CodeCard>
+            </div>
           </div>
         </div>
       </div>

@@ -4,10 +4,11 @@ const steps = [
     body: "One REST call with a JSON body, right before your ESP would send. Add a dkimSelector and that record gets read too. No SDK, no setup, nothing to install.",
   },
   {
-    title: "We read the records live",
+    title: "We resolve the IPs and read the records live",
     // 실제로 하는 일만 적는다: 요청 시점의 라이브 DNS 조회.
     // 이력 데이터는 저장도 조회도 하지 않으므로 "reputation history"라고 쓰면 거짓말이 된다.
-    body: "SPF, DKIM, and DMARC straight from DNS, then every sending IP behind the domain's MX against Spamhaus ZEN, Barracuda, and SpamCop. Nothing cached, nothing inferred from history.",
+    // MAX_IPS_TO_CHECK = 5 (lib/check.ts) — "every IP"라고 쓰면 과장이다.
+    body: "The IPs behind the domain's MX first — up to five per request — each against Spamhaus ZEN, Barracuda, and SpamCop. Then SPF and DMARC straight from DNS, plus DKIM if you passed a selector. Nothing cached, nothing inferred from history.",
   },
   {
     title: "You get the verdict and the evidence",
@@ -22,7 +23,7 @@ export default function HowItWorks() {
       className="scroll-mt-16 border-t border-[var(--border)] px-6 py-20 md:py-28"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="eyebrow mb-4">04 — Mechanics</p>
+        <p className="eyebrow mb-4">05 — Mechanics</p>
         <h2 className="mb-12 text-[1.75rem] font-semibold tracking-[-0.03em] md:text-[2.1rem]">
           How it works
         </h2>

@@ -2,19 +2,14 @@
 
 import { useState } from "react";
 import { Check, Copy } from "lucide-react";
-
-// Email Deliverability API 배포 주소 (별도 리포 PLTR521/email-deliverability).
-// 2026-08-04: 구 호스트 send-guard-ai.vercel.app → email-deliverability-app.vercel.app.
-// 바꾸기 전 /health 실호출로 {"status":"ok","service":"email-deliverability"} 확인함.
-const API_BASE =
-  process.env.NEXT_PUBLIC_SENDGUARD_API_URL ||
-  "https://email-deliverability-app.vercel.app";
+// 도메인 하드코딩 금지 — 주소는 전부 lib/site.ts 한 곳에서만 온다.
+import { API_SIGNUP_URL, API_LOGIN_URL } from "@/lib/site";
 
 // 셀프서브 무료 티어 가입 엔드포인트
-const SIGNUP_ENDPOINT = API_BASE + "/api/signup";
+const SIGNUP_ENDPOINT = API_SIGNUP_URL;
 
 // 키를 잃어버린 사람이 갈 곳. 로그인(매직링크) 후 대시보드에서 재발급한다.
-const RECOVER_URL = `${API_BASE}/login`;
+const RECOVER_URL = API_LOGIN_URL;
 
 const ERROR_MESSAGES: Record<string, string> = {
   invalid_email: "Please enter a valid email address.",

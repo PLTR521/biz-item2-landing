@@ -9,7 +9,7 @@ describe("랜딩 페이지 스모크", () => {
     expect(
       screen.getByRole("heading", {
         level: 1,
-        name: "Broken SPF never throws an error. Your email just stops arriving.",
+        name: "Everything says pass. The email still didn't arrive.",
       })
     ).toBeInTheDocument();
     expect(screen.getByText("Free tier available now")).toBeInTheDocument();
@@ -18,11 +18,13 @@ describe("랜딩 페이지 스모크", () => {
   it("모든 섹션 헤딩을 렌더링한다", () => {
     render(<Home />);
     const headings = [
-      "Authentication is the input. Inbox placement is the outcome.",
+      "The check that isn't in your stack",
+      "What this does not do",
+      "Authentication isn't reputation.",
       "Why not just use SendGrid or Resend?",
       "Call it while the problem is still cheap",
+      "Before your SaaS sends for a customer domain",
       "Before your AI agent sends",
-      "Before your SaaS sends for a customer",
       "Before a bulk run or a scheduled send",
       "How it works",
       "One endpoint, and the reason behind every verdict",
@@ -74,6 +76,9 @@ describe("랜딩 페이지 스모크", () => {
   it("FAQ 항목을 렌더링한다", () => {
     render(<Home />);
     for (const question of [
+      "I already have 10/10 on mail-tester. Why would I need this?",
+      "Is this the same as Google Postmaster Tools or SNDS?",
+      "My emails work manually but fail in automation. Will this help?",
       "Does this replace SendGrid or Resend?",
       "Does it measure whether my email reaches the inbox?",
       "Why do I need this if SPF and DKIM are already set up?",

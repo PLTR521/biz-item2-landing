@@ -52,21 +52,47 @@ export default function UseCases() {
     <section className="border-t border-[var(--border)] bg-[var(--bg-subtle)] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
         <div className="mb-12 md:mb-16">
-          <p className="eyebrow mb-4">03 — Use cases</p>
+          <p className="eyebrow mb-4">07 — Use cases</p>
           <h2 className="mb-3 text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
             Call it while the problem is still cheap
           </h2>
+          {/* 순서 근거: 수집 사례에서 가장 반복된 통증은 "내가 통제하지 않는
+              도메인·IP"였다. 그래서 멀티테넌트를 a로 올렸다. */}
           <p className="max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-            Before an autonomous send, before you onboard a customer domain,
-            before a bulk run — the three moments where an authentication
-            problem is still one DNS edit away from fixed.
+            Before you send for a domain you don&apos;t control, before an
+            autonomous send, before a bulk run — the three moments where the
+            answer still changes what happens next.
           </p>
         </div>
 
         <div className="flex flex-col gap-16 md:gap-24">
           <UseCaseRow
             index="a"
+            tag="Multi-tenant"
+            title="Before your SaaS sends for a customer domain"
+            body="A tenant domain doesn't stay the way you onboarded it. Customers wire the same domain into another platform, edit DNS, drop a record, move mail hosts and inherit whatever IPs come with it. Run each domain on its own right before you send for it and you get its records and its sending IPs as they are at that moment — so one customer's setup stays their problem instead of your platform's."
+            visual={
+              <CodeCard label="per-tenant">
+                <C>// Each customer&apos;s domain scored on its own</C>
+                {"\n"}
+                <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
+                <S>
+                  &#123;&quot;domain&quot;: &quot;tenant-a.com&quot;,
+                  &quot;dkimSelector&quot;: &quot;hs1&quot;&#125;
+                </S>
+                {"\n"}
+                <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
+                <S>&#123;&quot;domain&quot;: &quot;tenant-b.com&quot;&#125;</S>
+                {"\n"}
+                <C>// resolvedIps differ per tenant — read them</C>
+              </CodeCard>
+            }
+          />
+
+          <UseCaseRow
+            index="b"
             tag="AI agents"
+            flip
             visual={
               <CodeCard label="agent.ts">
                 <C>// Before the agent triggers a send</C>
@@ -82,31 +108,7 @@ export default function UseCases() {
               </CodeCard>
             }
             title="Before your AI agent sends"
-            body="Agents send in bursts, at odd hours, on triggers nobody reviews. One call per send means a missing DMARC record or a freshly listed IP is caught by your code — not discovered days later when replies stop coming."
-          />
-
-          <UseCaseRow
-            index="b"
-            tag="Multi-tenant"
-            flip
-            title="Before your SaaS sends for a customer"
-            body="A tenant domain doesn't stay the way you onboarded it. Customers wire the same domain into HubSpot or Mailchimp, edit DNS, drop a record. Run each domain on its own before you send for it and you get its SPF, DKIM, and DMARC state right now — so one customer's broken setup stays their problem, not your platform's reputation."
-            visual={
-              <CodeCard label="per-tenant">
-                <C>// Each customer&apos;s domain scored on its own</C>
-                {"\n"}
-                <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
-                <S>
-                  &#123;&quot;domain&quot;: &quot;tenant-a.com&quot;,
-                  &quot;dkimSelector&quot;: &quot;hs1&quot;&#125;
-                </S>
-                {"\n"}
-                <span className="text-[var(--code-flag)]">POST</span> /api/check{" "}
-                <S>&#123;&quot;domain&quot;: &quot;tenant-b.com&quot;&#125;</S>
-                {"\n"}
-                <C>// No cross-contamination</C>
-              </CodeCard>
-            }
+            body="Agents send in bursts, at odd hours, on triggers nobody reviews. One call per send means a freshly listed IP or a dropped DMARC record is caught by your code — not discovered days later when the replies dry up."
           />
 
           <UseCaseRow

@@ -4,7 +4,7 @@ const pipeline = [
   { label: "Your app", sub: "queues an email", guard: false },
   {
     label: "Email Deliverability",
-    sub: "/api/check · auth + blocklists",
+    sub: "/api/check · blocklists + auth",
     guard: true,
   },
   { label: "Your ESP", sub: "Resend · SendGrid · Postmark", guard: false },
@@ -15,15 +15,16 @@ export default function Compare() {
   return (
     <section className="border-t border-[var(--border)] px-6 py-20 md:py-28">
       <div className="mx-auto max-w-6xl">
-        <p className="eyebrow mb-4">02 — Where it sits</p>
+        <p className="eyebrow mb-4">04 — Where it sits</p>
         <h2 className="mb-4 max-w-2xl text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
           Why not just use SendGrid or Resend?
         </h2>
         <p className="mb-12 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
           Because an ESP&apos;s job starts the moment you hand it the message.
           It accepts the send, delivers what it can, and reports bounces
-          afterward. This answers a different question, one step earlier: is
-          this domain authenticated and in the clear right now?
+          afterward. This answers a different question, one step earlier: which
+          IPs can send as this domain, are any of them listed, and does the
+          authentication still say what you think it says?
         </p>
 
         {/* Pipeline: where the check sits in the send path */}

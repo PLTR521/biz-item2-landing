@@ -11,8 +11,10 @@ const jetbrainsMono = JetBrains_Mono({
 
 const TITLE =
   "Email Deliverability — the pre-send deliverability check API";
+// 카피 포지셔닝과 일치시킨다: 블록리스트에 오른 발송 IP가 먼저, 인증이 나중.
+// 측정하지 않는 것(inbox placement)을 설명에서도 밝힌다.
 const DESCRIPTION =
-  "Detect broken SPF, DKIM, and DMARC records and blocklisted sending IPs before you send, not after inbox placement drops. One HTTP call before your ESP. Works alongside Resend, SendGrid, and Postmark.";
+  "One request before the send: the sending IPs behind your domain checked against Spamhaus ZEN, Barracuda and SpamCop, plus live SPF, DKIM and DMARC records. It does not measure inbox placement — nothing running before the send can. Works alongside Resend, SendGrid and Postmark.";
 
 export const metadata: Metadata = {
   title: TITLE,

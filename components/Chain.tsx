@@ -1,10 +1,15 @@
 import { Check } from "lucide-react";
 
 /*
-  이 섹션의 목적은 단 하나 — "Deliverability API"라는 이름 때문에
-  "inbox placement를 직접 측정하는 서비스"로 오해받는 걸 막는 것이다.
-  체인의 1·2단계(인증 · 블록리스트)만 우리가 읽는다고 명시하고,
-  3·4단계는 결과이지 우리가 재는 값이 아니라고 화면에서 못 박는다.
+  ── 이 섹션은 2순위다 ──────────────────────────────────────────────────────
+  예전에는 이 내용이 1순위였다. 수집 사례상 인증 미설정이 실제 주원인이었던 건
+  심층 12건 중 1건뿐이라, 지금은 IP 섹션(01) 뒤로 내렸다.
+  다만 삭제하지는 않는다 — 인증은 전제조건이고, 발송 전에 고칠 수 있는 몇 안 되는
+  층이다. 도입 문장 "Authentication isn't reputation."은 커뮤니티가 반복해서 하는
+  교정이고 이 섹션의 존재 이유이므로 빼지 말 것.
+
+  이 섹션의 목적은 "Deliverability API"라는 이름 때문에 inbox placement를 직접
+  측정한다고 오해받는 걸 막는 것이기도 하다. 체인의 1·2단계만 우리가 읽는다.
 */
 const chain = [
   {
@@ -14,8 +19,8 @@ const chain = [
   },
   {
     label: "Sender reputation",
-    body: "Failed authentication and careless sending erode the trust receivers assign your domain and its IPs.",
-    reads: "blocklists, too",
+    body: "Trust accumulated on your domain and its IPs over time. Blocklist listings are one visible slice of it — the rest lives inside each provider.",
+    reads: "blocklists only",
   },
   {
     label: "Inbox placement",
@@ -50,15 +55,16 @@ export default function Chain() {
       className="scroll-mt-16 border-t border-[var(--border)] bg-[var(--bg-subtle)] px-6 py-20 md:py-28"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="eyebrow mb-4">01 — What deliverability rests on</p>
+        <p className="eyebrow mb-4">03 — Authentication</p>
         <h2 className="mb-4 max-w-2xl text-[1.75rem] font-semibold leading-[1.15] tracking-[-0.03em] md:text-[2.1rem]">
-          Authentication is the input. Inbox placement is the outcome.
+          Authentication isn&apos;t reputation.
         </h2>
         <p className="mb-12 max-w-2xl text-lg leading-relaxed text-[var(--text-secondary)]">
-          Most deliverability investigations start in the same place:
-          authentication and domain configuration. That&apos;s the layer this
-          API reads — the one you can still fix before the send, and the one
-          everything downstream is built on.
+          It is a precondition. Passing SPF, DKIM, and DMARC does not earn you
+          the inbox, and most of the people who end up debugging deliverability
+          are already passing all three. But failing them reliably costs you the
+          inbox, and unlike reputation this layer is readable and fixable before
+          the send — usually with one DNS edit.
         </p>
 
         <div className="grid gap-12 md:grid-cols-2 md:gap-16">
@@ -108,9 +114,7 @@ export default function Chain() {
           {/* Right: exactly what the API can surface */}
           <div>
             <div className="rounded-lg border border-[var(--border)] bg-[var(--bg)] p-5 md:p-6">
-              <p className="eyebrow mb-5">
-                Authentication issues it detects
-              </p>
+              <p className="eyebrow mb-5">Configuration issues it detects</p>
               <ul className="flex flex-col gap-3.5">
                 {detected.map((issue) => (
                   <li key={issue} className="flex items-start gap-2.5">
@@ -132,11 +136,17 @@ export default function Chain() {
             </div>
 
             <p className="mt-6 leading-relaxed text-[var(--text-secondary)]">
-              What it doesn&apos;t do is measure inbox placement or delivery
-              itself. Those are outcomes decided after the message leaves, and
-              nothing running before the send can observe them. This reads the
-              inputs they depend on — so a problem becomes something you fix in
-              DNS, not something you infer from a bounce rate weeks later.
+              That last line is the whole posture of this section. A record that
+              is missing is a fact. A list that would not answer is not a clean
+              result, and the response says so instead of rounding it up. The
+              full boundary is in{" "}
+              <a
+                href="#limits"
+                className="underline underline-offset-2 hover:text-[var(--text-primary)]"
+              >
+                what this does not do
+              </a>
+              .
             </p>
           </div>
         </div>
